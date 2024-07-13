@@ -1,0 +1,1 @@
+I couldn't finish this one in time, but the solution was in the precedent flag. According to someone I talked to afterwards, we needed to understand from the "fenetres" part of the flag that the 16 aligned windows were intended to be read as binary and decoded to decimal. You then needed to append the "BC" to your finding and that was the flag

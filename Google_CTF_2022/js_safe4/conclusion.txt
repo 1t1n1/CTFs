@@ -1,0 +1,6 @@
+Pour le début du flag, je ne comprends pas pourquoi, mais je devais avoir i = 13337 et non i = 1337...
+
+Pour la fin du flag, je devais regarder le correspondant en UTF-8 des caractères qui n'étaient pas affichables et trouver que 
+du code était obfusqué. Ensuite, je pouvais voir ceci:
+    setTimeout(checksum(' ' + checksum)) == '...'
+Je devais alors aller tester checksum(' ' + checksum) (localement) et voir que la fin du flag s'y cachait.

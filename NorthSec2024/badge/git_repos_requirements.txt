@@ -1,0 +1,7 @@
+[POUR PAS PRENDRE DE CHANCE, TÉLÉCHARGER UNE FOIS QUE DEMANDÉ]
+serial
+lief
+cryptography
+espefuse
+hexdump
+intelhex

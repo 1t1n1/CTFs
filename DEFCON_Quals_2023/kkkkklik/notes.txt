@@ -1,0 +1,49 @@
+sglClick
+
+Path 2 (145859):
+	Decrypt this to get your flag: jEJclmCsLkox48h7uChks6p/+Lo6XHquEPBbOJzC3+0Witqh+5EZ2D7Ed7KiAbJq
+Path 3 (...):
+	Please provide an encryption key:
+
+	flag{this_is_a_fake_flag_find_the_real_one_!}
+
+	Encrypted result: u0f9b9zk39qsqFYpFtKzpm09NNC2lqR1upb0nSvmNgoC3kfz5a0GMQ==  (with encryption key = "")
+
+	Encrypted result: O5LBjXKF9OEnXsAvXECnAOWz8po79qg/D9KVBjQHpX3p5i0LjyeD6Q== (with encryption key = "myencryptionkey")
+
+Pour entrer dans interesting, on doit prendre le path3
+
+Possible key: \xCC\xF9\x19 or \x19\xF9\xCC
+
+Je dois vraiment comprendre le processus d'encryption selon moi.
+
+Par contre je me demande bien quelle peut etre la clé. Peut etre que savoir que ça commence par "flag{" peut aider
+
+Sent to interesting0 from interesting3 : galfiht{
+
+Interesting string: "lenjin (Kenya)"
+
+2CCE6095
+
+Possible key: 95 60 CE 2C 14 EE F0 67 1B 5A 7E 5F 75 02 7B 63 71 3B C3 A4 A3 B0 DE E7 DB 65 FE 9B E5 9C E7 6B 28 BD D5 D7 80 20 7E F0 1B 32 E6 7D 71 6C CF 8E 18 74 D3 D2 D5 86 7E D6 86 58 9A AC F5 9D 6A E3 15 9B A1 BB 50 18 15 18 90 6E C1 AC 54 09 00 88 04 C0 5E 04 00 00 00 00 71 20 47 7C A7 36 09 47 88 CC 85 95 13 E5 83 A9 63 5C 74 34 F0 B2 84 47 8B 67 5E 12 C8 70 1A 31 C7 8F 4E 9A BF 76 63 4A 98 0D FA DD AD F7 E9 87
+
+
+
+
+
+
+Please provide an encryption key:
+
+
+8-88fd-10e95b6aa44d
+
+flag{this_is_a_fake_flag_find_the_real_one_!}
+
+u0f9b9zk39qsqFYpFtKzpm09NNC2lqR1upb0nSvmNgoC3kfz5a0GMQ==
+
+O5LBjXKF9OEnXsAvXECnAOWz8po79qg/D9KVBjQHpX3p5i0LjyeD6Q==
+
+54 37 DE 02 1C 2F DE 02 54 37 DE 02 9A 04 07 00
+
+
+It seems like the key is 4 bytes long according to interesting1. It loops over the key until it gets the last 4 bytes (if it is followed by 3 bytes, it keeps the precedent 4)

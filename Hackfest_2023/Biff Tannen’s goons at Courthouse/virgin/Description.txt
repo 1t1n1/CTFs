@@ -1,0 +1,10 @@
+Welcome to the Back to the Future Dystopie’s Challenge! In this challenge, you will be transported back to the year 1985, where you will have to use your hacker skills to retrieve the stolen DeLorean time machine. The DeLorean has been hidden in a secret location and is protected by a series of security measures that you must understand.
+
+To retrieve the DeLorean, you must first find how a group of Biff Tannen’s goons, have entered the Hill Valley Courthouse, which is where it is being kept. Those goons terminated the service in charge of the security system. Once you find how, enter the flag to reactivate the security system.
+
+Good luck!
+
+P.S.: All the flag in this track follows the same nomenclature: HF-{32 characters}. If you see extra characters, you are expected to clean them. If the string is longer then 32 characters, you are expected to truncate the string to 32 characters.
+
+https://hf2023-dystopie.s3.amazonaws.com/challenge1.zip
+

@@ -1,0 +1,10 @@
+So many things can be hidden ... LSB no LSD, MSB no MST and BIT PLANE no BITE PLANE ;-)
+
+1 - You can find for yourself in the picture :) 2 - Pay attention to the illusion of size and you'll find what you're looking for! 3 - We can hide all sorts of things? and maybe even a file, who knows?
+
+But if you do find something then you must find a password!!! Mouahhhhh
+
+If you found the password for the zip. This helper can help you right now. (Don't try to attack Zip the password have 32 cara.) (executable run under dotnet 4.x and Windows >= Seven)
+
+Good Luck!
+

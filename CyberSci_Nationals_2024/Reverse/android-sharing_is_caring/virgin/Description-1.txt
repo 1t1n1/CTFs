@@ -1,0 +1,5 @@
+What have we here? A ticketing app for the C-Sides conference? My default assumption is that users have nothing to see in there. If you like the app, please share your thoughts and give us a 5-star review in the Play Store!
+
+Note: When running the app in an emulator, if you wish to connect the app to our backend servers (optional), you will have to run the following command. Make sure to run this command on the same machine that is running the android emulator (the machine also has to be connected to the CyberSci VPN): `socat tcp-listen:8001,reuseaddr,fork tcp:10.0.2.20:443`
+
+`10.0.2.20`

@@ -1,0 +1,8 @@
+We purchased an advanced projection system for our talks but in the chaos of getting ready for the conference we lost the purchase contract and the license information. It is now a few hours before the presentations start, and we are desperate - we cannot get the projector working! :'(
+
+Luckily this is a security conference and we have a few talented reverse engineers in our midst. We pulled the projector's firmware - can you please help us figure out the license information, so that we could start the darn thing?!
+
+The second step is a set of geographical coordinates the projector must be located at. (Have you ever seen a projector with a GPS built in? These people are insane!)
+
+Enter the coordinates as 2 numbers separated by a space (e.g. "39.108889982743 -76.771389987234")
+

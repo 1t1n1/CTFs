@@ -1,0 +1,4 @@
+Your friend from the future sent you some BINGO cards and future game results. In his timeline, there was this lucky fold who won 36 times in a row. Fortunately, he could grab some cards generated at the same time as the winning ones. He also told you the first winning card ID is 594430. Can you generate all the winning cards and grab the price money?
+
+Flag format is : HF{0123456789abcdef}
+

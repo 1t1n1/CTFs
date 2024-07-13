@@ -1,0 +1,6 @@
+We recovered these logs from our conference welcome kiosk after we noticed it was running slowly. Figure out whats going on.
+
+All challenges in this series share the logs from this challenge.
+
+What is the domain name and TLD of the site the payload was downloaded from? e.g.: domain.com
+

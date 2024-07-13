@@ -1,0 +1,4 @@
+esptool/
+esp32_image_parser/
+data/
+*.bin

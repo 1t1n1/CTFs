@@ -1,0 +1,4 @@
+At the CSides 2024 conference, attendees are in for a treat with the addition of a luxurious bar. As part of the experience, each participant receives a small program containing a free-drink ticket. Can you crack the program and reveal the ticket to claim your complimentary drink?
+
+The binary `freedrinks` is heavily obfuscated and protected by a username and password. Your objective is to bypass the authentication mechanism to obtain the flag, which is formatted as `flag{...}`.
+

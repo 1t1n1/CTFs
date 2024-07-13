@@ -1,0 +1,58 @@
+* {
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem;
+}
+
+body {
+    background-image: url('/static/images/bank.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #000d22;
+}
+
+input {
+    position: absolute;
+    margin: auto;
+    width: 20rem;
+    bottom: 2rem;
+}
+
+form {
+    margin: auto;
+    width: 20rem;
+
+}
+
+img {
+    position: absolute;
+    height: 20rem;
+    right: 12rem;
+    bottom: 0;
+}
+
+.text_bubble {
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 1rem;
+    padding: 1rem;
+    color: black;
+    max-width: 20rem;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+#message_sent {
+    position: absolute;
+    left: 16rem;
+    bottom: 6rem;
+}
+
+#chatbot_response {
+    position: absolute;
+    right: 16rem;
+    bottom: 20rem;
+}

@@ -1,0 +1,1 @@
+Tout d'abord remettre les bons magic bytes d'un PE. Ensuite upx decode, puis finalement lire le programme (avec ghidra, c'est une fonction qui decompilee a lair benin mais dans le disassembly ya un base64), puis decode le b64

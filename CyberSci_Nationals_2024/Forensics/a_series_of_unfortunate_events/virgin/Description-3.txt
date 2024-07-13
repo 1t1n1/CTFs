@@ -1,0 +1,4 @@
+All challenges in this series share the logs from the first.
+
+What registry key was created/modified by the initial payload?
+

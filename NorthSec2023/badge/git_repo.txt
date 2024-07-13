@@ -1,0 +1,2 @@
+https://github.com/espressif/esptool
+https://github.com/tenable/esp32_image_parser.git

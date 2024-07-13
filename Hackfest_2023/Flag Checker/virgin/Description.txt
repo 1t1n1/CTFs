@@ -1,0 +1,7 @@
+There's no meme. Only flag validation.
+
+WARNING: Depending on which tool you are using for the "second step" of this challenge there's a good likelihood you will have an error related to magic headers. This is due to a version mismatch as the tool you're trying isn't supporting newer versions of the binary's language. You will need another popular tool that can accomplish the same goal instead.
+
+Flag Format: HF-******************************** 
+Categories: Reverse Engineering
+

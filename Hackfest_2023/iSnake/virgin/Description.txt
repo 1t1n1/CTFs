@@ -1,0 +1,4 @@
+As fellow Unity enthusiasts, we're embarking on a thrilling adventure to uncover the hidden surprise within a Unity project. Specifically, we're diving deep into a captivating snake game. But, as any seasoned gamer knows, it's not always about the apples on the screen, but sometimes about the unseen connections the snake might be seeking. Are you ready to discover the deeper link this game hides, and the exciting secrets it guards?
+
+_This challenge was released during iHack2023 and no "hackers" solved it. Can you?_
+

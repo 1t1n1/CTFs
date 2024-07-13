@@ -1,0 +1,4 @@
+https://github.com/espressif/esptool
+https://github.com/marcel-cd/esp32s3_image_parser.git
+https://github.com/BlackVS/esp32knife
+https://github.com/igrr/mkspiffs.git

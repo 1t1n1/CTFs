@@ -1,0 +1,6 @@
+Some shenanigans have occurred on the conference network. Luckily the sysadmins were able to retrieve a packet capture.
+
+All challenges in this series use the pcap from the first.
+
+What are the contents of the file being exfiltrated by the attacker?
+

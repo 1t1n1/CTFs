@@ -1,0 +1,6 @@
+We purchased an advanced projection system for our talks but in the chaos of getting ready for the conference we lost the purchase contract and the license information. It is now a few hours before the presentations start, and we are desperate - we cannot get the projector working! :'(
+
+Luckily this is a security conference and we have a few talented reverse engineers in our midst. We pulled the projector's firmware - can you please help us figure out the license information, so that we could start the darn thing?!
+
+The first step is the license key, this should be an easy one.
+

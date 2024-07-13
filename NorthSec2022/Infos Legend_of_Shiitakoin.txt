@@ -1,0 +1,99 @@
+Conteneur des inputs
+0x8000a5118
+
+Fonctions à regarder si on trouve rien:
+gcc2_compiled
+
+InteractiveScreenShow : Probablement là où la comparaison a lieu (et où on nous
+	affiche que c'est incorrect)
+
+
+Inputs:
+0x10: R-Trigger
+
+0x800: Up (Digital Pad)
+0x400: Down (Digital Pad)
+0x200: Left (Digital Pad)
+0x100: Right (Digital Pad)
+
+0x8000: A
+0x4000: B
+0x2000: Z-Trigger
+0x1000: Start
+
+0x8: Up (C-button)
+0x4: Down (C-button)
+0x2: Left (C-button)
+0x1: Right (C-button)
+
+
+
+Flag Checker (déjà renommé)
+0x800570fc
+
+Dans sym.proceduralOperation, appelée par sym.stage02
+Pattern que l'on cherche à obtenir pour 
+_flagChecker = ---- ---- 0100 1110 = 0x4E
+Avec
+_tempBuffer > 128 && _tempBuffer suit le pattern 1010 0011 = 0xA3
+(Note: _tempBuffer == Position en x au stage02)
+
+FLAG-HZQCFXWFJMPTJSMCMFMB
+
+===============================================================================
+===============================================================================
+===============================================================================
+
+96 : 1010 0011		arg_4ah   arg_48h = 2 LSB   arg_49h
+97 : 0101 1110
+98 : 1000 1101		(Pomal sûr)
+99 : 0011 1111		arg_4ch  <- (On a pas tenu compte du do while)
+
+Le XOR de 96 et 97 doit donner 0xFD
+
+96 : ---- --11	(IMPORTANT QUE CE SOIT AINSI)
+
+(Pour le arg_3h, aller voir si ca a rapport avec la position du curseur)
+
+FLAG-HZQCFVZXSRSFEAUBSXA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,5 @@
+First, you can look at the Microsoft-Windows-DeviceSetupManager%4Admin logs and find that a samsung device was added around 9:04:47. However, even with the informations you could find in the logs, you couldn't get the flag as the actual information can only be found in the registry.
+
+When opening the .reg file in the registry editor (make sure to open it in read-only as it will break your system otherwise) you can find the USB devices that are known by the registry by going to HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB. Since we know that we are looking for a Samsung device, we can use the search functionality and find it. We then find ourselves in the VID_04E8&PID_6860&MI_00 folder where we can find the modele of the "HackerPhone" under the "DeviceDesc" key. The modele is SM-G781W, which gives us the flag:
+
+ULCTF-SM-G781W

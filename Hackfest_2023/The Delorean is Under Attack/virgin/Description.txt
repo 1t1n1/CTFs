@@ -1,0 +1,6 @@
+After travelling to the future and having the Delorean breakdown we had to bring it to a garage for repairs. They "fixed" it by installing Windows on and opening it to the internet, now we're getting mailed these strange notices. What could it be?
+
+WARNING: Some code is obfuscated will not run correctly, you will need to deobfuscate it.
+
+Flag Format: HF-********************************
+

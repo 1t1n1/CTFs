@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "lua",
+            "request": "launch",
+            "name": "Debug Current File",
+            "program": "${workspaceFolder}/zermatt/zermatt-formatted.lua"
+        }
+    ]
+}

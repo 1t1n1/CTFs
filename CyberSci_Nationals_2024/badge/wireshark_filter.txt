@@ -1,0 +1,1 @@
+btcommon.eir_ad.entry.device_name == cybersci

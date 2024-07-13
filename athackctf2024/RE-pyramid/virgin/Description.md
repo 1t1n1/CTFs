@@ -1,0 +1,1 @@
+The binary pyramid you're about to attempt to explore is shrouded in mysteries, much like the enigmatic structures of ancient pyramids. Those who managed to crack it realized how BASIC it became as soon as one starts thinking 0ut5id3 the bl0x.

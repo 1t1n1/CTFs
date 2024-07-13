@@ -1,0 +1,1 @@
+For this challenge, you'll need the file mobile2.apk provided. The flag format is HF-^[a-z0-9]{32}$.

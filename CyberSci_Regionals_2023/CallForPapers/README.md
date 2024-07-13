@@ -1,0 +1,1 @@
+This was the first Defence challenge of CyberSci regionals 2023. The goal was to find the 3 vulnerabilities and fix them. During the competition, it was possible to as a bot to try the attack and see if it still works. Unfortunately, it's not possible now since we don't have the bot

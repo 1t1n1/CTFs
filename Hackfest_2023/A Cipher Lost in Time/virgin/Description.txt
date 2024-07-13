@@ -1,0 +1,6 @@
+I don't know in what era we landed, but I can tell you for sure this isn't your everyday cipher.
+
+Ciphertext: b'\x8c"Q6G\xa6\x03Up\x02\xa5\x02\xe9\x1ein\xe5\xed)\n\x06\xe8P\xdb\xdd\x9a^\x1fN\x1c\x84\xc0\xf6-\x93\x1f\xa3W\x1e\xd2'
+
+Flag Format: HF-********************************
+

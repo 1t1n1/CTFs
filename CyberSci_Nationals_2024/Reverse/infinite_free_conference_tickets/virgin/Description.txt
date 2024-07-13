@@ -1,0 +1,18 @@
+The CSides 2024 conference is approaching. Previously, CSides would simply issue badges bearing the participants' names and then check to see if the name matched their driver's license, without any means to verify the badges' authenticity. Many participants printed their own badges and saved $1,500 for each ticket. The organizers weren't very happy about this.
+
+An insider has revealed that they've upgraded their system this time, implementing a new validation mechanism. Each participant is given a token that contains a cryptographic signature of their name. Upon entering the conference, the participant's name on the token is first compared with their ID, and then the token is validated using a secret program.
+
+However, just days before the conference, the binary for the validation program was unintentionally leaked due to some DevOps mishap. The binary appears to be obfuscated, so surely nobody will be able to figure out the signing process and create valid tokens to gain free access to the conference...right?
+Instructions
+
+You are provided a binary named validate which checks if a participant's token is valid. This is the file you will need to analyze.
+
+Each token contains the name of the participant and other information required to verify the authenticity of the token. There are multiple stages to this challenge. Completing each stage will grant you a flag.
+
+A few valid tokens have been leaked with the binary, which could be useful for your analysis:
+
+    John Doe: Sm9obiBEb2U=.CIZlTtWUaGD7XFHRCK/gob2EKpmMYcudT6sWtAOfTynh5RAMx1FXIUJr+Vo43RvG
+    TEST: VEVTVA==.d3/ErvFXeG78/APAPAnXH+J4QvfYQA6F64XSgSUY9y+Bb9OHzYQmKvELj9soPSfX
+
+For the first part of this challenge, there is a cryptographic key used to sign the tokens embedded in the binary. Reverse engineer the binary and find the key. The key should be a string in the format of flag{...}. Submit the key as the flag directly to CTFd.
+
