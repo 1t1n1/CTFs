@@ -1,0 +1,656 @@
+
+vecveil:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000401000 <.text>:
+  401000:	b8 00 00 80 43       	mov    $0x43800000,%eax
+  401005:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  40100a:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  40100e:	c4 e3 7d 38 c0 00    	vinserti128 $0x0,%xmm0,%ymm0,%ymm0
+  401014:	c4 e1 f9 6e cc       	vmovq  %rsp,%xmm1
+  401019:	c4 e3 75 38 c9 00    	vinserti128 $0x0,%xmm1,%ymm1,%ymm1
+  40101f:	c5 f5 fb c8          	vpsubq %ymm0,%ymm1,%ymm1
+  401023:	c4 e1 f9 7e cc       	vmovq  %xmm1,%rsp
+  401028:	b8 00 00 1d 43       	mov    $0x431d0000,%eax
+  40102d:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  401032:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  401036:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  40103c:	bf 61 6d 61 59       	mov    $0x59616d61,%edi
+  401041:	48 c7 c6 ff ff ff ff 	mov    $0xffffffffffffffff,%rsi
+  401048:	c5 ec 57 d2          	vxorps %ymm2,%ymm2,%ymm2
+  40104c:	c4 e1 f9 7e d2       	vmovq  %xmm2,%rdx
+  401051:	c4 c1 f9 7e d2       	vmovq  %xmm2,%r10
+  401056:	c4 c1 f9 7e d1       	vmovq  %xmm2,%r9
+  40105b:	0f 05                	syscall
+  40105d:	b8 00 00 64 42       	mov    $0x42640000,%eax
+  401062:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  401067:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  40106b:	c4 e1 f9 7e c0       	vmovq  %xmm0,%rax
+  401070:	0f 05                	syscall
+  401072:	48 89 c3             	mov    %rax,%rbx
+  401075:	48 85 db             	test   %rbx,%rbx
+  401078:	0f 85 03 01 00 00    	jne    0x401181
+  40107e:	b8 00 00 dc 42       	mov    $0x42dc0000,%eax
+  401083:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  401088:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  40108c:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  401092:	0f 05                	syscall
+  401094:	48 89 c3             	mov    %rax,%rbx
+  401097:	b8 00 00 ca 42       	mov    $0x42ca0000,%eax
+  40109c:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  4010a1:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  4010a5:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  4010ab:	bf 00 00 80 41       	mov    $0x41800000,%edi
+  4010b0:	c4 e1 f9 6e c7       	vmovq  %rdi,%xmm0
+  4010b5:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  4010b9:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  4010bf:	48 89 de             	mov    %rbx,%rsi
+  4010c2:	c5 ed ef d2          	vpxor  %ymm2,%ymm2,%ymm2
+  4010c6:	c4 e1 f9 7e d2       	vmovq  %xmm2,%rdx
+  4010cb:	c4 c1 f9 7e d2       	vmovq  %xmm2,%r10
+  4010d0:	0f 05                	syscall
+  4010d2:	c5 f4 57 c9          	vxorps %ymm1,%ymm1,%ymm1
+  4010d6:	c4 e1 f2 2a c8       	vcvtsi2ss %rax,%xmm1,%xmm1
+  4010db:	c4 e2 79 17 c9       	vptest %xmm1,%xmm1
+  4010e0:	0f 85 50 09 00 00    	jne    0x401a36
+  4010e6:	b8 00 00 74 42       	mov    $0x42740000,%eax
+  4010eb:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  4010f0:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  4010f4:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  4010fa:	48 89 df             	mov    %rbx,%rdi
+  4010fd:	c4 e1 f9 7e d6       	vmovq  %xmm2,%rsi
+  401102:	c4 e1 f9 7e d2       	vmovq  %xmm2,%rdx
+  401107:	c4 c1 f9 7e d2       	vmovq  %xmm2,%r10
+  40110c:	0f 05                	syscall
+  40110e:	b8 00 00 ca 42       	mov    $0x42ca0000,%eax
+  401113:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  401118:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  40111c:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  401122:	bf 00 00 e0 40       	mov    $0x40e00000,%edi
+  401127:	c4 e1 f9 6e c7       	vmovq  %rdi,%xmm0
+  40112c:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  401130:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  401136:	48 89 de             	mov    %rbx,%rsi
+  401139:	c4 e1 f9 7e d2       	vmovq  %xmm2,%rdx
+  40113e:	c4 c1 f9 7e d2       	vmovq  %xmm2,%r10
+  401143:	0f 05                	syscall
+  401145:	b8 00 00 ca 42       	mov    $0x42ca0000,%eax
+  40114a:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  40114f:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  401153:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  401159:	bf 00 00 88 41       	mov    $0x41880000,%edi
+  40115e:	c4 e1 f9 6e c7       	vmovq  %rdi,%xmm0
+  401163:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  401167:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  40116d:	48 89 de             	mov    %rbx,%rsi
+  401170:	c4 e1 f9 7e d2       	vmovq  %xmm2,%rdx
+  401175:	c4 c1 f9 7e d2       	vmovq  %xmm2,%r10
+  40117a:	0f 05                	syscall
+  40117c:	e9 d4 09 00 00       	jmp    0x401b55
+  401181:	b8 00 00 74 42       	mov    $0x42740000,%eax
+  401186:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  40118b:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  40118f:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  401195:	48 89 df             	mov    %rbx,%rdi
+  401198:	48 8d 74 24 f8       	lea    -0x8(%rsp),%rsi
+  40119d:	c5 ec 57 d2          	vxorps %ymm2,%ymm2,%ymm2
+  4011a1:	c4 e1 f9 7e d2       	vmovq  %xmm2,%rdx
+  4011a6:	c4 c1 f9 7e d2       	vmovq  %xmm2,%r10
+  4011ab:	0f 05                	syscall
+  4011ad:	48 8d 1d 11 00 00 00 	lea    0x11(%rip),%rbx        # 0x4011c5
+  4011b4:	c5 fa 10 44 24 f8    	vmovss -0x8(%rsp),%xmm0
+  4011ba:	c4 e2 79 17 c0       	vptest %xmm0,%xmm0
+  4011bf:	48 0f 44 c3          	cmove  %rbx,%rax
+  4011c3:	ff e0                	jmp    *%rax                   # BREAKS HERE
+
+
+
+
+
+
+  4011c5:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  4011c9:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  4011cd:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  4011d2:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  4011d8:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  4011de:	48 8d 74 24 e4       	lea    -0x1c(%rsp),%rsi
+  4011e3:	ba 00 00 c0 41       	mov    $0x41c00000,%edx
+  4011e8:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  4011ed:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  4011f1:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  4011f7:	bb 50 6c 65 61       	mov    $0x61656c50,%ebx
+  4011fc:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401201:	c5 fa 11 5c 24 e4    	vmovss %xmm3,-0x1c(%rsp)
+  401207:	bb 73 65 20 65       	mov    $0x65206573,%ebx
+  40120c:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401211:	c5 fa 11 5c 24 e8    	vmovss %xmm3,-0x18(%rsp)
+  401217:	bb 6e 74 65 72       	mov    $0x7265746e,%ebx
+  40121c:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401221:	c5 fa 11 5c 24 ec    	vmovss %xmm3,-0x14(%rsp)
+  401227:	bb 20 79 6f 75       	mov    $0x756f7920,%ebx
+  40122c:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401231:	c5 fa 11 5c 24 f0    	vmovss %xmm3,-0x10(%rsp)
+  401237:	bb 72 20 6e 61       	mov    $0x616e2072,%ebx
+  40123c:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401241:	c5 fa 11 5c 24 f4    	vmovss %xmm3,-0xc(%rsp)
+  401247:	bb 6d 65 3a 20       	mov    $0x203a656d,%ebx
+  40124c:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401251:	c5 fa 11 5c 24 f8    	vmovss %xmm3,-0x8(%rsp)
+  401257:	c5 e0 57 db          	vxorps %xmm3,%xmm3,%xmm3
+  40125b:	c5 fa 11 5c 24 fc    	vmovss %xmm3,-0x4(%rsp)
+  401261:	0f 05                	syscall                       # syscall Write "Please enter your name:" to stdout
+  401263:	c5 fc 57 c0          	vxorps %ymm0,%ymm0,%ymm0
+  401267:	c5 fe 7f 44 24 80    	vmovdqu %ymm0,-0x80(%rsp)
+  40126d:	c4 e1 f9 7e c0       	vmovq  %xmm0,%rax
+  401272:	c4 e1 f9 7e c7       	vmovq  %xmm0,%rdi
+  401277:	48 8d 74 24 80       	lea    -0x80(%rsp),%rsi
+  40127c:	ba 00 00 80 42       	mov    $0x42800000,%edx
+  401281:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  401286:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  40128a:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  401290:	0f 05                	syscall                       # syscall Read stdin
+  401292:	c5 fc 77             	vzeroall
+  401295:	c4 e1 f2 2a c8       	vcvtsi2ss %rax,%xmm1,%xmm1
+  40129a:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  40129e:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  4012a2:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  4012a7:	c5 f8 5b c0          	vcvtdq2ps %xmm0,%xmm0
+  4012ab:	c5 f8 2e c8          	vucomiss %xmm0,%xmm1
+  4012af:	76 33                	jbe    0x4012e4             # Je crois taken si pas rentree un nom
+  4012b1:	bb 00 00 04 42       	mov    $0x42040000,%ebx
+  4012b6:	c4 e1 f9 6e d3       	vmovq  %rbx,%xmm2
+  4012bb:	c5 f8 2e ca          	vucomiss %xmm2,%xmm1
+  4012bf:	0f 86 fd 01 00 00    	jbe    0x4014c2
+  4012c5:	c4 e1 ea 2a d2       	vcvtsi2ss %rdx,%xmm2,%xmm2
+  4012ca:	c5 f8 2e ca          	vucomiss %xmm2,%xmm1
+  4012ce:	0f 82 fb 00 00 00    	jb     0x4013cf
+  4012d4:	80 7c 16 ff 0a       	cmpb   $0xa,-0x1(%rsi,%rdx,1)
+  4012d9:	0f 84 f0 00 00 00    	je     0x4013cf
+  4012df:	e9 a3 00 00 00       	jmp    0x401387
+  4012e4:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  4012e8:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  4012ec:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  4012f1:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  4012f7:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  4012fd:	48 8d 74 24 e4       	lea    -0x1c(%rsp),%rsi
+  401302:	ba 00 00 b0 41       	mov    $0x41b00000,%edx
+  401307:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  40130c:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  401310:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  401316:	bb 4e 61 6d 65       	mov    $0x656d614e,%ebx
+  40131b:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401320:	c5 fa 11 5c 24 e4    	vmovss %xmm3,-0x1c(%rsp)
+  401326:	bb 20 63 61 6e       	mov    $0x6e616320,%ebx
+  40132b:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401330:	c5 fa 11 5c 24 e8    	vmovss %xmm3,-0x18(%rsp)
+  401336:	bb 6e 6f 74 20       	mov    $0x20746f6e,%ebx
+  40133b:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401340:	c5 fa 11 5c 24 ec    	vmovss %xmm3,-0x14(%rsp)
+  401346:	bb 62 65 20 65       	mov    $0x65206562,%ebx
+  40134b:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401350:	c5 fa 11 5c 24 f0    	vmovss %xmm3,-0x10(%rsp)
+  401356:	bb 6d 70 74 79       	mov    $0x7974706d,%ebx
+  40135b:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401360:	c5 fa 11 5c 24 f4    	vmovss %xmm3,-0xc(%rsp)
+  401366:	bb 2e 0a 00 00       	mov    $0xa2e,%ebx
+  40136b:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401370:	c5 fa 11 5c 24 f8    	vmovss %xmm3,-0x8(%rsp)
+  401376:	c5 e0 57 db          	vxorps %xmm3,%xmm3,%xmm3
+  40137a:	c5 fa 11 5c 24 fc    	vmovss %xmm3,-0x4(%rsp)
+  401380:	0f 05                	syscall
+  401382:	e9 af 06 00 00       	jmp    0x401a36
+  401387:	c5 fc 57 c0          	vxorps %ymm0,%ymm0,%ymm0
+  40138b:	c4 e1 f9 7e c0       	vmovq  %xmm0,%rax
+  401390:	c4 e1 f9 7e c7       	vmovq  %xmm0,%rdi
+  401395:	48 8d 74 24 f0       	lea    -0x10(%rsp),%rsi
+  40139a:	ba 00 00 80 41       	mov    $0x41800000,%edx
+  40139f:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  4013a4:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  4013a8:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  4013ae:	0f 05                	syscall
+  4013b0:	c5 f4 57 c9          	vxorps %ymm1,%ymm1,%ymm1
+  4013b4:	c5 ec 57 d2          	vxorps %ymm2,%ymm2,%ymm2
+  4013b8:	c4 e1 f2 2a c8       	vcvtsi2ss %rax,%xmm1,%xmm1
+  4013bd:	c4 e1 ea 2a d2       	vcvtsi2ss %rdx,%xmm2,%xmm2
+  4013c2:	c5 f8 2e ca          	vucomiss %xmm2,%xmm1
+  4013c6:	72 07                	jb     0x4013cf
+  4013c8:	80 7c 16 ff 0a       	cmpb   $0xa,-0x1(%rsi,%rdx,1)
+  4013cd:	75 b8                	jne    0x401387
+  4013cf:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  4013d3:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  4013d7:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  4013dc:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  4013e2:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  4013e8:	48 8d 74 24 d0       	lea    -0x30(%rsp),%rsi
+  4013ed:	ba 00 00 24 42       	mov    $0x42240000,%edx
+  4013f2:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  4013f7:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  4013fb:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  401401:	bb 4e 61 6d 65       	mov    $0x656d614e,%ebx
+  401406:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40140b:	c5 fa 11 5c 24 d0    	vmovss %xmm3,-0x30(%rsp)
+  401411:	bb 73 20 63 61       	mov    $0x61632073,%ebx
+  401416:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40141b:	c5 fa 11 5c 24 d4    	vmovss %xmm3,-0x2c(%rsp)
+  401421:	bb 6e 20 63 6f       	mov    $0x6f63206e,%ebx
+  401426:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40142b:	c5 fa 11 5c 24 d8    	vmovss %xmm3,-0x28(%rsp)
+  401431:	bb 6e 74 61 69       	mov    $0x6961746e,%ebx
+  401436:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40143b:	c5 fa 11 5c 24 dc    	vmovss %xmm3,-0x24(%rsp)
+  401441:	bb 6e 20 61 74       	mov    $0x7461206e,%ebx
+  401446:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40144b:	c5 fa 11 5c 24 e0    	vmovss %xmm3,-0x20(%rsp)
+  401451:	bb 20 6d 6f 73       	mov    $0x736f6d20,%ebx
+  401456:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40145b:	c5 fa 11 5c 24 e4    	vmovss %xmm3,-0x1c(%rsp)
+  401461:	bb 74 20 33 32       	mov    $0x32332074,%ebx
+  401466:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40146b:	c5 fa 11 5c 24 e8    	vmovss %xmm3,-0x18(%rsp)
+  401471:	bb 20 63 68 61       	mov    $0x61686320,%ebx
+  401476:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40147b:	c5 fa 11 5c 24 ec    	vmovss %xmm3,-0x14(%rsp)
+  401481:	bb 72 61 63 74       	mov    $0x74636172,%ebx
+  401486:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40148b:	c5 fa 11 5c 24 f0    	vmovss %xmm3,-0x10(%rsp)
+  401491:	bb 65 72 73 2e       	mov    $0x2e737265,%ebx
+  401496:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  40149b:	c5 fa 11 5c 24 f4    	vmovss %xmm3,-0xc(%rsp)
+  4014a1:	bb 0a 00 00 00       	mov    $0xa,%ebx
+  4014a6:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4014ab:	c5 fa 11 5c 24 f8    	vmovss %xmm3,-0x8(%rsp)
+  4014b1:	c5 e0 57 db          	vxorps %xmm3,%xmm3,%xmm3
+  4014b5:	c5 fa 11 5c 24 fc    	vmovss %xmm3,-0x4(%rsp)
+  4014bb:	0f 05                	syscall
+  4014bd:	e9 74 05 00 00       	jmp    0x401a36
+  4014c2:	c6 44 06 ff 00       	movb   $0x0,-0x1(%rsi,%rax,1)
+  4014c7:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  4014cb:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  4014cf:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  4014d4:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  4014da:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  4014e0:	48 8d 74 24 d4       	lea    -0x2c(%rsp),%rsi
+  4014e5:	ba 00 00 14 42       	mov    $0x42140000,%edx
+  4014ea:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  4014ef:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  4014f3:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  4014f9:	bb 50 6c 65 61       	mov    $0x61656c50,%ebx
+  4014fe:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401503:	c5 fa 11 5c 24 d4    	vmovss %xmm3,-0x2c(%rsp)
+  401509:	bb 73 65 20 65       	mov    $0x65206573,%ebx
+  40150e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401513:	c5 fa 11 5c 24 d8    	vmovss %xmm3,-0x28(%rsp)
+  401519:	bb 6e 74 65 72       	mov    $0x7265746e,%ebx
+  40151e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401523:	c5 fa 11 5c 24 dc    	vmovss %xmm3,-0x24(%rsp)
+  401529:	bb 20 79 6f 75       	mov    $0x756f7920,%ebx
+  40152e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401533:	c5 fa 11 5c 24 e0    	vmovss %xmm3,-0x20(%rsp)
+  401539:	bb 72 20 72 65       	mov    $0x65722072,%ebx
+  40153e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401543:	c5 fa 11 5c 24 e4    	vmovss %xmm3,-0x1c(%rsp)
+  401549:	bb 67 69 73 74       	mov    $0x74736967,%ebx
+  40154e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401553:	c5 fa 11 5c 24 e8    	vmovss %xmm3,-0x18(%rsp)
+  401559:	bb 72 61 74 69       	mov    $0x69746172,%ebx
+  40155e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401563:	c5 fa 11 5c 24 ec    	vmovss %xmm3,-0x14(%rsp)
+  401569:	bb 6f 6e 20 63       	mov    $0x63206e6f,%ebx
+  40156e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401573:	c5 fa 11 5c 24 f0    	vmovss %xmm3,-0x10(%rsp)
+  401579:	bb 6f 64 65 3a       	mov    $0x3a65646f,%ebx
+  40157e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401583:	c5 fa 11 5c 24 f4    	vmovss %xmm3,-0xc(%rsp)
+  401589:	bb 20 00 00 00       	mov    $0x20,%ebx
+  40158e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401593:	c5 fa 11 5c 24 f8    	vmovss %xmm3,-0x8(%rsp)
+  401599:	c5 e0 57 db          	vxorps %xmm3,%xmm3,%xmm3
+  40159d:	c5 fa 11 5c 24 fc    	vmovss %xmm3,-0x4(%rsp)
+  4015a3:	0f 05                	syscall                       # syscall Write "Please enter your registration code: " to stdout
+  4015a5:	c5 fc 57 c0          	vxorps %ymm0,%ymm0,%ymm0
+  4015a9:	c5 fe 7f 84 24 40 ff 	vmovdqu %ymm0,-0xc0(%rsp)
+  4015b0:	ff ff 
+  4015b2:	c4 e1 f9 7e c0       	vmovq  %xmm0,%rax
+  4015b7:	c4 e1 f9 7e c7       	vmovq  %xmm0,%rdi
+  4015bc:	48 8d b4 24 40 ff ff 	lea    -0xc0(%rsp),%rsi
+  4015c3:	ff 
+  4015c4:	ba 00 00 80 42       	mov    $0x42800000,%edx
+  4015c9:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  4015ce:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  4015d2:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  4015d8:	0f 05                	syscall                       # syscall read stdin
+  4015da:	c5 fc 77             	vzeroall
+  4015dd:	c4 e1 f2 2a c8       	vcvtsi2ss %rax,%xmm1,%xmm1
+  4015e2:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  4015e6:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  4015ea:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  4015ef:	c5 f8 5b c0          	vcvtdq2ps %xmm0,%xmm0
+  4015f3:	c5 f8 2e c8          	vucomiss %xmm0,%xmm1
+  4015f7:	76 33                	jbe    0x40162c
+  4015f9:	bb 00 00 30 41       	mov    $0x41300000,%ebx
+  4015fe:	c4 e1 f9 6e d3       	vmovq  %rbx,%xmm2
+  401603:	c5 f8 2e ca          	vucomiss %xmm2,%xmm1
+  401607:	0f 86 6d 02 00 00    	jbe    0x40187a
+  40160d:	c4 e1 ea 2a d2       	vcvtsi2ss %rdx,%xmm2,%xmm2
+  401612:	c5 f8 2e ca          	vucomiss %xmm2,%xmm1
+  401616:	0f 82 3b 01 00 00    	jb     0x401757
+  40161c:	80 7c 16 ff 0a       	cmpb   $0xa,-0x1(%rsi,%rdx,1)
+  401621:	0f 84 30 01 00 00    	je     0x401757
+  401627:	e9 e3 00 00 00       	jmp    0x40170f
+  40162c:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  401630:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  401634:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  401639:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  40163f:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  401645:	48 8d 74 24 d4       	lea    -0x2c(%rsp),%rsi
+  40164a:	ba 00 00 1c 42       	mov    $0x421c0000,%edx
+  40164f:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  401654:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  401658:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  40165e:	bb 54 68 65 20       	mov    $0x20656854,%ebx
+  401663:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401668:	c5 fa 11 5c 24 d4    	vmovss %xmm3,-0x2c(%rsp)
+  40166e:	bb 72 65 67 69       	mov    $0x69676572,%ebx
+  401673:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401678:	c5 fa 11 5c 24 d8    	vmovss %xmm3,-0x28(%rsp)
+  40167e:	bb 73 74 72 61       	mov    $0x61727473,%ebx
+  401683:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401688:	c5 fa 11 5c 24 dc    	vmovss %xmm3,-0x24(%rsp)
+  40168e:	bb 74 69 6f 6e       	mov    $0x6e6f6974,%ebx
+  401693:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401698:	c5 fa 11 5c 24 e0    	vmovss %xmm3,-0x20(%rsp)
+  40169e:	bb 20 63 6f 64       	mov    $0x646f6320,%ebx
+  4016a3:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4016a8:	c5 fa 11 5c 24 e4    	vmovss %xmm3,-0x1c(%rsp)
+  4016ae:	bb 65 20 63 61       	mov    $0x61632065,%ebx
+  4016b3:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4016b8:	c5 fa 11 5c 24 e8    	vmovss %xmm3,-0x18(%rsp)
+  4016be:	bb 6e 6e 6f 74       	mov    $0x746f6e6e,%ebx
+  4016c3:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4016c8:	c5 fa 11 5c 24 ec    	vmovss %xmm3,-0x14(%rsp)
+  4016ce:	bb 20 62 65 20       	mov    $0x20656220,%ebx
+  4016d3:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4016d8:	c5 fa 11 5c 24 f0    	vmovss %xmm3,-0x10(%rsp)
+  4016de:	bb 65 6d 70 74       	mov    $0x74706d65,%ebx
+  4016e3:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4016e8:	c5 fa 11 5c 24 f4    	vmovss %xmm3,-0xc(%rsp)
+  4016ee:	bb 79 2e 0a 00       	mov    $0xa2e79,%ebx
+  4016f3:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4016f8:	c5 fa 11 5c 24 f8    	vmovss %xmm3,-0x8(%rsp)
+  4016fe:	c5 e0 57 db          	vxorps %xmm3,%xmm3,%xmm3
+  401702:	c5 fa 11 5c 24 fc    	vmovss %xmm3,-0x4(%rsp)
+  401708:	0f 05                	syscall
+  40170a:	e9 27 03 00 00       	jmp    0x401a36
+  40170f:	c5 fc 57 c0          	vxorps %ymm0,%ymm0,%ymm0
+  401713:	c4 e1 f9 7e c0       	vmovq  %xmm0,%rax
+  401718:	c4 e1 f9 7e c7       	vmovq  %xmm0,%rdi
+  40171d:	48 8d 74 24 f0       	lea    -0x10(%rsp),%rsi
+  401722:	ba 00 00 80 41       	mov    $0x41800000,%edx
+  401727:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  40172c:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  401730:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  401736:	0f 05                	syscall
+  401738:	c5 f4 57 c9          	vxorps %ymm1,%ymm1,%ymm1
+  40173c:	c5 ec 57 d2          	vxorps %ymm2,%ymm2,%ymm2
+  401740:	c4 e1 f2 2a c8       	vcvtsi2ss %rax,%xmm1,%xmm1
+  401745:	c4 e1 ea 2a d2       	vcvtsi2ss %rdx,%xmm2,%xmm2
+  40174a:	c5 f8 2e ca          	vucomiss %xmm2,%xmm1
+  40174e:	72 07                	jb     0x401757
+  401750:	80 7c 16 ff 0a       	cmpb   $0xa,-0x1(%rsi,%rdx,1)
+  401755:	75 b8                	jne    0x40170f
+  401757:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  40175b:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  40175f:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  401764:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  40176a:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  401770:	48 8d 74 24 c4       	lea    -0x3c(%rsp),%rsi
+  401775:	ba 00 00 58 42       	mov    $0x42580000,%edx
+  40177a:	c4 e1 f9 6e d2       	vmovq  %rdx,%xmm2
+  40177f:	c5 fa 5b d2          	vcvttps2dq %xmm2,%xmm2
+  401783:	c4 e3 f9 16 d2 00    	vpextrq $0x0,%xmm2,%rdx
+  401789:	bb 52 65 67 69       	mov    $0x69676552,%ebx
+  40178e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401793:	c5 fa 11 5c 24 c4    	vmovss %xmm3,-0x3c(%rsp)
+  401799:	bb 73 74 72 61       	mov    $0x61727473,%ebx
+  40179e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4017a3:	c5 fa 11 5c 24 c8    	vmovss %xmm3,-0x38(%rsp)
+  4017a9:	bb 74 69 6f 6e       	mov    $0x6e6f6974,%ebx
+  4017ae:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4017b3:	c5 fa 11 5c 24 cc    	vmovss %xmm3,-0x34(%rsp)
+  4017b9:	bb 20 63 6f 64       	mov    $0x646f6320,%ebx
+  4017be:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4017c3:	c5 fa 11 5c 24 d0    	vmovss %xmm3,-0x30(%rsp)
+  4017c9:	bb 65 73 20 63       	mov    $0x63207365,%ebx
+  4017ce:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4017d3:	c5 fa 11 5c 24 d4    	vmovss %xmm3,-0x2c(%rsp)
+  4017d9:	bb 61 6e 20 63       	mov    $0x63206e61,%ebx
+  4017de:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4017e3:	c5 fa 11 5c 24 d8    	vmovss %xmm3,-0x28(%rsp)
+  4017e9:	bb 6f 6e 74 61       	mov    $0x61746e6f,%ebx
+  4017ee:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4017f3:	c5 fa 11 5c 24 dc    	vmovss %xmm3,-0x24(%rsp)
+  4017f9:	bb 69 6e 20 61       	mov    $0x61206e69,%ebx
+  4017fe:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401803:	c5 fa 11 5c 24 e0    	vmovss %xmm3,-0x20(%rsp)
+  401809:	bb 74 20 6d 6f       	mov    $0x6f6d2074,%ebx
+  40180e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401813:	c5 fa 11 5c 24 e4    	vmovss %xmm3,-0x1c(%rsp)
+  401819:	bb 73 74 20 32       	mov    $0x32207473,%ebx
+  40181e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401823:	c5 fa 11 5c 24 e8    	vmovss %xmm3,-0x18(%rsp)
+  401829:	bb 30 20 63 68       	mov    $0x68632030,%ebx
+  40182e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401833:	c5 fa 11 5c 24 ec    	vmovss %xmm3,-0x14(%rsp)
+  401839:	bb 61 72 61 63       	mov    $0x63617261,%ebx
+  40183e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401843:	c5 fa 11 5c 24 f0    	vmovss %xmm3,-0x10(%rsp)
+  401849:	bb 74 65 72 73       	mov    $0x73726574,%ebx
+  40184e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401853:	c5 fa 11 5c 24 f4    	vmovss %xmm3,-0xc(%rsp)
+  401859:	bb 2e 0a 00 00       	mov    $0xa2e,%ebx
+  40185e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401863:	c5 fa 11 5c 24 f8    	vmovss %xmm3,-0x8(%rsp)
+  401869:	c5 e0 57 db          	vxorps %xmm3,%xmm3,%xmm3
+  40186d:	c5 fa 11 5c 24 fc    	vmovss %xmm3,-0x4(%rsp)
+  401873:	0f 05                	syscall
+  401875:	e9 bc 01 00 00       	jmp    0x401a36
+  40187a:	c5 d5 ef ed          	vpxor  %ymm5,%ymm5,%ymm5
+  40187e:	48 8d bc 24 40 ff ff 	lea    -0xc0(%rsp),%rdi
+  401885:	ff 
+  401886:	48 0f b6 07          	movzbq (%rdi),%rax
+  40188a:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  40188f:	c4 e3 7d 38 c0 00    	vinserti128 $0x0,%xmm0,%ymm0,%ymm0  # ymm0 = current char
+  401895:	b8 30 00 00 00       	mov    $0x30,%eax
+  40189a:	c4 e1 f9 6e c8       	vmovq  %rax,%xmm1
+  40189f:	c4 e3 75 38 c9 00    	vinserti128 $0x0,%xmm1,%ymm1,%ymm1
+  4018a5:	c5 fd fb c1          	vpsubq %ymm1,%ymm0,%ymm0            # ymm0 - 0x30 (on prend vrai valeur)
+  4018a9:	b8 0a 00 00 00       	mov    $0xa,%eax
+  4018ae:	c4 e1 f9 6e d0       	vmovq  %rax,%xmm2
+  4018b3:	c4 e3 6d 38 d2 00    	vinserti128 $0x0,%xmm2,%ymm2,%ymm2
+  4018b9:	c4 e2 55 40 ea       	vpmulld %ymm2,%ymm5,%ymm5           # ymm5 = ymm5 * 0x10
+  4018be:	c5 d5 fe e8          	vpaddd %ymm0,%ymm5,%ymm5            # ymm5 = (ymm0 - 0x30) + ymm5   # Je crois que ca convert le nombre de ascii à int
+  4018c2:	c5 f5 ef c9          	vpxor  %ymm1,%ymm1,%ymm1
+  4018c6:	c4 e2 75 29 c1       	vpcmpeqq %ymm1,%ymm1,%ymm0
+  4018cb:	c5 fd 73 d0 3f       	vpsrlq $0x3f,%ymm0,%ymm0            # Shift right logical (check if negative?)
+  4018d0:	c4 e1 f9 6e cf       	vmovq  %rdi,%xmm1             # Move current char to xmm1. Maybe just increment pointer
+  4018d5:	c4 e3 75 38 c9 00    	vinserti128 $0x0,%xmm1,%ymm1,%ymm1
+  4018db:	c5 f5 fe c8          	vpaddd %ymm0,%ymm1,%ymm1
+  4018df:	c4 e3 f9 16 cf 00    	vpextrq $0x0,%xmm1,%rdi
+  4018e5:	80 3f 0a             	cmpb   $0xa,(%rdi)
+  4018e8:	74 05                	je     0x4018ef                 # If '\n'
+  4018ea:	80 3f 00             	cmpb   $0x0,(%rdi)
+  4018ed:	75 97                	jne    0x401886                 # If completed treating registration code we dont jump
+  4018ef:	c5 f9 6e 05 be 02 00 	vmovd  0x2be(%rip),%xmm0        # 0x401bb5    # xmm0 = {0x2a, 0xd2, 0xc5, 0xf8, 0x0 <repeats 12 times>}
+  4018f6:	00 
+  4018f7:	c5 f9 6e 0d ba 02 00 	vmovd  0x2ba(%rip),%xmm1        # 0x401bb9    # xmm1 = {0x93, 0x1, 0x0, 0x1, 0x0 <repeats 12 times>}
+  4018fe:	00 
+  4018ff:	48 8d 7c 24 80       	lea    -0x80(%rsp),%rdi         # On traite le nom maintenant
+  401904:	c5 d9 ef e4          	vpxor  %xmm4,%xmm4,%xmm4
+  401908:	c4 e3 59 20 27 00    	vpinsrb $0x0,(%rdi),%xmm4,%xmm4 # xmm4 = current char
+  40190e:	c4 e2 79 17 e4       	vptest %xmm4,%xmm4
+  401913:	74 38                	je     0x40194d                 # If were at the end, jump
+  401915:	c5 e9 ef d2          	vpxor  %xmm2,%xmm2,%xmm2
+  401919:	c4 e3 69 20 17 00    	vpinsrb $0x0,(%rdi),%xmm2,%xmm2 # xmm2 = current char
+  40191f:	c5 f9 ef c2          	vpxor  %xmm2,%xmm0,%xmm0        # xmm0 = xmm2 ^ xmm0      # Yield xmm0 = 0x67, 0xd2, 0xc5, 0xf8, 0x0 <repeats 12 times>
+  401923:	c4 e2 79 40 c1       	vpmulld %xmm1,%xmm0,%xmm0       # xmm0 = xmm1 * xmm0      # Yield xmm0 = 0x25, 0x38, 0x6a, 0x6, 0x0 <repeats 12 times>
+  401928:	c5 ed ef d2          	vpxor  %ymm2,%ymm2,%ymm2        # ymm2 = 0
+  40192c:	c4 e2 6d 29 d2       	vpcmpeqq %ymm2,%ymm2,%ymm2
+  401931:	c5 ed 73 d2 3f       	vpsrlq $0x3f,%ymm2,%ymm2        # Logical shift right ymm2 : ymm2 = 0x01
+  401936:	c4 e1 f9 6e e7       	vmovq  %rdi,%xmm4               # xmm4 = *name
+  40193b:	c4 e3 5d 38 e4 00    	vinserti128 $0x0,%xmm4,%ymm4,%ymm4  # ymm4 = xmm4 = *name
+  401941:	c5 dd fe e2          	vpaddd %ymm2,%ymm4,%ymm4        # ymm4 = ymm2 + ymm4 (increment pointer, change current char (changes xmm4 too))
+  401945:	c4 e3 f9 16 e7 00    	vpextrq $0x0,%xmm4,%rdi         # Update rdi
+  40194b:	eb b7                	jmp    0x401904                 # Loop    
+  40194d:	c5 f9 6e 0d 49 02 00 	vmovd  0x249(%rip),%xmm1        # xmm1 = {0x11, 0x5c, 0x24, 0xf8, 0x0 <repeats 12 times>}
+  401954:	00                                                                              # hash_nom vaut toujours 0xee8c028c (bien constant)
+  401955:	c5 f9 ef c1          	vpxor  %xmm1,%xmm0,%xmm0        # xmm0 = xmm0 ^ xmm1      # xmm1 vaut toujours 0x45425943 (bien constant)
+  401959:	c5 f9 ef c5          	vpxor  %xmm5,%xmm0,%xmm0        # xmm0 = xmm0 ^ xmm5 = xmm0 ^ xmm1 ^ xmm5         xmm5 doit valoir {0xcf, 0x5b, 0xce, 0xab} donc 0xcf5bceab
+  40195d:	c4 e2 79 17 c0       	vptest %xmm0,%xmm0              # Si hash_nom ^ xmm1 ^ hash_code == 0
+  401962:	0f 84 1f 01 00 00    	je     0x401a87                 # If equal, jump to "Identify validated"
+  401968:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  40196c:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  401970:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  401975:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  40197b:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  401981:	48 8d 74 24 d4       	lea    -0x2c(%rsp),%rsi
+  401986:	bb 00 00 10 42       	mov    $0x42100000,%ebx
+  40198b:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401990:	c5 fa 5b db          	vcvttps2dq %xmm3,%xmm3
+  401994:	c4 e3 f9 16 da 00    	vpextrq $0x0,%xmm3,%rdx
+  40199a:	bb 49 6e 76 61       	mov    $0x61766e49,%ebx   # String "Invalid registration code provided"
+  40199f:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4019a4:	c5 fa 11 5c 24 d4    	vmovss %xmm3,-0x2c(%rsp)
+  4019aa:	bb 6c 69 64 20       	mov    $0x2064696c,%ebx
+  4019af:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4019b4:	c5 fa 11 5c 24 d8    	vmovss %xmm3,-0x28(%rsp)
+  4019ba:	bb 72 65 67 69       	mov    $0x69676572,%ebx
+  4019bf:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4019c4:	c5 fa 11 5c 24 dc    	vmovss %xmm3,-0x24(%rsp)
+  4019ca:	bb 73 74 72 61       	mov    $0x61727473,%ebx
+  4019cf:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4019d4:	c5 fa 11 5c 24 e0    	vmovss %xmm3,-0x20(%rsp)
+  4019da:	bb 74 69 6f 6e       	mov    $0x6e6f6974,%ebx
+  4019df:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4019e4:	c5 fa 11 5c 24 e4    	vmovss %xmm3,-0x1c(%rsp)
+  4019ea:	bb 20 63 6f 64       	mov    $0x646f6320,%ebx
+  4019ef:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  4019f4:	c5 fa 11 5c 24 e8    	vmovss %xmm3,-0x18(%rsp)
+  4019fa:	bb 65 20 70 72       	mov    $0x72702065,%ebx
+  4019ff:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401a04:	c5 fa 11 5c 24 ec    	vmovss %xmm3,-0x14(%rsp)
+  401a0a:	bb 6f 76 69 64       	mov    $0x6469766f,%ebx
+  401a0f:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401a14:	c5 fa 11 5c 24 f0    	vmovss %xmm3,-0x10(%rsp)
+  401a1a:	bb 65 64 2e 0a       	mov    $0xa2e6465,%ebx
+  401a1f:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401a24:	c5 fa 11 5c 24 f4    	vmovss %xmm3,-0xc(%rsp)
+  401a2a:	c5 e0 57 db          	vxorps %xmm3,%xmm3,%xmm3
+  401a2e:	c5 fa 11 5c 24 f8    	vmovss %xmm3,-0x8(%rsp)
+  401a34:	0f 05                	syscall
+
+
+
+
+
+
+
+
+
+
+
+
+
+  401a36:	b8 00 00 80 43       	mov    $0x43800000,%eax             # CONTINUES HERE
+  401a3b:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  401a40:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  401a44:	c4 e3 7d 38 c0 00    	vinserti128 $0x0,%xmm0,%ymm0,%ymm0
+  401a4a:	c4 e1 f9 6e cc       	vmovq  %rsp,%xmm1
+  401a4f:	c4 e3 75 38 c9 00    	vinserti128 $0x0,%xmm1,%ymm1,%ymm1
+  401a55:	c5 f5 d4 c8          	vpaddq %ymm0,%ymm1,%ymm1
+  401a59:	c4 e1 f9 7e cc       	vmovq  %xmm1,%rsp
+  401a5e:	b8 00 00 70 42       	mov    $0x42700000,%eax
+  401a63:	c4 e1 f9 6e c8       	vmovq  %rax,%xmm1
+  401a68:	c5 fa 5b c9          	vcvttps2dq %xmm1,%xmm1
+  401a6c:	c4 e3 f9 16 c8 00    	vpextrq $0x0,%xmm1,%rax
+  401a72:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0
+  401a76:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  401a7a:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  401a7f:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  401a85:	0f 05                	syscall
+  401a87:	c5 fd ef c0          	vpxor  %ymm0,%ymm0,%ymm0        # Will print "identity validated"
+  401a8b:	c5 fd 76 c0          	vpcmpeqd %ymm0,%ymm0,%ymm0
+  401a8f:	c5 fd 72 d0 1f       	vpsrld $0x1f,%ymm0,%ymm0
+  401a94:	c4 e3 f9 16 c0 00    	vpextrq $0x0,%xmm0,%rax
+  401a9a:	c4 e3 f9 16 c7 00    	vpextrq $0x0,%xmm0,%rdi
+  401aa0:	48 8d 74 24 d8       	lea    -0x28(%rsp),%rsi
+  401aa5:	bb 00 00 08 42       	mov    $0x42080000,%ebx
+  401aaa:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401aaf:	c5 fa 5b db          	vcvttps2dq %xmm3,%xmm3
+  401ab3:	c4 e3 f9 16 da 00    	vpextrq $0x0,%xmm3,%rdx
+  401ab9:	bb 59 6f 75 72       	mov    $0x72756f59,%ebx
+  401abe:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401ac3:	c5 fa 11 5c 24 d8    	vmovss %xmm3,-0x28(%rsp)
+  401ac9:	bb 20 69 64 65       	mov    $0x65646920,%ebx
+  401ace:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401ad3:	c5 fa 11 5c 24 dc    	vmovss %xmm3,-0x24(%rsp)
+  401ad9:	bb 6e 74 69 74       	mov    $0x7469746e,%ebx
+  401ade:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401ae3:	c5 fa 11 5c 24 e0    	vmovss %xmm3,-0x20(%rsp)
+  401ae9:	bb 79 20 68 61       	mov    $0x61682079,%ebx
+  401aee:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401af3:	c5 fa 11 5c 24 e4    	vmovss %xmm3,-0x1c(%rsp)
+  401af9:	bb 73 20 62 65       	mov    $0x65622073,%ebx
+  401afe:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401b03:	c5 fa 11 5c 24 e8    	vmovss %xmm3,-0x18(%rsp)
+  401b09:	bb 65 6e 20 76       	mov    $0x76206e65,%ebx
+  401b0e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401b13:	c5 fa 11 5c 24 ec    	vmovss %xmm3,-0x14(%rsp)
+  401b19:	bb 61 6c 69 64       	mov    $0x64696c61,%ebx
+  401b1e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401b23:	c5 fa 11 5c 24 f0    	vmovss %xmm3,-0x10(%rsp)
+  401b29:	bb 61 74 65 64       	mov    $0x64657461,%ebx
+  401b2e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401b33:	c5 fa 11 5c 24 f4    	vmovss %xmm3,-0xc(%rsp)
+  401b39:	bb 2e 0a 00 00       	mov    $0xa2e,%ebx
+  401b3e:	c4 e1 f9 6e db       	vmovq  %rbx,%xmm3
+  401b43:	c5 fa 11 5c 24 f8    	vmovss %xmm3,-0x8(%rsp)
+  401b49:	c5 e0 57 db          	vxorps %xmm3,%xmm3,%xmm3
+  401b4d:	c5 fa 11 5c 24 fc    	vmovss %xmm3,-0x4(%rsp)
+  401b53:	0f 05                	syscall
+  401b55:	b8 00 00 80 43       	mov    $0x43800000,%eax
+  401b5a:	c4 e1 f9 6e c0       	vmovq  %rax,%xmm0
+  401b5f:	c5 fa 5b c0          	vcvttps2dq %xmm0,%xmm0
+  401b63:	c4 e3 7d 38 c0 00    	vinserti128 $0x0,%xmm0,%ymm0,%ymm0
+  401b69:	c4 e1 f9 6e cc       	vmovq  %rsp,%xmm1
+  401b6e:	c4 e3 75 38 c9 00    	vinserti128 $0x0,%xmm1,%ymm1,%ymm1
+  401b74:	c5 f5 d4 c8          	vpaddq %ymm0,%ymm1,%ymm1
+  401b78:	c4 e1 f9 7e cc       	vmovq  %xmm1,%rsp
+  401b7d:	b8 00 00 70 42       	mov    $0x42700000,%eax
+  401b82:	c4 e1 f9 6e c8       	vmovq  %rax,%xmm1
+  401b87:	c5 fa 5b c9          	vcvttps2dq %xmm1,%xmm1
+  401b8b:	c4 e3 f9 16 c8 00    	vpextrq $0x0,%xmm1,%rax
+  401b91:	c5 f0 57 c9          	vxorps %xmm1,%xmm1,%xmm1
+  401b95:	c4 e3 f9 16 cf 00    	vpextrq $0x0,%xmm1,%rdi
+  401b9b:	0f 05                	syscall
+  401b9d:	00 43 59             	add    %al,0x59(%rbx)
+  401ba0:	42                   	rex.X
+  401ba1:	45 52                	rex.RB push %r10
+  401ba3:	53                   	push   %rbx
+  401ba4:	43                   	rex.XB
+  401ba5:	49 5f                	rex.WB pop %r15
+  401ba7:	52                   	push   %rdx
+  401ba8:	45                   	rex.RB
+  401ba9:	47                   	rex.RXB
+  401baa:	49                   	rex.WB
+  401bab:	4f                   	rex.WRXB
+  401bac:	4e                   	rex.WRX
+  401bad:	41                   	rex.B
+  401bae:	4c 53                	rex.WR push %rbx
+  401bb0:	5f                   	pop    %rdi
+  401bb1:	32 30                	xor    (%rax),%dh
+  401bb3:	32 35 c5 9d 1c 81    	xor    -0x7ee3623b(%rip),%dh        # 0xffffffff815cb97e
+  401bb9:	93                   	xchg   %eax,%ebx
+  401bba:	01 00                	add    %eax,(%rax)
+  401bbc:	01                   	.byte 0x1
