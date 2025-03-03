@@ -1,0 +1,9 @@
+services:
+  cardjacker:
+    image: chall2025-cardjacker
+    hostname: cardjacker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "2025:2025"

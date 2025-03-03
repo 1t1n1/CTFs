@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Card</title>
+    {% if config.prefs.mode == 'dark' %}
+        <link rel="stylesheet" href="/css/dark-styles.css">
+        <meta name="config-prefs-mode" content="dark">
+    {% else %}
+        <link rel="stylesheet" href="/css/light-styles.css">
+        <meta name="config-prefs-mode" content="light">
+    {% endif %}
+</head>
+<body class="cool-background">
+<div class="toggle-mode" onclick="toggleMode()">{% if config.prefs.mode == 'dark' %}☀️{% else %}🌙{% endif %}</div>
+<form class="download-card-form" action="/download-card" method="GET" target="_blank">
+    <iframe class="card-preview-iframe" src="/preview-card?cardId={{ cardId }}"></iframe>
+    <input type="hidden" name="cardId" value="{{ cardId }}">
+    <input type="hidden" name="email" value="{{ email }}">
+    <button class="download-card-btn" type="submit">
+        Download Your Card!
+    </button>
+</form>
+<footer>
+    <a href="/create-card">⬅️ Go back</a>
+</footer>
+<script src="/js/script.js"></script>
+</body>
+</html>

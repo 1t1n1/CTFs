@@ -1,0 +1,15 @@
+{
+  "name": "cardjacker",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node src/cardjacker.js",
+    "dev": "nodemon src/cardjacker.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "nodemon": "^3.1.0",
+    "nunjucks": "^3.2.4"
+  }
+}

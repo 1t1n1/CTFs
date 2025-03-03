@@ -1,0 +1,12 @@
+{
+  "name": "save2pdf",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node src/save2pdf.js",
+    "dev": "nodemon src/save2pdf.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}

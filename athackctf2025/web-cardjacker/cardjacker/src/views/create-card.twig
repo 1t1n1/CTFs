@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Card</title>
+    {% if config.prefs.mode == 'dark' %}
+        <link rel="stylesheet" href="/css/dark-styles.css">
+        <meta name="config-prefs-mode" content="dark">
+    {% else %}
+        <link rel="stylesheet" href="/css/light-styles.css">
+        <meta name="config-prefs-mode" content="light">
+    {% endif %}
+</head>
+<body class="cool-background">
+<div class="toggle-mode" onclick="toggleMode()">{% if config.prefs.mode == 'dark' %}☀️{% else %}🌙{% endif %}</div>
+<h2>Cardjacker</h2>
+<p>We make free business cards for open source developers (like us)!</p>
+
+<form id="create-card-from" action="/create-card" method="post">
+    <div class="business-card">
+        <div class="create-card-form-group">
+            <input type="text" id="firstName" name="firstName" placeholder="First name" required>
+        </div>
+        <div class="create-card-form-group">
+            <input type="text" id="lastName" name="lastName" placeholder="Last name" required>
+        </div>
+        <div class="create-card-form-group">
+            <input type="text" value="Open Source Developer" readonly>
+        </div>
+        <div class="create-card-form-group">
+            <input type="text" id="company" name="company" placeholder="Company name" required>
+        </div>
+        <div class="create-card-form-group">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        </div>
+
+        <div class="create-card-form-group">
+            <input type="text" id="github" name="github" placeholder="Github Handle">
+        </div>
+    </div>
+    <button type="submit" class="create-card-btn">Get Your Free Business Card!</button>
+</form>
+<footer>
+    <a href="https://github.com/orgs/athack-ctf/repositories" target="_blank">Check our Github organisation!</a>
+</footer>
+<script src="/js/script.js"></script>
+</body>
+</html>

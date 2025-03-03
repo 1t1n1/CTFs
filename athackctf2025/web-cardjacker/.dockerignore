@@ -1,0 +1,9 @@
+.gitignore
+
+cardjacker/.idea/
+cardjacker/node_modules/
+
+save2pdf/.idea/
+save2pdf/node_modules/
+
+storage/

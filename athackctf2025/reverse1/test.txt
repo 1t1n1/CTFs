@@ -1,0 +1,7 @@
+mot5 + mot4 + mot3 + mot2 + mot1 + mot0 + mot6 == 546
+mot5 + mot4 + mot3 + mot2 + mot1 + mot0 - mot6 == 480
+mot4 + mot3 + mot2 + mot1 + mot0 - mot5 + mot6 == 412
+mot5 + mot3 + mot2 + mot1 + mot0 - mot4 + mot6 == 440
+mot5 + mot4 + mot2 + mot1 + mot0 - mot3 + mot6 == 312
+mot5 + mot4 + mot3 + mot1 + mot0 - mot2 + mot6 == 356
+mot5 + mot4 + mot3 + mot2 + mot0 - mot1 + mot6 == 314
