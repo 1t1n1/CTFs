@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "foglink"
+version = "1.0.0"
+description = "Protocol layer for FogLink"
+authors = [{ name = "CVSS Bonsecours" }]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "aiohttp==3.10.10",
+  "aioconsole",
+]
+
+[tool.setuptools.package-data]
+foglink = ["*.py", "README.md"]
+
+[project.optional-dependencies]
+dev = [
+    "aiohttp-devtools",
+    "ruff",
+    "pyright",
+]
+
+[project.scripts]
+foglink-cli = "foglink.cli:main"
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

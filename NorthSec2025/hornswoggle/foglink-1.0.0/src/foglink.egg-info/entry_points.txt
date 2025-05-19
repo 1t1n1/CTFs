@@ -1,0 +1,2 @@
+[console_scripts]
+foglink-cli = foglink.cli:main

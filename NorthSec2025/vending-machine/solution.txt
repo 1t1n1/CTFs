@@ -1,0 +1,7 @@
+# Gift Shop (The vending machine challenge)
+
+In this challenge, we had access to a vending machine where everything cost 1.25$, but our card only had 1.24$.
+
+The solution was to read the card with the Flipper Zero's NFC reader (Apps > NFC > NFC > Read) and wait about 30-45 minutes for the process to complete. The Flipper tries to decrypt the card content using a defaut dictionnary of keys, but it is only able to read the first 64 bytes, which doesn't help us because our balance is not held in this region. To unlock the whole card, we must go to the saved card information on the Flipper (make sure to save the information once the reading process is over) and select "Extract MF Keys". This will extract "nonces" which are needed to unlock the whole card content. Make sure apply the Flipper to the reader multiple times so that it can extract the 10 different nonces. Once you have the 10 nonces, go to MFKey app on your phone to start the cracking process. From my understanding, the crypto module of the Flipper is not powerfull enough to do this part, but a modern phone is well suited for this type of job. Once this is done, the new key should automatically be sent to the Flipper using the bluetooth connection between the device and your phone. You can now read the card once again, but this time it will take significantly less time because the right key is in the user dictionnary. You should then be able to retrieve the complete card content and forge a higher balance.
+
+See https://flipper.wiki/mifareclassic/

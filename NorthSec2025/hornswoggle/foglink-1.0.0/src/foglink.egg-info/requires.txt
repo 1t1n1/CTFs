@@ -1,0 +1,7 @@
+aiohttp==3.10.10
+aioconsole
+
+[dev]
+aiohttp-devtools
+ruff
+pyright

@@ -1,0 +1,1 @@
+I arrived at the CTF on Friday dressed as someone enjoying a cruise, so Emilio, the Captain, awarded me a NFC Chip for taking part in the event's theme. The NFC file is what I was able to read with a Flipper
