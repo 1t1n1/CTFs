@@ -1,0 +1,112 @@
+It seems we have an encrypted conversation. We probably need to find the flag from the decrypted text.
+
+It might have something to do with crypto since the name "Chain of Demands" and because the conversation mentions crypto. There is also "eth-*" files.
+
+Are we expected to break the crypto? Why the "super_safe_mode" irony?
+
+```
+if self.super_safe_mode and self.rsa_key:
+    plaintext_bytes = plaintext.encode('utf-8')
+    plaintext_enc = bytes_to_long(plaintext_bytes)
+    _enc = pow(plaintext_enc, self.rsa_key.e, self.rsa_key.n)
+    ciphertext = _enc.to_bytes(self.rsa_key.n.bit_length(), 'little').rstrip(b'\x00')
+    encryption_mode = 'RSA'
+    plaintext = '[ENCRYPTED]'
+```
+
+Interesting files:
+- public.pem
+- chat_log.json
+- challenge_to_compile.pyc
+
+I think the solution is to abuse the vulnerabilities in the implementation of the encryption scheme + the fact that we have a public key (maybe useful) + the smart contract bytes, which should be decompiled.
+Also, since it reuses the same primes for LCG and RSA, I can first crack the primes in LCG and then use them to decrypt the RSA.
+
+
+The LCGOracle from grok (probably hallucinated because I gave him a lot of stuff):
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract LCG {
+    function nextVal(
+        uint256 LCG_MULTIPLIER,
+        uint256 LCG_INCREMENT,
+        uint256 LCG_MODULUS,
+        uint256 _currentState,
+        uint256 _counter
+    ) public pure returns (uint256) {
+        require(LCG_MULTIPLIER != 0, "Invalid multiplier");
+        require(LCG_MODULUS != 0, "Invalid modulus");
+        
+        uint256 result = _currentState;
+        if (LCG_MODULUS > 1) {
+            result = (LCG_MULTIPLIER * result + LCG_INCREMENT) % LCG_MODULUS;
+        } else {
+            result = 1;
+        }
+        return result & 0xFF;
+    }
+}
+```
+
+Same but TripleXOROracle:
+```
+pragma solidity ^0.8.0;
+
+contract Encryptor {
+    function encrypt(
+        uint256 _primeFromLcg,
+        uint256 _conversationTime,
+        string memory _plaintext
+    ) public pure returns (bytes32) {
+        bytes32 prime = bytes32(_primeFromLcg);
+        bytes32 time = bytes32(_conversationTime);
+        if (bytes(_plaintext).length > 0) {
+            return bytes32(keccak256(abi.encode(_plaintext))) ^ prime ^ time;
+        } else {
+            return prime ^ time;
+        }
+    }
+}
+```
+
+Solidity code for testing in Remix
+```
+pragma solidity ^0.8.0;
+
+event DebugS(string value, string message);
+event DebugB(bytes value, string message);
+event DebugB32(bytes32 value, string message);
+
+contract Encryptor {
+    function encrypt(
+        uint256 _primeFromLcg,
+        uint256 _conversationTime,
+        bytes32 _result,
+        string memory _plaintext
+    ) public returns (bytes32) {
+        bytes32 prime = bytes32(_primeFromLcg);
+        bytes32 time = bytes32(_conversationTime);
+        if (bytes(_plaintext).length > 0) {
+            emit DebugS(_plaintext, "plaintext");
+            emit DebugB(abi.encode(_plaintext), "abi.encode(plaintext)");
+            emit DebugB32(bytes32(keccak256(abi.encode(_plaintext))), "bytes32(keccak256(abi.encode(_plaintext)))");
+            emit DebugB32(bytes32(keccak256(abi.encode(_plaintext))) ^ time ^ _result, "bytes32(keccak256(abi.encode(_plaintext))) ^ time ^ _result");
+            return bytes32(keccak256(abi.encode(_plaintext))) ^ prime ^ time;
+        } else {
+            return prime ^ time;
+        }
+    }
+}
+```
+
+So according to the grok code, reversed and run with Remix, I get this as the first output of the LCGOracle:
+0x27f73256df641fd55a59b39ad359a2b41ec3135c1515d129e49bac18d1f199c6
+
+But that doesn't make sense, does it? It's too long, since the last instruction of nextVal is `return result & 0xFF;`, so it should be a single byte... Remember, the code of either may be wrong.
+
+TODO Next Time:
+- Confirm the LCGOracle code is correct (at least the last line which says that it returns a single byte)
+- Maybe confirm the TripleXOROracle code is correct
+- Reverse the crypto stuff

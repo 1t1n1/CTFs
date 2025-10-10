@@ -1,0 +1,536 @@
+label_0000:
+	// Inputs[1] { @0005  msg.value }
+	0000    60  PUSH1 0x80  // Stack = [0x80]
+	0002    60  PUSH1 0x40  // Stack = [0x40, 0x80]
+	0004    52  MSTORE      // memory[0x40:0x60] = 0x80 // update free memory pointer
+	0005    34  CALLVALUE   // Stack = [msg.value, 0x40, 0x80]
+	0006    80  DUP1        // Stack = [msg.value, msg.value, 0x40, 0x80]
+	0007    15  ISZERO      // Stack = [msg.value == 0, msg.value, 0x40, 0x80]
+	0008    60  PUSH1 0x0e  // Stack = [0x0e, msg.value == 0, msg.value, 0x40, 0x80]
+	000A    57  *JUMPI      // jump to 0x000e if msg.value == 0 else move to next instruction
+	// Stack delta = +1
+	// Outputs[2]
+	// {
+	//     @0004  memory[0x40:0x60] = 0x80
+	//     @0005  stack[0] = msg.value
+	// }
+	// Block ends with conditional jump to 0x000e, if !msg.value
+
+label_000B:
+	// Incoming jump from 0x000A, if not !msg.value
+	// Inputs[1] { @000D  memory[0x00:0x00] }
+	000B    5F  PUSH0      // Stack = [0x00]
+	000C    5F  PUSH0      // Stack = [0x00, 0x00]
+	000D    FD  *REVERT
+	// Stack delta = +0
+	// Outputs[1] { @000D  revert(memory[0x00:0x00]); }
+	// Block terminates
+
+label_000E:
+	// Incoming jump from 0x000A, if !msg.value
+	// Inputs[1] { @001A  memory[0x00:0x02e2] }
+ 
+            // This is if msg.value == 0
+	000E    5B  JUMPDEST
+	000F    50  POP
+	0010    61  PUSH2 0x02e2
+	0013    80  DUP1
+	0014    61  PUSH2 0x001c
+	0017    5F  PUSH0
+	0018    39  CODECOPY
+	0019    5F  PUSH0
+	001A    F3  *RETURN
+	// Stack delta = -1
+	// Outputs[2]
+	// {
+	//     @0018  memory[0x00:0x02e2] = code[0x1c:0x02fe]
+	//     @001A  return memory[0x00:0x02e2];
+	// }
+	// Block terminates
+
+	001B    FE    *ASSERT
+	001C    60    PUSH1 0x80
+	001E    60    PUSH1 0x40
+	0020    52    MSTORE
+	0021    34    CALLVALUE
+	0022    80    DUP1
+	0023    15    ISZERO
+	0024    61    PUSH2 0x000f
+	0027    57    *JUMPI
+	0028    5F    PUSH0
+	0029    5F    PUSH0
+	002A    FD    *REVERT
+	002B    5B    JUMPDEST
+	002C    50    POP
+	002D    60    PUSH1 0x04
+	002F    36    CALLDATASIZE
+	0030    10    LT
+	0031    61    PUSH2 0x0029
+	0034    57    *JUMPI
+	0035    5F    PUSH0
+	0036    35    CALLDATALOAD
+	0037    60    PUSH1 0xe0
+	0039    1C    SHR
+	003A    80    DUP1
+	003B    63    PUSH4 0x11521834 // nextVal(uint256,uint256,uint256,uint256,uint256)
+	0040    14    EQ
+	0041    61    PUSH2 0x002d
+	0044    57    *JUMPI
+	0045    5B    JUMPDEST
+	0046    5F    PUSH0
+	0047    5F    PUSH0
+	0048    FD    *REVERT
+	0049    5B    JUMPDEST
+	004A    61    PUSH2 0x0047
+	004D    60    PUSH1 0x04
+	004F    80    DUP1
+	0050    36    CALLDATASIZE
+	0051    03    SUB
+	0052    81    DUP2
+	0053    01    ADD
+	0054    90    SWAP1
+	0055    61    PUSH2 0x0042
+	0058    91    SWAP2
+	0059    90    SWAP1
+	005A    61    PUSH2 0x010c
+	005D    56    *JUMP
+	005E    5B    JUMPDEST
+	005F    61    PUSH2 0x005d
+	0062    56    *JUMP
+	0063    5B    JUMPDEST
+	0064    60    PUSH1 0x40
+	0066    51    MLOAD
+	0067    61    PUSH2 0x0054
+	006A    91    SWAP2
+	006B    90    SWAP1
+	006C    61    PUSH2 0x0192
+	006F    56    *JUMP
+	0070    5B    JUMPDEST
+	0071    60    PUSH1 0x40
+	0073    51    MLOAD
+	0074    80    DUP1
+	0075    91    SWAP2
+	0076    03    SUB
+	0077    90    SWAP1
+	0078    F3    *RETURN
+	0079    5B    JUMPDEST
+	007A    5F    PUSH0
+	007B    5F    PUSH0
+	007C    84    DUP5
+	007D    80    DUP1
+	007E    61    PUSH2 0x006e
+	0081    57    *JUMPI
+	0082    61    PUSH2 0x006d
+	0085    61    PUSH2 0x01ab
+	0088    56    *JUMP
+	0089    5B    JUMPDEST
+	008A    5B    JUMPDEST
+	008B    86    DUP7
+	008C    86    DUP7
+	008D    80    DUP1
+	008E    61    PUSH2 0x007e
+	0091    57    *JUMPI
+	0092    61    PUSH2 0x007d
+	0095    61    PUSH2 0x01ab
+	0098    56    *JUMP
+	0099    5B    JUMPDEST
+	009A    5B    JUMPDEST
+	009B    89    DUP10
+	009C    87    DUP8
+	009D    09    MULMOD
+	009E    08    ADDMOD
+	009F    90    SWAP1
+	00A0    50    POP
+	00A1    5F    PUSH0
+	00A2    5F    PUSH0
+	00A3    84    DUP5
+	00A4    11    GT
+	00A5    61    PUSH2 0x0092
+	00A8    57    *JUMPI
+	00A9    5F    PUSH0
+	00AA    61    PUSH2 0x0095
+	00AD    56    *JUMP
+	00AE    5B    JUMPDEST
+	00AF    60    PUSH1 0x01
+	00B1    5B    JUMPDEST
+	00B2    60    PUSH1 0xff
+	00B4    16    AND
+	00B5    90    SWAP1
+	00B6    50    POP
+	00B7    81    DUP2
+	00B8    81    DUP2
+	00B9    61    PUSH2 0x00a6
+	00BC    91    SWAP2
+	00BD    90    SWAP1
+	00BE    61    PUSH2 0x0205
+	00C1    56    *JUMP
+	00C2    5B    JUMPDEST
+	00C3    85    DUP6
+	00C4    82    DUP3
+	00C5    60    PUSH1 0x01
+	00C7    61    PUSH2 0x00b4
+	00CA    91    SWAP2
+	00CB    90    SWAP1
+	00CC    61    PUSH2 0x0246
+	00CF    56    *JUMP
+	00D0    5B    JUMPDEST
+	00D1    61    PUSH2 0x00be
+	00D4    91    SWAP2
+	00D5    90    SWAP1
+	00D6    61    PUSH2 0x0205
+	00D9    56    *JUMP
+	00DA    5B    JUMPDEST
+	00DB    61    PUSH2 0x00c8
+	00DE    91    SWAP2
+	00DF    90    SWAP1
+	00E0    61    PUSH2 0x0279
+	00E3    56    *JUMP
+	00E4    5B    JUMPDEST
+	00E5    92    SWAP3
+	00E6    50    POP
+	00E7    50    POP
+	00E8    50    POP
+	00E9    95    SWAP6
+	00EA    94    SWAP5
+	00EB    50    POP
+	00EC    50    POP
+	00ED    50    POP
+	00EE    50    POP
+	00EF    50    POP
+	00F0    56    *JUMP
+	00F1    5B    JUMPDEST
+	00F2    5F    PUSH0
+	00F3    5F    PUSH0
+	00F4    FD    *REVERT
+	00F5    5B    JUMPDEST
+	00F6    5F    PUSH0
+	00F7    81    DUP2
+	00F8    90    SWAP1
+	00F9    50    POP
+	00FA    91    SWAP2
+	00FB    90    SWAP1
+	00FC    50    POP
+	00FD    56    *JUMP
+	00FE    5B    JUMPDEST
+	00FF    61    PUSH2 0x00eb
+	0102    81    DUP2
+	0103    61    PUSH2 0x00d9
+	0106    56    *JUMP
+	0107    5B    JUMPDEST
+	0108    81    DUP2
+	0109    14    EQ
+	010A    61    PUSH2 0x00f5
+	010D    57    *JUMPI
+	010E    5F    PUSH0
+	010F    5F    PUSH0
+	0110    FD    *REVERT
+	0111    5B    JUMPDEST
+	0112    50    POP
+	0113    56    *JUMP
+	0114    5B    JUMPDEST
+	0115    5F    PUSH0
+	0116    81    DUP2
+	0117    35    CALLDATALOAD
+	0118    90    SWAP1
+	0119    50    POP
+	011A    61    PUSH2 0x0106
+	011D    81    DUP2
+	011E    61    PUSH2 0x00e2
+	0121    56    *JUMP
+	0122    5B    JUMPDEST
+	0123    92    SWAP3
+	0124    91    SWAP2
+	0125    50    POP
+	0126    50    POP
+	0127    56    *JUMP
+	0128    5B    JUMPDEST
+	0129    5F    PUSH0
+	012A    5F    PUSH0
+	012B    5F    PUSH0
+	012C    5F    PUSH0
+	012D    5F    PUSH0
+	012E    60    PUSH1 0xa0
+	0130    86    DUP7
+	0131    88    DUP9
+	0132    03    SUB
+	0133    12    SLT
+	0134    15    ISZERO
+	0135    61    PUSH2 0x0125
+	0138    57    *JUMPI
+	0139    61    PUSH2 0x0124
+	013C    61    PUSH2 0x00d5
+	013F    56    *JUMP
+	0140    5B    JUMPDEST
+	0141    5B    JUMPDEST
+	0142    5F    PUSH0
+	0143    61    PUSH2 0x0132
+	0146    88    DUP9
+	0147    82    DUP3
+	0148    89    DUP10
+	0149    01    ADD
+	014A    61    PUSH2 0x00f8
+	014D    56    *JUMP
+	014E    5B    JUMPDEST
+	014F    95    SWAP6
+	0150    50    POP
+	0151    50    POP
+	0152    60    PUSH1 0x20
+	0154    61    PUSH2 0x0143
+	0157    88    DUP9
+	0158    82    DUP3
+	0159    89    DUP10
+	015A    01    ADD
+	015B    61    PUSH2 0x00f8
+	015E    56    *JUMP
+	015F    5B    JUMPDEST
+	0160    94    SWAP5
+	0161    50    POP
+	0162    50    POP
+	0163    60    PUSH1 0x40
+	0165    61    PUSH2 0x0154
+	0168    88    DUP9
+	0169    82    DUP3
+	016A    89    DUP10
+	016B    01    ADD
+	016C    61    PUSH2 0x00f8
+	016F    56    *JUMP
+	0170    5B    JUMPDEST
+	0171    93    SWAP4
+	0172    50    POP
+	0173    50    POP
+	0174    60    PUSH1 0x60
+	0176    61    PUSH2 0x0165
+	0179    88    DUP9
+	017A    82    DUP3
+	017B    89    DUP10
+	017C    01    ADD
+	017D    61    PUSH2 0x00f8
+	0180    56    *JUMP
+	0181    5B    JUMPDEST
+	0182    92    SWAP3
+	0183    50    POP
+	0184    50    POP
+	0185    60    PUSH1 0x80
+	0187    61    PUSH2 0x0176
+	018A    88    DUP9
+	018B    82    DUP3
+	018C    89    DUP10
+	018D    01    ADD
+	018E    61    PUSH2 0x00f8
+	0191    56    *JUMP
+	0192    5B    JUMPDEST
+	0193    91    SWAP2
+	0194    50    POP
+	0195    50    POP
+	0196    92    SWAP3
+	0197    95    SWAP6
+	0198    50    POP
+	0199    92    SWAP3
+	019A    95    SWAP6
+	019B    90    SWAP1
+	019C    93    SWAP4
+	019D    50    POP
+	019E    56    *JUMP
+	019F    5B    JUMPDEST
+	01A0    61    PUSH2 0x018c
+	01A3    81    DUP2
+	01A4    61    PUSH2 0x00d9
+	01A7    56    *JUMP
+	01A8    5B    JUMPDEST
+	01A9    82    DUP3
+	01AA    52    MSTORE
+	01AB    50    POP
+	01AC    50    POP
+	01AD    56    *JUMP
+	01AE    5B    JUMPDEST
+	01AF    5F    PUSH0
+	01B0    60    PUSH1 0x20
+	01B2    82    DUP3
+	01B3    01    ADD
+	01B4    90    SWAP1
+	01B5    50    POP
+	01B6    61    PUSH2 0x01a5
+	01B9    5F    PUSH0
+	01BA    83    DUP4
+	01BB    01    ADD
+	01BC    84    DUP5
+	01BD    61    PUSH2 0x0183
+	01C0    56    *JUMP
+	01C1    5B    JUMPDEST
+	01C2    92    SWAP3
+	01C3    91    SWAP2
+	01C4    50    POP
+	01C5    50    POP
+	01C6    56    *JUMP
+	01C7    5B    JUMPDEST
+	01C8    7F    PUSH32 0x4e487b7100000000000000000000000000000000000000000000000000000000 // Panic(uint256)
+	01E9    5F    PUSH0
+	01EA    52    MSTORE
+	01EB    60    PUSH1 0x12
+	01ED    60    PUSH1 0x04
+	01EF    52    MSTORE
+	01F0    60    PUSH1 0x24
+	01F2    5F    PUSH0
+	01F3    FD    *REVERT
+	01F4    5B    JUMPDEST
+	01F5    7F    PUSH32 0x4e487b7100000000000000000000000000000000000000000000000000000000 // Panic(uint256)
+	0216    5F    PUSH0
+	0217    52    MSTORE
+	0218    60    PUSH1 0x11
+	021A    60    PUSH1 0x04
+	021C    52    MSTORE
+	021D    60    PUSH1 0x24
+	021F    5F    PUSH0
+	0220    FD    *REVERT
+	0221    5B    JUMPDEST
+	0222    5F    PUSH0
+	0223    61    PUSH2 0x020f
+	0226    82    DUP3
+	0227    61    PUSH2 0x00d9
+	022A    56    *JUMP
+	022B    5B    JUMPDEST
+	022C    91    SWAP2
+	022D    50    POP
+	022E    61    PUSH2 0x021a
+	0231    83    DUP4
+	0232    61    PUSH2 0x00d9
+	0235    56    *JUMP
+	0236    5B    JUMPDEST
+	0237    92    SWAP3
+	0238    50    POP
+	0239    82    DUP3
+	023A    82    DUP3
+	023B    02    MUL
+	023C    61    PUSH2 0x0228
+	023F    81    DUP2
+	0240    61    PUSH2 0x00d9
+	0243    56    *JUMP
+	0244    5B    JUMPDEST
+	0245    91    SWAP2
+	0246    50    POP
+	0247    82    DUP3
+	0248    82    DUP3
+	0249    04    DIV
+	024A    84    DUP5
+	024B    14    EQ
+	024C    83    DUP4
+	024D    15    ISZERO
+	024E    17    OR
+	024F    61    PUSH2 0x023f
+	0252    57    *JUMPI
+	0253    61    PUSH2 0x023e
+	0256    61    PUSH2 0x01d8
+	0259    56    *JUMP
+	025A    5B    JUMPDEST
+	025B    5B    JUMPDEST
+	025C    50    POP
+	025D    92    SWAP3
+	025E    91    SWAP2
+	025F    50    POP
+	0260    50    POP
+	0261    56    *JUMP
+	0262    5B    JUMPDEST
+	0263    5F    PUSH0
+	0264    61    PUSH2 0x0250
+	0267    82    DUP3
+	0268    61    PUSH2 0x00d9
+	026B    56    *JUMP
+	026C    5B    JUMPDEST
+	026D    91    SWAP2
+	026E    50    POP
+	026F    61    PUSH2 0x025b
+	0272    83    DUP4
+	0273    61    PUSH2 0x00d9
+	0276    56    *JUMP
+	0277    5B    JUMPDEST
+	0278    92    SWAP3
+	0279    50    POP
+	027A    82    DUP3
+	027B    82    DUP3
+	027C    03    SUB
+	027D    90    SWAP1
+	027E    50    POP
+	027F    81    DUP2
+	0280    81    DUP2
+	0281    11    GT
+	0282    15    ISZERO
+	0283    61    PUSH2 0x0273
+	0286    57    *JUMPI
+	0287    61    PUSH2 0x0272
+	028A    61    PUSH2 0x01d8
+	028D    56    *JUMP
+	028E    5B    JUMPDEST
+	028F    5B    JUMPDEST
+	0290    92    SWAP3
+	0291    91    SWAP2
+	0292    50    POP
+	0293    50    POP
+	0294    56    *JUMP
+	0295    5B    JUMPDEST
+	0296    5F    PUSH0
+	0297    61    PUSH2 0x0283
+	029A    82    DUP3
+	029B    61    PUSH2 0x00d9
+	029E    56    *JUMP
+	029F    5B    JUMPDEST
+	02A0    91    SWAP2
+	02A1    50    POP
+	02A2    61    PUSH2 0x028e
+	02A5    83    DUP4
+	02A6    61    PUSH2 0x00d9
+	02A9    56    *JUMP
+	02AA    5B    JUMPDEST
+	02AB    92    SWAP3
+	02AC    50    POP
+	02AD    82    DUP3
+	02AE    82    DUP3
+	02AF    01    ADD
+	02B0    90    SWAP1
+	02B1    50    POP
+	02B2    80    DUP1
+	02B3    82    DUP3
+	02B4    11    GT
+	02B5    15    ISZERO
+	02B6    61    PUSH2 0x02a6
+	02B9    57    *JUMPI
+	02BA    61    PUSH2 0x02a5
+	02BD    61    PUSH2 0x01d8
+	02C0    56    *JUMP
+	02C1    5B    JUMPDEST
+	02C2    5B    JUMPDEST
+	02C3    92    SWAP3
+	02C4    91    SWAP2
+	02C5    50    POP
+	02C6    50    POP
+	02C7    56    *JUMP
+	02C8    FE    *ASSERT
+	02C9    A2    LOG2
+	02CA    64    PUSH5 0x6970667358
+	02D0    22    22
+	02D1    12    SLT
+	02D2    20    SHA3
+	02D3    C7    C7
+	02D4    E8    E8
+	02D5    85    DUP6
+	02D6    C1    C1
+	02D7    63    PUSH4 0x3ad951a2
+	02DC    D8    D8
+	02DD    16    AND
+	02DE    8F    DUP16
+	02DF    80    DUP1
+	02E0    D3    D3
+	02E1    68    PUSH9 0x58af279d8b5fe2e19c
+	02EB    F7    F7
+	02EC    9E    SWAP15
+	02ED    AC    AC
+	02EE    15    ISZERO
+	02EF    EC    EC
+	02F0    B9    B9
+	02F1    FD    *REVERT
+	02F2    D3    D3
+	02F3    64    PUSH5 0x736f6c6343
+	02F9    00    *STOP
+	02FA    08    ADDMOD
+	02FB    1E    1E
+	02FC    00    *STOP
+	02FD    33    CALLER
