@@ -1,0 +1,1 @@
+The big problem I faced was trying to reach stage4. I thought the code object or marshal was corrupted, but I was only playing with the wrong python version (fuck me). I only had to switch to python 3.12... So much time lost for nothing :sweat:
