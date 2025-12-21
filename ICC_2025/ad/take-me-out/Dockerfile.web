@@ -1,0 +1,20 @@
+ARG DOCKER_HUB_MIRROR=
+FROM ${DOCKER_HUB_MIRROR}golang:1.24@sha256:c3ea4172c1dd39e1c90bb36a11ef95af6d0ccbb1d7cdedbb5dd14988c324d689
+
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,sharing=locked,target=/var/lib/apt apt-get update && apt-get install -y --no-install-recommends gcc=4:14.2.0-1 strace=6.13+ds-1
+
+WORKDIR /web
+
+# Copy web sources and install dependencies
+COPY . ./
+RUN go mod tidy
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    go build -o take-me-out-web .
+
+RUN set -eux; \
+    groupadd -g 10001 web || true; \
+    useradd -r -u 10001 -g web -m web || true;
+USER web
+EXPOSE 8080
+
+CMD ["./take-me-out-web"]

@@ -1,0 +1,110 @@
+ARG DOCKER_HUB_MIRROR=
+
+FROM ${DOCKER_HUB_MIRROR}ubuntu:24.04@sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
+
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,sharing=locked,target=/var/lib/apt \
+    apt-get update && apt-get install -y \
+    systemd=255.4-1ubuntu8.11 \
+    systemd-sysv=255.4-1ubuntu8.11 \
+    libpcre2-dev=10.42-4ubuntu2.1 \
+    iproute2=6.1.0-1ubuntu6.2 \
+    language-pack-ja=1:24.04+20250724
+
+COPY --chmod=755 ./waf/nginx /usr/sbin/nginx
+ADD ./waf/etc_nginx.tgz /etc/
+ADD ./waf/usr_local_modsecurity.tgz /usr/local/
+
+RUN ldconfig && \
+    groupadd -r cgi && useradd -r -g cgi -s /usr/sbin/nologin cgi && \
+    groupadd -r nginx && useradd -r -g nginx -s /usr/sbin/nologin nginx && \
+    mkdir -p /var/log/nginx /var/cache/nginx /var/run /etc/modsecurity /app/cgi-bin /app/cgi-bin/ipc && \
+    chown root:nginx /var/log/nginx /var/cache/nginx /var/run && \
+    chmod g+w /var/log/nginx /var/cache/nginx /var/run
+
+RUN tee /etc/systemd/system/nginx.service >/dev/null <<'EOF'
+[Unit]
+Description=nginx
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/run/nginx.pid
+ExecStartPre=/usr/sbin/nginx -t -q -g 'daemon on; master_process on;'
+ExecStart=/usr/sbin/nginx -g 'daemon on; master_process on;'
+ExecReload=/bin/kill -s HUP \$MAINPID
+ExecStop=/bin/kill -s QUIT \$MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+RUN tee /etc/modsecurity/modsecurity.conf >/dev/null <<'EOF'
+SecAuditEngine Off
+SecStatusEngine Off
+SecRuleEngine On
+SecRequestBodyAccess On
+SecRequestBodyLimit 131072
+SecRequestBodyLimitAction Reject
+SecRequestBodyNoFilesLimit 131072
+SecResponseBodyAccess Off
+SecPcreMatchLimit 10000
+SecPcreMatchLimitRecursion 1000
+SecTmpDir /tmp
+SecDataDir /tmp
+EOF
+
+RUN tee /etc/nginx/nginx.conf >/dev/null <<'EOF'
+load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;
+
+user nginx;
+worker_processes auto;
+events { worker_connections 1024; }
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    # Access/Error logs
+    access_log  /var/log/nginx/access.log;
+    error_log   /var/log/nginx/error.log debug;
+
+    # Enable ModSecurity and include rule chain
+    modsecurity on;
+    modsecurity_rules_file /etc/modsecurity/waf_rule.conf;
+    modsecurity_rules_file /etc/modsecurity/modsecurity.conf;
+
+    chunked_transfer_encoding off;
+
+    server {
+        listen 80;
+
+        root /app;
+        index index.html;
+
+        location /__health {
+            add_header Content-Type text/plain;
+            return 200 "ok\n";
+        }
+
+        location / {
+            proxy_http_version 1.1;
+            proxy_set_header Host apache;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_pass http://backend:3000;
+            proxy_redirect off;
+        }
+    }
+}
+EOF
+
+RUN systemctl enable nginx.service
+
+COPY patchable/waf_rule.conf /etc/modsecurity/waf_rule.conf
+RUN chown root:nginx /etc/modsecurity/waf_rule.conf && \
+    chmod 755 /etc/modsecurity/waf_rule.conf
+
+EXPOSE 80
+STOPSIGNAL SIGRTMIN+3
+CMD ["/lib/systemd/systemd"]

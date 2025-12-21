@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Writer Portal</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .}}
+<div class="container container--wide">
+  <section class="writer-hero">
+    <span class="writer-hero__tag">Writer Portal</span>
+    <h1>Welcome, {{.Username}}!</h1>
+    <p>This is your space for building new challenges. Grow your drafts and get players excited!</p>
+    <div class="writer-hero__meta">
+      <span class="badge badge-success">Writer</span>
+      {{if .IsAdmin}}<span class="badge badge-warn">Admin</span>{{end}}
+    </div>
+    <div class="writer-hero__actions">
+      <a class="btn btn-tonal" href="/writer/challenges/new">Create a new challenge</a>
+    </div>
+  </section>
+
+  <div class="writer-grid">
+    <article class="writer-card">
+      <h2>Working with drafts</h2>
+      <p>New challenges start as drafts. Once you are happy with them, publish from the challenge page.</p>
+      <p>You can still run test cases while drafting, so feel free to iterate.</p>
+    </article>
+    <article class="writer-card">
+      <h2>Tips for smooth releases</h2>
+      <ul>
+        <li>Include at least one sample case so players understand the task.</li>
+        <li>Balance points and time limits with the intended difficulty.</li>
+        <li>Write clear messages and notes so solvers never feel lost.</li>
+      </ul>
+    </article>
+  </div>
+</div>
+</body>
+</html>

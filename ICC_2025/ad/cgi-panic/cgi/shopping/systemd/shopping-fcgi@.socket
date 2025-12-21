@@ -1,0 +1,13 @@
+[Unit]
+Description=Shopping FastCGI Socket %i
+
+[Socket]
+ListenStream=/var/run/shopping-fcgi_%i.sock
+Accept=no
+SocketMode=0660
+SocketUser=root
+SocketGroup=apache
+Service=shopping-fcgi@%i.service
+
+[Install]
+WantedBy=sockets.target

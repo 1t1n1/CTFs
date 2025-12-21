@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Users</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .}}
+<div class="container container--wide">
+  <header class="page-header">
+    <div class="page-header__titles">
+      <h1>Community</h1>
+      <p class="page-subtitle">Browse other players, admins, and writers.</p>
+    </div>
+  </header>
+
+  <div class="search-hero search-hero--inline">
+    <form class="search-form search-form--inline" method="get" action="/users">
+      <input class="search-input" type="text" name="q" value="{{.Query}}" placeholder="Search by username" autocomplete="off">
+      <button class="search-submit" type="submit">Search</button>
+      {{if .IsSearching}}
+      <a class="search-clear-link" href="/users">Clear</a>
+      {{end}}
+    </form>
+    <p class="search-hint">Look up teammates, find admins, or discover writers to collaborate with.</p>
+  </div>
+
+  {{if .IsSearching}}
+    {{if eq .SearchTotal 0}}
+    <div class="empty-state">
+      <div class="empty-state__icon">🧭</div>
+      <h2>No users matched your search</h2>
+      <p>Try another username fragment or clear the filter.</p>
+    </div>
+    {{else}}
+    <p class="list-meta">Found {{.SearchTotal}} {{if eq .SearchTotal 1}}user{{else}}users{{end}} for “{{.Query}}”.</p>
+    <div class="user-grid">
+      {{range .Users}}
+      <article class="user-card">
+        <div class="user-card__avatar">👤</div>
+        <div class="user-card__body">
+          <div class="user-card__name">{{.Username}}</div>
+          <div class="user-card__meta">
+            {{if .IsAdmin}}<span class="user-chip user-chip--admin">Admin</span>{{end}}
+            {{if .IsWriter}}<span class="user-chip user-chip--writer">Writer</span>{{end}}
+          </div>
+        </div>
+      </article>
+      {{end}}
+    </div>
+    {{end}}
+  {{else if eq .Total 0}}
+    <div class="empty-state">
+      <div class="empty-state__icon">👋</div>
+      <h2>No users yet</h2>
+      <p>Invite friends or teammates to register and kick off the competition.</p>
+    </div>
+  {{else}}
+    <p class="list-meta">Showing {{.Start}}-{{.End}} of {{.Total}}</p>
+    <div class="user-grid">
+      {{range .Users}}
+      <article class="user-card">
+        <div class="user-card__avatar">👤</div>
+        <div class="user-card__body">
+          <div class="user-card__name">{{.Username}}</div>
+          <div class="user-card__meta">
+            {{if .IsAdmin}}<span class="user-chip user-chip--admin">Admin</span>{{end}}
+            {{if .IsWriter}}<span class="user-chip user-chip--writer">Writer</span>{{end}}
+          </div>
+        </div>
+      </article>
+      {{end}}
+    </div>
+
+    {{if gt .TotalPages 1}}
+    <nav class="pagination" aria-label="User pages">
+      {{if .HasPrev}}
+      <a class="pagination__btn" href="/users?page={{.PrevPage}}">&lsaquo; Prev</a>
+      {{else}}
+      <span class="pagination__btn pagination__btn--disabled">&lsaquo; Prev</span>
+      {{end}}
+
+      <div class="pagination__pages">
+        {{if .ShowFirst}}
+        <a class="pagination__page" href="/users?page=1">1</a>
+        <span class="pagination__ellipsis">...</span>
+        {{end}}
+        {{range .PageNumbers}}
+          {{if eq . $.Page}}
+          <span class="pagination__page pagination__page--current">{{.}}</span>
+          {{else}}
+          <a class="pagination__page" href="/users?page={{.}}">{{.}}</a>
+          {{end}}
+        {{end}}
+        {{if .ShowLast}}
+        <span class="pagination__ellipsis">...</span>
+        <a class="pagination__page" href="/users?page={{.LastPage}}">{{.LastPage}}</a>
+        {{end}}
+      </div>
+
+      {{if .HasNext}}
+      <a class="pagination__btn" href="/users?page={{.NextPage}}">Next &rsaquo;</a>
+      {{else}}
+      <span class="pagination__btn pagination__btn--disabled">Next &rsaquo;</span>
+      {{end}}
+    </nav>
+    {{end}}
+  {{end}}
+</div>
+</body>
+</html>

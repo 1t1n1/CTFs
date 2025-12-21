@@ -1,0 +1,148 @@
+ARG DOCKER_HUB_MIRROR=
+
+FROM ${DOCKER_HUB_MIRROR}ubuntu:24.04@sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
+
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,sharing=locked,target=/var/lib/apt \
+    apt-get update && apt-get install -y \
+    systemd=255.4-1ubuntu8.11 \
+    systemd-sysv=255.4-1ubuntu8.11 \
+    libexpat1-dev=2.6.1-2ubuntu0.3 \
+    language-pack-ja=1:24.04+20250724
+
+RUN groupadd -r apache && useradd -r -g apache -s /usr/sbin/nologin apache && \
+    groupadd -r cgi && useradd -r -g cgi -s /usr/sbin/nologin cgi && \
+    mkdir -p /usr/local/apache2 && \
+    cd /usr/local/apache2 && \
+    mkdir -p conf htdocs/cgi-bin run logs && \
+    chown root:apache run logs && \
+    chmod g+w run logs
+
+RUN tee /usr/local/apache2/conf/mime.types >/dev/null << 'EOF'
+text/html                       html htm
+text/plain                      txt
+text/css                        css
+text/javascript                 js
+application/json                json
+image/gif                       gif
+image/jpeg                      jpeg jpg
+image/png                       png
+application/pdf                 pdf
+EOF
+
+RUN tee /usr/local/apache2/conf/httpd.conf >/dev/null <<'EOF'
+ServerRoot "/usr/local/apache2"
+Listen 80
+PidFile run/httpd.pid
+User apache
+Group apache
+
+SuexecUserGroup cgi cgi
+
+ServerName localhost
+DocumentRoot "/usr/local/apache2/htdocs"
+
+<Directory "/">
+    AllowOverride None
+    Require all granted
+</Directory>
+
+Alias /apache/cgi-bin/ "/usr/local/apache2/htdocs/cgi-bin/"
+<Directory "/usr/local/apache2/htdocs/cgi-bin">
+    RLimitCPU 1 1
+    RLimitNPROC 20 20
+    RLimitMEM 67108864 67108864
+    AddHandler cgi-script .cgi
+    Options +ExecCGI
+</Directory>
+
+ProxyPass "/apache/shopping/1/" unix:/var/run/shopping-fcgi_1.sock|fcgi://localhost/shopping/1/
+ProxyPass "/apache/shopping/2/" unix:/var/run/shopping-fcgi_2.sock|fcgi://localhost/shopping/2/
+ProxyPass "/apache/shopping/3/" unix:/var/run/shopping-fcgi_3.sock|fcgi://localhost/shopping/3/
+ProxyPass "/apache/shopping/4/" unix:/var/run/shopping-fcgi_4.sock|fcgi://localhost/shopping/4/
+
+DirectoryIndex index.html
+
+HttpProtocolOptions Unsafe
+MaxRequestWorkers 10
+StartServers 2
+MinSpareServers 1
+MaxSpareServers 3
+MaxConnectionsPerChild 100
+
+Timeout 5
+EOF
+
+RUN sed 's/^Listen 80$/Listen 8080/' /usr/local/apache2/conf/httpd.conf > /usr/local/apache2/conf/httpd_1.conf
+RUN sed 's/^Listen 80$/Listen 8081/' /usr/local/apache2/conf/httpd.conf > /usr/local/apache2/conf/httpd_2.conf
+RUN sed 's/^Listen 80$/Listen 8082/' /usr/local/apache2/conf/httpd.conf > /usr/local/apache2/conf/httpd_3.conf
+
+RUN tee /etc/systemd/system/apache@.service >/dev/null <<'EOF'
+[Unit]
+Description=Apache HTTP Server %i
+After=network.target
+
+[Service]
+User=apache
+Group=apache
+Type=forking
+PIDFile=/usr/local/apache2/run/httpd.pid
+ExecStart=/usr/bin/httpd -f /usr/local/apache2/conf/httpd_%i.conf
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -WINCH $MAINPID
+
+Restart=always
+RestartSec=1
+
+ProcSubset=pid
+ProtectProc=noaccess
+PrivateTmp=no
+PrivateDevices=yes
+PrivateMounts=yes
+ProtectSystem=strict
+ProtectHome=yes
+RestrictNamespaces=yes
+ReadWritePaths=/usr/local/apache2/run /usr/local/apache2/logs
+BindReadOnlyPaths=/usr/local/apache2/conf:/usr/local/apache2/conf
+BindReadOnlyPaths=/usr/local/apache2/htdocs:/usr/local/apache2/htdocs
+
+NoNewPrivileges=no
+RestrictSUIDSGID=no
+LockPersonality=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RemoveIPC=yes
+
+CapabilityBoundingSet=CAP_SETUID CAP_SETGID
+LimitNOFILE=1024
+LimitNPROC=64
+MemoryHigh=128M
+MemoryMax=256M
+CPUQuota=60%
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+RUN systemctl enable apache@1.service apache@2.service apache@3.service
+
+COPY --chown=root:root --chmod=4755 suexec /usr/bin/
+RUN chown cgi:cgi /usr/local/apache2/htdocs/cgi-bin
+
+COPY --chown=root:root --chmod=755 patchable/httpd /usr/bin/
+
+# START shopping
+COPY --chown=root:cgi --chmod=755 patchable/shopping.fcgi /usr/local/bin/
+COPY --chown=root:root --chmod=644 cgi/shopping/systemd/* /etc/systemd/system/
+RUN systemctl enable shopping-fcgi@1.socket shopping-fcgi@2.socket shopping-fcgi@3.socket shopping-fcgi@4.socket
+# END   shopping
+
+# START card
+COPY --chown=cgi:cgi --chmod=755 patchable/card.cgi /usr/local/apache2/htdocs/cgi-bin/
+# END   card
+
+EXPOSE 8080
+STOPSIGNAL SIGRTMIN+3
+CMD ["/lib/systemd/systemd"]

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inquiry Details - EC Junior</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <%- include('../partials/header', { user }) %>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h2>Inquiry Details</h2>
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 id=<%= inquiry.subject %>><%= inquiry.subject %></h5>
+                        <%
+                        const typeLabels = {
+                            'restock': 'Product Restock Request',
+                            'general': 'General Inquiry'
+                        };
+                        const typeLabel = typeLabels[inquiry.inquiryType] || 'Unknown';
+                        %>
+                        <small class="text-muted">
+                            ID: <%= inquiry.id %> |
+                            Type: <%= typeLabel %> |
+                            Submitted by: <%= inquiryUser.email %> |
+                            Date: <%= new Date(inquiry.createdAt).toLocaleString() %>
+                        </small>
+                    </div>
+                    <div class="card-body">
+                        <% if (inquiry.inquiryType === 'restock' && product) { %>
+                            <h6>Product:</h6>
+                            <p><strong><%= product.name %></strong> (Current Stock: <%= product.stock %>)</p>
+                        <% } %>
+                        <h6>Message:</h6>
+                        <div style="white-space: pre-wrap;"><%= inquiry.message %></div>
+                    </div>
+                </div>
+
+                <% if (inquiry.response) { %>
+                    <div class="card mb-3 border-success">
+                        <div class="card-header bg-success text-white">
+                            <h5 id=response>Admin Response</h5>
+                            <small>Responded at: <%= new Date(inquiry.respondedAt).toLocaleString() %></small>
+                        </div>
+                        <div class="card-body">
+                            <div style="white-space: pre-wrap;"><%= inquiry.response %></div>
+                        </div>
+                    </div>
+                <% } else if (user.isAdmin) { %>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5>Add Response</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" action="/inquiry/<%= inquiry.id %>/respond">
+                                <div class="mb-3">
+                                    <textarea class="form-control" name="response" rows="5" required placeholder="Enter your response..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Response</button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+
+                <div class="mt-3">
+                    <% if (user.isAdmin) { %>
+                        <a href="/admin/inquiries" class="btn btn-secondary">Back to All Inquiries</a>
+                    <% } else { %>
+                        <a href="/inquiry/list/my" class="btn btn-secondary">Back to My Inquiries</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

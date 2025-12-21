@@ -1,0 +1,65 @@
+services:
+  expose:
+    image: "${SIMPLE_NETWORK_PROXY_IMAGE:-ghcr.io/ctfplatform/simple-network-proxy:2.1.1}"
+    command:
+      - -p
+      - 8080:header-remover:8080
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    networks:
+      default:
+        interface_name: eth-internal
+      expose:
+        interface_name: eth-public
+    depends_on:
+      header-remover:
+        condition: service_started
+      waf:
+        condition: service_started
+      apache:
+        condition: service_started
+
+  header-remover:
+    image: "${DOCKER_REGISTRY:-}cgi-panic-header-remover:${COMMIT_SHA:-latest}"
+    init: true
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.header-remover
+
+  waf:
+    shm_size: 2gb
+    image: "${DOCKER_REGISTRY:-}cgi-panic-waf:${COMMIT_SHA:-latest}"
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.waf
+    volumes:
+      - type: bind
+        source: ${FLAG1_PATH:-./dummy_flag/flag1}
+        target: /flag
+        read_only: true
+    privileged: true
+
+  apache:
+    shm_size: 2gb
+    image: "${DOCKER_REGISTRY:-}cgi-panic-apache:${COMMIT_SHA:-latest}"
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.apache
+    volumes:
+      - type: bind
+        source: ${FLAG2_PATH:-./dummy_flag/flag2}
+        target: /flag
+        read_only: true
+    privileged: true
+
+networks:
+    default:
+      internal: true
+    expose:
+
+
+

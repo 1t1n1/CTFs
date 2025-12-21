@@ -1,0 +1,13 @@
+// Interceptor.attach(Module.findSymbolByName("libdrstone.so", "sym.JNI_OnLoad"), {
+//     onEnter: function(args) {
+// 	        console.log("[*] target_function called");
+// 	        console.log("    arg0: " + args[0].toInt32());
+// 	    },
+//     onLeave: function(retval) {
+// 	        console.log("    return value: " + retval.toInt32());
+// 	    }
+// });
+
+
+var module = Process.getModuleByName("libdrstone.so")
+console.log(module)

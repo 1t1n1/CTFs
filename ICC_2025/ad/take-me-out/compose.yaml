@@ -1,0 +1,127 @@
+services:
+  db:
+    image: "${DOCKER_REGISTRY:-}take-me-out-db:${COMMIT_SHA:-latest}"
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    user: postgres
+    cap_drop:
+      - ALL
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      WEB_DB_USER: app_web
+      RUNNER_DB_USER: app_runner
+    volumes:
+      - type: bind
+        source : ${FLAG1_PATH:-./flag1}
+        target: /flag1
+        read_only: true
+      - type: bind
+        source : ${FLAG2_PATH:-./flag2}
+        target: /flag2
+        read_only: true
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - psql -U postgres -d postgres -tAc "SELECT 1 FROM users WHERE username='admin'" | grep -q 1
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  web:
+    image: "${DOCKER_REGISTRY:-}take-me-out:${COMMIT_SHA:-latest}"
+    build:
+      dockerfile: ../../Dockerfile.web
+      context: ./patchable/web
+    user: "10000:10000"
+    cap_drop:
+      - ALL
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+    environment:
+      DB_PASSWORD_FLAG_PATH: /flag1
+    volumes:
+      - type: bind
+        source : ${FLAG1_PATH:-./flag1}
+        target: /flag1
+        read_only: true
+    deploy:
+      resources:
+        reservations:
+          cpus: '0.5'
+          memory: 100M
+
+  runner:
+    image: "${DOCKER_REGISTRY:-}take-me-out-runner:${COMMIT_SHA:-latest}"
+    build:
+      context: .
+      dockerfile: Dockerfile.runner
+    user: "10001:10001"
+    cap_drop:
+      - ALL
+    cap_add:
+      - SYS_ADMIN
+      - SYS_CHROOT
+      - NET_ADMIN
+      - SETPCAP
+      - SETFCAP
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      RUNNER_WORKERS: "8"
+      RUNNER_QUEUE_SIZE: "255"
+      RUNNER_DB_PASSWORD_FLAG_PATH: /flag2
+      RUNNER_GLOBAL_TIMEOUT_MS: 2000
+    security_opt:
+      - no-new-privileges:false
+      - seccomp:unconfined
+      - apparmor:unconfined
+    volumes:
+      - type: bind
+        source : ${FLAG2_PATH:-./flag2}
+        target: /flag2
+        read_only: true
+
+  header-remover:
+    image: "${DOCKER_REGISTRY:-}take-me-out-header-remover:${COMMIT_SHA:-latest}"
+    init: true
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.header-remover
+    depends_on:
+      - web
+
+  expose:
+    image: "${SIMPLE_NETWORK_PROXY_IMAGE:-ghcr.io/ctfplatform/simple-network-proxy:2.1.1}"
+    command:
+      - -p
+      - 8080:web:8080
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      default:
+        interface_name: eth-internal
+      expose:
+        interface_name: eth-public
+    depends_on:
+      db:
+        condition: service_started
+      web:
+        condition: service_started
+      runner:
+        condition: service_started
+
+networks:
+  default:
+    internal: true
+  expose:

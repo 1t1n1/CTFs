@@ -1,0 +1,15 @@
+ARG DOCKER_HUB_MIRROR=
+
+FROM ${DOCKER_HUB_MIRROR}node:22.21.1-slim@sha256:8833056542b4e17c27154beeabbc27c3e14ddfe3fb9183f43b3adf7eb0462923
+
+WORKDIR /app
+RUN chown node:node /app
+
+USER node
+
+COPY backend/package.json backend/package-lock.json /app/
+RUN npm ci
+COPY backend/src /app/src
+RUN touch /app/ecjunior.db
+
+CMD ["node", "src/server.js"]

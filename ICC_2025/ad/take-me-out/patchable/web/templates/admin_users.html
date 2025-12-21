@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>User Directory</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .}}
+<div class="container">
+  <h1>User Directory</h1>
+  <p>Administrator view only. Click a username to review the account details.</p>
+  <table>
+    <tr><th>ID</th><th>Username</th><th>Admin</th><th>Writer</th><th></th></tr>
+    {{range .Users}}
+    <tr>
+      <td>{{.ID}}</td>
+      <td>{{.Username}}</td>
+      <td>{{if .IsAdmin}}✔{{else}}&mdash;{{end}}</td>
+      <td>{{if .IsWriter}}✔{{else}}&mdash;{{end}}</td>
+      <td><a href="/admin/users/{{.ID}}">Details</a></td>
+    </tr>
+    {{end}}
+  </table>
+  <p><a href="/">Back to Home</a></p>
+</div>
+</body>
+</html>

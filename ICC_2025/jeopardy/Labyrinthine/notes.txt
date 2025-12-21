@@ -1,0 +1,41 @@
+Child is called with the lock fd as first and only param
+The 4th param (binary) and 5th param (hex) are send to the fifo
+- (QWORD) bit
+- (QWORD) hex
+
+For each child, it creates a fifo, forks the child and writes the 4th and 5th params to the fifo
+The child then read the fifo, computes the hex code, writes it to a newly mapped address calls this code.
+The return of this code is then sent to another fifo, which is ignored?
+
+-> Dump all the mapped stuff
+-> Automatically rewrite the programs for a hierarchy or place them in folders or something?
+
+ICC{0111111111111111111111111111111111111111111111111111111111111111}
+ >0x7ffff7fb9000  endbr64                                                                                                                                                                │
+│   0x7ffff7fb9004  movabs rax,0x5e63a68cc40f4690                                                                                                                                          │
+│   0x7ffff7fb900e  xchg   ax,ax                                                                                                                                                           │
+│   0x7ffff7fb9010  nop                                                                                                                                                                    │
+│   0x7ffff7fb9011  nop    DWORD PTR [rax+rax*1+0x0]                                                                                                                                       │
+│   0x7ffff7fb9016  push   rbp                                                                                                                                                             │
+│   0x7ffff7fb9017  nop                                                                                                                                                                    │
+│   0x7ffff7fb9018  nop    DWORD PTR [rax+rax*1+0x0]                                                                                                                                       │
+│   0x7ffff7fb901d  movabs rdx,0x2adf6fe6d4748d59                                                                                                                                          │
+│   0x7ffff7fb9027  nop    DWORD PTR [rax]                                                                                                                                                 │
+│   0x7ffff7fb902a  mov    rbp,rsp                                                                                                                                                         │
+│   0x7ffff7fb902d  nop    DWORD PTR [rax+0x0]                                                                                                                                             │
+│   0x7ffff7fb9031  nop 
+
+ICC{1111111111111111111111111111111111111111111111111111111111111111}
+0x7ffff7fb9000  endbr64                                                                                                                                                                │
+│   0x7ffff7fb9004  movabs rax,0x73e90a06e7971024                                                                                                                                          │
+│   0x7ffff7fb900e  nop                                                                                                                                                                    │
+│   0x7ffff7fb900f  nop                                                                                                                                                                    │
+│   0x7ffff7fb9010  push   rbp                                                                                                                                                             │
+│   0x7ffff7fb9011  nop                                                                                                                                                                    │
+│   0x7ffff7fb9012  nop                                                                                                                                                                    │
+│   0x7ffff7fb9013  xchg   ax,ax                                                                                                                                                           │
+│   0x7ffff7fb9015  movabs rdx,0xaf574847de36999                                                                                                                                           │
+│   0x7ffff7fb901f  nop                                                                                                                                                                    │
+│   0x7ffff7fb9020  xchg   ax,ax                                                                                                                                                           │
+│   0x7ffff7fb9022  mov    rbp,rsp                                                                                                                                                         │
+│   0x7ffff7fb9025  nop                       

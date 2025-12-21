@@ -1,0 +1,26 @@
+{{define "nav"}}
+<div class="topnav">
+  <div class="brand"><a href="/">Take Me Out</a></div>
+  <div class="topnav-links">
+    <a href="/">Challenges</a>
+    <a href="/scoreboard">Scoreboard</a>
+    <a href="/users">Users</a>
+    {{if .Username}}<a href="/submissions">My Submissions</a>{{end}}
+    {{if .IsWriter}}<a class="topnav-writer" href="/writer">Writer Portal</a>{{end}}
+    {{if .IsAdmin}}
+    <a href="/admin/users">Admin Users</a>
+    <a href="/admin/debug">Admin Debug</a>
+    {{end}}
+  </div>
+  <div class="spacer"></div>
+  <div class="topnav-auth">
+    {{if .Username}}
+    <span class="topnav-user">Hey, {{.Username}}</span>
+    <a href="/logout">Logout</a>
+    {{else}}
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+    {{end}}
+  </div>
+</div>
+{{end}}

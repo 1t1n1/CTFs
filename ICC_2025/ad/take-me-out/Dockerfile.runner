@@ -1,0 +1,103 @@
+ARG DOCKER_HUB_MIRROR=
+FROM ${DOCKER_HUB_MIRROR}golang:1.24@sha256:c3ea4172c1dd39e1c90bb36a11ef95af6d0ccbb1d7cdedbb5dd14988c324d689 AS builder
+WORKDIR /builder
+COPY runner/ ./
+ENV CGO_ENABLED=0
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o /out/take-me-out-runner .
+
+FROM ${DOCKER_HUB_MIRROR}golang:1.24@sha256:c3ea4172c1dd39e1c90bb36a11ef95af6d0ccbb1d7cdedbb5dd14988c324d689 AS helpers
+WORKDIR /builder
+COPY runner/ ./
+ENV CGO_ENABLED=0
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o /out/chroot-run ./cmd/chroot-run
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o /out/go-helper ./cmd/go-helper
+
+FROM ${DOCKER_HUB_MIRROR}debian:bookworm-slim@sha256:936abff852736f951dab72d91a1b6337cf04217b2a77a5eaadc7c0f2f1ec1758 AS nsjail-builder
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,sharing=locked,target=/var/lib/apt apt-get update && apt-get install -y --no-install-recommends \
+    git=1:2.39.5-0+deb12u2 \
+    autoconf=2.71-3 \
+    bison=2:3.8.2+dfsg-1+b1 \
+    flex=2.6.4-8.2 \
+    gcc=4:12.2.0-3 \
+    g++=4:12.2.0-3 \
+    make=4.3-4.1 \
+    cmake=3.25.1-1 \
+    libtool=2.4.7-7~deb12u1 \
+    libssl-dev=3.0.17-1~deb12u3 \
+    ca-certificates=20230311+deb12u1 \
+    pkg-config=1.8.1-1 \
+    libprotobuf-dev=3.21.12-3 \
+    protobuf-compiler=3.21.12-3 \
+    libcap-dev=1:2.66-4+deb12u2 \
+    libnl-route-3-dev=3.7.0-0.2+b1 && rm -rf /var/lib/apt/lists/*
+RUN git clone https://github.com/google/nsjail.git /src/nsjail
+WORKDIR /src/nsjail
+RUN git checkout c168180d97f4ee8107d6fbfc0ff94f8ebce7e0d0 && make clean && make -j"$(nproc)" && file nsjail
+
+FROM ${DOCKER_HUB_MIRROR}debian:bookworm-slim@sha256:936abff852736f951dab72d91a1b6337cf04217b2a77a5eaadc7c0f2f1ec1758
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,sharing=locked,target=/var/lib/apt set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+      ca-certificates=20230311+deb12u1 \
+      libcap2-bin=1:2.66-4+deb12u2 \
+      passwd=1:4.13+dfsg1-1+deb12u1 \
+      util-linux=2.38.1-5+deb12u3 \
+      libprotobuf32=3.21.12-3 \
+      libnl-3-200=3.7.0-0.2+b1 \
+      libnl-route-3-200=3.7.0-0.2+b1 \
+      binutils=2.40-2 \
+      tar=1.34+dfsg-1.2+deb12u1 \
+      xz-utils=5.4.1-1 \
+      mmdebstrap=1.3.5-7; \
+    rm -rf /var/lib/apt/lists/*
+
+# Prepare sandbox envs directory using Debian-based rootfs via mmdebstrap
+ENV SANDBOX_ENVS_DIR=/opt/sandbox-envs
+RUN set -eux; \
+    mkdir -p ${SANDBOX_ENVS_DIR}; \
+    mmdebstrap \
+      --mode=auto \
+      --variant=minbase \
+      --include=build-essential,gcc,binutils,util-linux,golang-go,python3,ruby,bash \
+      bookworm ${SANDBOX_ENVS_DIR}/base http://deb.debian.org/debian; \
+    mkdir -p ${SANDBOX_ENVS_DIR}/base/tmp ${SANDBOX_ENVS_DIR}/base/runs; \
+    chmod 1777 ${SANDBOX_ENVS_DIR}/base/tmp ${SANDBOX_ENVS_DIR}/base/runs; \
+    for b in python3 ruby; do \
+      p="${SANDBOX_ENVS_DIR}/base/usr/bin/$b"; \
+      [ -e "$p" ] && t=$(readlink -f "$p") && [ -n "$t" ] && [ -x "$t" ] && setcap 'cap_sys_chroot=+ep' "$t" || true; \
+    done; \
+    for L in c go python ruby; do \
+      ln -sfn base ${SANDBOX_ENVS_DIR}/$L; \
+    done; \
+    rm -rf ${SANDBOX_ENVS_DIR}/base/var/lib/apt/lists/* \
+           ${SANDBOX_ENVS_DIR}/base/var/cache/apt/archives/* \
+           ${SANDBOX_ENVS_DIR}/base/var/cache/* \
+           ${SANDBOX_ENVS_DIR}/base/var/log/* \
+           ${SANDBOX_ENVS_DIR}/base/usr/share/doc/* \
+           ${SANDBOX_ENVS_DIR}/base/usr/share/man/* \
+           ${SANDBOX_ENVS_DIR}/base/usr/share/info/* \
+           ${SANDBOX_ENVS_DIR}/base/usr/share/locale/* || true
+
+WORKDIR /runner
+COPY --from=builder /out/take-me-out-runner /runner/take-me-out-runner
+COPY --from=helpers /out/chroot-run /usr/local/bin/chroot-run
+COPY --from=helpers /out/go-helper /usr/local/bin/go-helper
+COPY --from=nsjail-builder /src/nsjail/nsjail /usr/bin/nsjail
+RUN set -eux; \
+    groupadd -g 10001 runner || true; \
+    useradd -r -u 10001 -g runner -m runner || true; \
+    mkdir -p /runner/runs && chmod 755 /runner /runner/runs; \
+    setcap 'cap_sys_chroot=+ep' /usr/local/bin/chroot-run; \
+    setcap 'cap_sys_admin,cap_sys_chroot,cap_setpcap=+ep' /usr/bin/nsjail; \
+    setcap 'cap_setfcap=+ep' /usr/sbin/setcap; \
+    chmod u+s /usr/bin/nsjail; \
+    chown -R runner:runner /runner
+EXPOSE 9000
+USER runner
+ENTRYPOINT ["/runner/take-me-out-runner"]

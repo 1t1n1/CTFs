@@ -1,0 +1,7 @@
+ARG DOCKER_HUB_MIRROR=
+FROM ${DOCKER_HUB_MIRROR}postgres:17@sha256:4d89c904835259bc58876520e56267ca07a4ebd6a027f7814bbbf91b50d685be
+COPY ./db/init /docker-entrypoint-initdb.d/
+COPY ./db/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["postgres"]

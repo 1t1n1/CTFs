@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Submissions</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .}}
+<div class="container">
+  <h1>My Submissions</h1>
+<table>
+  <tr><th>ID</th><th>Challenge</th><th>Language</th><th>Result</th><th>Details</th><th>Time</th></tr>
+  {{range .Submissions}}
+  <tr>
+    <td>{{.ID}}</td>
+    <td><a href="/challenges/{{.ChallengeID}}">{{.Challenge}}</a></td>
+    <td>{{.Language}}</td>
+    <td>{{.Result}}</td>
+    <td><a href="/submission/{{.ID}}">View</a></td>
+    <td>{{.CreatedAt}}</td>
+  </tr>
+  {{end}}
+</table>
+  <a href="/">Back</a> | <a href="/logout">Logout</a>
+</div>
+</body>
+</html>

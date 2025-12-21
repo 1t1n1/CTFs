@@ -1,0 +1,203 @@
+{{define "admin_debug.html"}}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Debug Shell</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .BasePageData}}
+<div class="container">
+  <h1>Admin Debug Shell</h1>
+  <p>Run ad-hoc snippets inside the runner sandbox or nsjail-only mode and compare outputs.</p>
+  {{if .Error}}<div class="alert alert-error">{{.Error}}</div>{{end}}
+  <form method="POST" action="/admin/debug" class="form-vertical">
+    <label for="language">Language</label>
+    <select id="language" name="language">
+      {{range .Languages}}
+      <option value="{{.}}" {{if eq $.Language .}}selected{{end}}>{{.}}</option>
+      {{end}}
+    </select>
+    <label for="sandbox_mode">Sandbox</label>
+    <select id="sandbox_mode" name="sandbox_mode">
+      <option value="runner" {{if eq .SandboxMode "runner"}}selected{{end}}>Runner (with chroot-run)</option>
+      <option value="nsjail" {{if eq .SandboxMode "nsjail"}}selected{{end}}>nsjail only</option>
+    </select>
+    <label for="admin_password">Admin Password</label>
+    <input id="admin_password" name="admin_password" type="password" required autocomplete="current-password">
+    <label for="input">Standard Input</label>
+    <textarea id="input" name="input" rows="4" placeholder="stdin">{{.Input}}</textarea>
+    <label for="code">Code</label>
+    <textarea id="code" name="code" rows="20" required>{{.Code}}</textarea>
+    <input type="hidden" name="pow_target" value="">
+    <input type="hidden" name="pow_nonce" value="">
+    <input type="hidden" name="pow_signature" value="">
+    <input type="hidden" name="pow_difficulty" value="">
+    <input type="hidden" name="pow_expires_at" value="">
+    <input type="hidden" name="pow_purpose" value="">
+    <button type="submit">Run</button>
+  </form>
+  <div id="pow-error" class="alert alert-error" style="display:none;"></div>
+
+  {{if .Result}}
+  <div class="debug-result">
+    <h2>Result</h2>
+    <p><strong>Result:</strong> {{.Result.Result}}</p>
+    {{if .Result.DurationMs}}<p><strong>Duration:</strong> {{.Result.DurationMs}} ms</p>{{end}}
+    {{if ne .Result.Output ""}}
+      <h3>Stdout</h3>
+      <pre>{{.Result.Output}}</pre>
+    {{end}}
+    {{if ge .Result.FailedIndex 0}}
+      <p><strong>Failed Index:</strong> {{.Result.FailedIndex}}</p>
+    {{end}}
+  </div>
+  {{end}}
+</div>
+<script>
+(function(){
+  const form = document.querySelector('form');
+  if (!form) {
+    return;
+  }
+  const sandboxSelect = document.getElementById('sandbox_mode');
+  const powError = document.getElementById('pow-error');
+  const powFields = {
+    target: form.querySelector('input[name="pow_target"]'),
+    nonce: form.querySelector('input[name="pow_nonce"]'),
+    signature: form.querySelector('input[name="pow_signature"]'),
+    difficulty: form.querySelector('input[name="pow_difficulty"]'),
+    expires: form.querySelector('input[name="pow_expires_at"]'),
+    purpose: form.querySelector('input[name="pow_purpose"]'),
+  };
+  const encoder = new TextEncoder();
+  let submitting = false;
+
+  function showPowError(message) {
+    if (!powError) {
+      alert(message);
+      return;
+    }
+    powError.textContent = message;
+    powError.style.display = 'block';
+  }
+
+  function clearPowError() {
+    if (powError) {
+      powError.textContent = '';
+      powError.style.display = 'none';
+    }
+  }
+
+  function clearPowFields() {
+    Object.values(powFields).forEach((el) => {
+      if (el) {
+        el.value = '';
+      }
+    });
+  }
+
+  function leadingZeroBits(bytes) {
+    let count = 0;
+    for (let i = 0; i < bytes.length; i++) {
+      const value = bytes[i];
+      if (value === 0) {
+        count += 8;
+        continue;
+      }
+      for (let bit = 7; bit >= 0; bit--) {
+        if ((value >> bit) & 1) {
+          return count;
+        }
+        count++;
+      }
+      break;
+    }
+    return count;
+  }
+
+  async function requestPow(challenge) {
+    const resp = await fetch('/api/pow', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        challenge,
+        purpose: 'admin_debug',
+      }),
+    });
+    if (!resp.ok) {
+      let detail = 'status ' + resp.status;
+      try {
+        const data = await resp.json();
+        if (data && data.error) {
+          detail = data.error;
+        }
+      } catch (_) {}
+      throw new Error(detail);
+    }
+    const data = await resp.json();
+    if (!data || !data.pow) {
+      throw new Error('invalid pow response');
+    }
+    return data.pow;
+  }
+
+  async function solvePow(target, difficulty) {
+    if (!window.crypto || !window.crypto.subtle) {
+      throw new Error('WebCrypto not available');
+    }
+    const prefix = encoder.encode(target + ':');
+    let counter = 0;
+    while (true) {
+      const nonceHex = counter.toString(16);
+      const nonceBytes = encoder.encode(nonceHex);
+      const combined = new Uint8Array(prefix.length + nonceBytes.length);
+      combined.set(prefix);
+      combined.set(nonceBytes, prefix.length);
+      const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', combined));
+      if (leadingZeroBits(digest) >= difficulty) {
+        return nonceHex;
+      }
+      counter++;
+      if ((counter & 1023) === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+    }
+  }
+
+  async function ensurePow() {
+    const mode = sandboxSelect ? sandboxSelect.value : 'runner';
+    const challenge = 'admin_debug_' + (mode === 'nsjail' ? 'nsjail' : 'runner');
+    const pow = await requestPow(challenge);
+    const nonce = await solvePow(pow.target, pow.difficulty);
+    powFields.target.value = pow.target;
+    powFields.nonce.value = nonce;
+    powFields.signature.value = pow.signature;
+    powFields.difficulty.value = String(pow.difficulty);
+    powFields.expires.value = String(pow.expires_at);
+    powFields.purpose.value = pow.purpose;
+  }
+
+  form.addEventListener('submit', async (ev) => {
+    if (submitting) {
+      return;
+    }
+    ev.preventDefault();
+    clearPowError();
+    clearPowFields();
+    submitting = true;
+    try {
+      await ensurePow();
+      form.submit();
+    } catch (err) {
+      showPowError('Proof-of-Work error: ' + (err && err.message ? err.message : err));
+      clearPowFields();
+    } finally {
+      submitting = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
+{{end}}

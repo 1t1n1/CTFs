@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Result</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style> body{background:#0b1020;color:#e2e8f0} .container{max-width:900px} a{color:#93c5fd} </style>
+  </head>
+<body>
+<div class="container">
+  <div class="result-card" style="margin-top:24px;">
+    <div class="result-header">
+      <h3 class="result-title">Sample Test</h3>
+      {{if eq .Result "Success"}}
+      <span class="badge badge-success">Success</span>
+      {{else if eq .Result "Wrong Answer"}}
+      <span class="badge badge-error">Wrong Answer</span>
+      {{else if eq .Result "Runtime Error"}}
+      <span class="badge badge-error">Runtime Error</span>
+      {{else if eq .Result "Time Limit Exceeded"}}
+      <span class="badge badge-warn">Time Limit Exceeded</span>
+      {{else}}
+      <span class="badge badge-warn">{{.Result}}</span>
+      {{end}}
+      <div class="muted">{{.DurationMs}} ms</div>
+    </div>
+    <div class="result-body">
+      {{if .Output}}
+      <div class="panel">
+        <div class="panel-title">Program Output</div>
+        <pre>{{.Output}}</pre>
+      </div>
+      {{end}}
+      {{if ge .FailedIndex 0}}
+      <div class="kv"><div class="k">Failed Case</div><div class="v">#{{add .FailedIndex 1}}</div></div>
+      <div class="code-grid">
+        <div class="panel">
+          <div class="panel-title">Your Output</div>
+          <pre>{{.Got}}</pre>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Expected Output</div>
+          <pre>{{.Want}}</pre>
+        </div>
+      </div>
+      {{end}}
+    </div>
+  </div>
+
+  <p><a href="/challenges/{{.ChallengeID}}">Back to Challenge</a></p>
+</div>
+</body>
+</html>

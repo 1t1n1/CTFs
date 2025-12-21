@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>User Details</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .}}
+<div class="container">
+  <h1>Account: {{.Target.Username}}</h1>
+  {{if .Error}}
+  <div class="notice notice-error">{{.Error}}</div>
+  {{end}}
+  {{if .Success}}
+  <div class="notice notice-success">Permissions updated.</div>
+  {{end}}
+  <dl>
+    <dt>User ID</dt><dd>{{.Target.ID}}</dd>
+    <dt>Admin</dt><dd>{{if .Target.IsAdmin}}Yes{{else}}No{{end}}</dd>
+    <dt>Writer</dt><dd>{{if .Target.IsWriter}}Yes{{else}}No{{end}}</dd>
+  </dl>
+  <form method="POST">
+    <label>
+      <input type="checkbox" name="is_writer" {{if .Target.IsWriter}}checked{{end}}> Grant writer role
+    </label>
+    <div style="margin-top:16px;">
+      <button type="submit">Save changes</button>
+    </div>
+  </form>
+  <p><a href="/admin/users">Back to User Directory</a></p>
+</div>
+</body>
+</html>

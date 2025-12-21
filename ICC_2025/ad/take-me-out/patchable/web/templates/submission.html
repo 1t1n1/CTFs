@@ -1,0 +1,33 @@
+{{define "submission.html"}}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Submission {{.ID}}</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+{{template "nav" .}}
+<div class="container">
+  <h1>Submission {{.ID}}</h1>
+  <p><strong>User:</strong> {{.Username}}</p>
+  <p><strong>Challenge:</strong> <a href="/challenges/{{.ChallengeID}}">{{.Challenge}}</a></p>
+  <p><strong>Language:</strong> {{.Language}}</p>
+  <p><strong>Result:</strong> {{.Result}}</p>
+  <p><strong>Submitted:</strong> {{.CreatedAt}}</p>
+  <p><strong>Execution Time:</strong> {{.DurationMs}} ms</p>
+  {{if ne .Result "Success"}}
+    {{if ge .FailedCase 0}}
+    <h2>Failure Detail</h2>
+    <p><strong>Failed Case:</strong> #{{add .FailedCase 1}}</p>
+    {{end}}
+  {{end}}
+  <h2>Code</h2>
+  <pre><code class="language-{{.Language}}">{{.Code}}</code></pre>
+  <a href="/submissions">Back to My Submissions</a> | <a href="/challenges/{{.ChallengeID}}">Back to Challenge</a>
+</div>
+</body>
+</html>
+{{end}}

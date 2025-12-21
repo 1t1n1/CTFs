@@ -1,0 +1,39 @@
+- name: sum_first_n
+  description: Given an integer N, output the sum of the first N positive integers.
+  points: 100
+  tests:
+  - input: '10'
+    output: '55'
+    sample: true
+  - input: '1'
+    output: '1'
+    sample: false
+  - input: '123'
+    output: '7626'
+    sample: false
+- name: sum_even_upto_n
+  description: Given N, output the sum of all even integers from 1 to N inclusive.
+  points: 100
+  tests:
+  - input: '10'
+    output: '30'
+    sample: true
+  - input: '1'
+    output: '0'
+    sample: false
+  - input: '25'
+    output: '156'
+    sample: false
+- name: sum_odd_upto_n
+  description: Given N, output the sum of all odd integers from 1 to N inclusive.
+  points: 100
+  tests:
+  - input: '11'
+    output: '36'
+    sample: true
+  - input: '2'
+    output: '1'
+    sample: false
+  - input: '33'
+    output: '289'
+    sample: false

@@ -1,0 +1,75 @@
+services:
+  backend:
+    image: "${DOCKER_REGISTRY:-}ec-junior-backend:${COMMIT_SHA:-latest}"
+    build:
+      context: .
+      dockerfile: Dockerfile-backend
+    volumes:
+      - type: bind
+        source: ${FLAG1_PATH:-./flagstore/flag1}
+        target: /flag1
+        read_only: true
+      - type: bind
+        source: ${FLAG2_PATH:-./flagstore/flag2}
+        target: /flag2
+        read_only: true
+    init: true
+    deploy:
+      resources:
+        reservations:
+          cpus: '0.5'
+          memory: 100M
+
+  bot:
+    image: "${DOCKER_REGISTRY:-}ec-junior-bot:${COMMIT_SHA:-latest}"
+    build:
+      context: .
+      dockerfile: Dockerfile-bot
+
+    volumes:
+      - type: bind
+        source: ${FLAG1_PATH:-./flagstore/flag1}
+        target: /flag1
+        read_only: true
+    init: true
+    deploy:
+      resources:
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    depends_on:
+      - backend
+
+  proxy:
+    image: "${DOCKER_REGISTRY:-}ec-junior-proxy:${COMMIT_SHA:-latest}"
+    build:
+      context: .
+      dockerfile: Dockerfile-waf
+    deploy:
+      resources:
+        reservations:
+          cpus: '0.5'
+          memory: 100M
+    privileged: true
+
+  expose:
+    image: "${SIMPLE_NETWORK_PROXY_IMAGE:-ghcr.io/ctfplatform/simple-network-proxy:2.1.1}"
+    command:
+      - -p
+      - 8080:proxy:80
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      default:
+        interface_name: eth-internal
+      expose:
+        interface_name: eth-public
+    depends_on:
+      proxy:
+        condition: service_started
+
+networks:
+  default:
+    internal: true
+  expose:

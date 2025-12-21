@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Challenge {{.Name}}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .}}
+<div class="container">
+  <h1>Challenge: {{.Name}}</h1>
+  {{if .Error}}
+  <div class="notice notice-error">{{.Error}}</div>
+  {{end}}
+  {{if .Success}}
+  <div class="notice notice-success">{{.Success}}</div>
+  {{end}}
+  {{if not .IsPublic}}
+  <div class="notice">This challenge is currently a draft and only visible to authors and admins.</div>
+  {{end}}
+  <h2>Description</h2>
+  <pre class="code-block">{{.TestCase.Description}}</pre>
+  <h3>Sample Input</h3>
+  <pre class="code-block">{{.TestCase.Input}}</pre>
+  <h3>Sample Output</h3>
+  <pre class="code-block">{{.TestCase.Output}}</pre>
+
+  {{if .CanEdit}}
+  <h2>Manage Challenge</h2>
+  <p><strong>Status:</strong> {{if .IsPublic}}Public{{else}}Draft{{end}}</p>
+  {{if not .IsPublic}}
+  <form method="POST" action="/challenges/{{.ID}}/publish" onsubmit="return confirm('Publish this challenge so players can see it?');">
+    <button type="submit">Publish challenge</button>
+  </form>
+  {{end}}
+  <form method="POST" action="/challenges/{{.ID}}/update">
+    <label for="description">Challenge Description</label>
+    <textarea id="description" name="description" rows="8" required>{{.EditForm.Description}}</textarea>
+
+    <label for="points">Points</label>
+    <input type="text" id="points" name="points" value="{{.EditForm.Points}}">
+
+    <label for="sample_tests">Sample Tests (YAML)</label>
+    <textarea id="sample_tests" name="sample_tests" rows="8">{{.EditForm.SampleYAML}}</textarea>
+
+    <label for="hidden_tests">Hidden Tests (YAML, optional)</label>
+    <p class="muted">Existing hidden tests stay in place when this field is blank. Hidden data is never shown in the browser.</p>
+    <textarea id="hidden_tests" name="hidden_tests" rows="8" placeholder="- input: |
+    5
+  output: |
+    120">{{.EditForm.HiddenYAML}}</textarea>
+
+    <button type="submit">Update challenge</button>
+  </form>
+  {{end}}
+
+  {{if .CanSubmit}}
+  <form id="challenge-form" method="POST">
+    <input type="hidden" name="challenge_id" value="{{.ID}}">
+    <input type="hidden" name="pow_target" value="">
+    <input type="hidden" name="pow_nonce" value="">
+    <input type="hidden" name="pow_signature" value="">
+    <input type="hidden" name="pow_difficulty" value="">
+    <input type="hidden" name="pow_expires_at" value="">
+    <input type="hidden" name="pow_purpose" value="">
+    <label for="language">Language:</label>
+    <select id="language" name="language">
+      <option value="c">C</option>
+      <option value="go">Go</option>
+      <option value="python">Python</option>
+      <option value="ruby">Ruby</option>
+    </select><br>
+    <textarea name="code" rows="15" cols="80">// Write your code here</textarea><br>
+    <button id="test-button" type="submit" formaction="/test">Test</button>
+    <button type="submit" formaction="/submit">Submit</button>
+  </form>
+  {{else}}
+  <div class="notice">Challenge authors cannot submit solutions here.</div>
+  {{end}}
+  <div id="test-result" class="notice"></div>
+  <h2>Submissions</h2>
+  <script>
+  (function(){
+    const form = document.getElementById('challenge-form');
+    if (!form) {
+      return;
+    }
+    const testBtn = document.getElementById('test-button');
+    const resultEl = document.getElementById('test-result');
+    const challengeIdField = form.querySelector('input[name="challenge_id"]');
+    const powFields = {
+      target: form.querySelector('input[name="pow_target"]'),
+      nonce: form.querySelector('input[name="pow_nonce"]'),
+      signature: form.querySelector('input[name="pow_signature"]'),
+      difficulty: form.querySelector('input[name="pow_difficulty"]'),
+      expires: form.querySelector('input[name="pow_expires_at"]'),
+      purpose: form.querySelector('input[name="pow_purpose"]'),
+    };
+    const encoder = new TextEncoder();
+    let submitting = false;
+
+    function resetResultDisplay(message){
+      resultEl.className = 'notice';
+      resultEl.textContent = message;
+    }
+    function el(tag, cls, text){ const e = document.createElement(tag); if(cls) e.className = cls; if(text!=null) e.textContent = text; return e; }
+    function renderResult(data){
+      const card = el('div','result-card');
+      const header = el('div','result-header');
+      const title = el('h3','result-title','Sample Test');
+      header.appendChild(title);
+      const status = (data.result||'Unknown');
+      const badgeCls = status==='Success' ? 'badge-success' : (status==='Wrong Answer' ? 'badge-error' : (String(status).indexOf('Error')!==-1 ? 'badge-error' : 'badge-warn'));
+      const badge = el('span','badge '+badgeCls,status);
+      header.appendChild(badge);
+      const meta = el('div','muted', (typeof data.duration_ms==='number'? (data.duration_ms|0)+' ms' : ''));
+      header.appendChild(meta);
+      card.appendChild(header);
+
+      const body = el('div','result-body');
+      if (data.output) {
+        const panel = el('div','panel');
+        panel.appendChild(el('div','panel-title','Program Output'));
+        const pre = el('pre'); pre.textContent = data.output; panel.appendChild(pre);
+        body.appendChild(panel);
+      }
+      if (typeof data.failed_index === 'number' && data.failed_index >= 0) {
+        const kv = el('div','kv');
+        kv.appendChild(el('div','k','Failed Case'));
+        kv.appendChild(el('div','v','#' + (data.failed_index+1)));
+        body.appendChild(kv);
+        if (data.expected) {
+          const grid = el('div','code-grid');
+          const p1 = el('div','panel');
+          p1.appendChild(el('div','panel-title','Your Output'));
+          const pre1 = el('pre'); pre1.textContent = (data.output||''); p1.appendChild(pre1);
+          grid.appendChild(p1);
+          const p2 = el('div','panel');
+          p2.appendChild(el('div','panel-title','Expected Output'));
+          const pre2 = el('pre'); pre2.textContent = data.expected; p2.appendChild(pre2);
+          grid.appendChild(p2);
+          body.appendChild(grid);
+        }
+      }
+      card.appendChild(body);
+      return card;
+    }
+
+    function setPowFields(pow, nonce) {
+      powFields.target.value = pow.target;
+      powFields.nonce.value = nonce;
+      powFields.signature.value = pow.signature;
+      powFields.difficulty.value = String(pow.difficulty);
+      powFields.expires.value = String(pow.expires_at);
+      powFields.purpose.value = pow.purpose;
+    }
+
+    function clearPowFields() {
+      powFields.target.value = '';
+      powFields.nonce.value = '';
+      powFields.signature.value = '';
+      powFields.difficulty.value = '';
+      powFields.expires.value = '';
+      powFields.purpose.value = '';
+    }
+
+    function leadingZeroBits(bytes) {
+      let count = 0;
+      for (let i = 0; i < bytes.length; i++) {
+        const value = bytes[i];
+        if (value === 0) {
+          count += 8;
+          continue;
+        }
+        for (let bit = 7; bit >= 0; bit--) {
+          if ((value >> bit) & 1) {
+            return count;
+          }
+          count++;
+        }
+        break;
+      }
+      return count;
+    }
+
+    async function requestPow(purpose) {
+      if (!challengeIdField) {
+        throw new Error('missing challenge id');
+      }
+      const challengeId = parseInt(challengeIdField.value, 10);
+      if (!challengeId) {
+        throw new Error('missing challenge id');
+      }
+      const resp = await fetch('/api/pow', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({challenge_id: challengeId, purpose}),
+      });
+      if (!resp.ok) {
+        let detail = 'status ' + resp.status;
+        try {
+          const data = await resp.json();
+          if (data && data.error) {
+            detail = data.error;
+          }
+        } catch (_) {}
+        throw new Error(detail);
+      }
+      const data = await resp.json();
+      if (!data || !data.pow) {
+        throw new Error('invalid pow response');
+      }
+      return data.pow;
+    }
+
+    async function solvePow(target, difficulty) {
+      if (!window.crypto || !window.crypto.subtle) {
+        throw new Error('WebCrypto not available');
+      }
+      let counter = 0;
+      while (true) {
+        const nonce = (counter++).toString(16);
+        const digestInput = `${target}:${nonce}`;
+        const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', encoder.encode(digestInput)));
+        if (leadingZeroBits(hash) >= difficulty) {
+          return nonce;
+        }
+        if ((counter & 1023) === 0) {
+          await new Promise(resolve => setTimeout(resolve, 0));
+        }
+      }
+    }
+
+    async function ensurePow(purpose) {
+      const pow = await requestPow(purpose);
+      const nonce = await solvePow(pow.target, pow.difficulty);
+      setPowFields(pow, nonce);
+      return pow;
+    }
+
+    form.addEventListener('submit', async function(ev){
+      const submitter = ev.submitter;
+      if (submitter && submitter.id === 'test-button') {
+        return;
+      }
+      ev.preventDefault();
+      if (submitting) {
+        return;
+      }
+      const submitAction = submitter && submitter.getAttribute('formaction');
+      const submitMethod = submitter && submitter.getAttribute('formmethod');
+      const submitEncType = submitter && submitter.getAttribute('formenctype');
+      const originalAction = form.getAttribute('action');
+      const originalMethod = form.getAttribute('method');
+      const originalEncType = form.getAttribute('enctype');
+      submitting = true;
+      try {
+        resetResultDisplay('Computing proof of work...');
+        await ensurePow('submission');
+        if (submitAction) {
+          form.setAttribute('action', submitAction);
+        }
+        if (submitMethod) {
+          form.setAttribute('method', submitMethod);
+        }
+        if (submitEncType) {
+          form.setAttribute('enctype', submitEncType);
+        }
+        form.submit();
+      } catch (err) {
+        resultEl.className = 'notice notice-error';
+        resultEl.textContent = 'PoW error: ' + err.message;
+        clearPowFields();
+      } finally {
+        if (submitAction) {
+          if (originalAction === null) {
+            form.removeAttribute('action');
+          } else {
+            form.setAttribute('action', originalAction);
+          }
+        }
+        if (submitMethod) {
+          if (originalMethod === null) {
+            form.removeAttribute('method');
+          } else {
+            form.setAttribute('method', originalMethod);
+          }
+        }
+        if (submitEncType) {
+          if (originalEncType === null) {
+            form.removeAttribute('enctype');
+          } else {
+            form.setAttribute('enctype', originalEncType);
+          }
+        }
+        submitting = false;
+      }
+    });
+
+    if (testBtn) {
+      testBtn.addEventListener('click', async function(ev){
+        ev.preventDefault();
+        try {
+          resetResultDisplay('Computing proof of work...');
+          await ensurePow('test');
+          resetResultDisplay('Running sample tests...');
+          const fd = new FormData(form);
+          const resp = await fetch('/api/test', { method: 'POST', body: fd });
+          if (!resp.ok) {
+            let detail = 'status ' + resp.status;
+            try {
+              const data = await resp.json();
+              if (data && data.error) {
+                detail = data.error;
+              }
+            } catch (_) {}
+            throw new Error(detail);
+          }
+          const data = await resp.json();
+          const card = renderResult(data);
+          resultEl.className = '';
+          resultEl.replaceChildren(card);
+        } catch (err) {
+          resultEl.className = 'notice notice-error';
+          resultEl.textContent = 'Error: ' + err.message;
+        } finally {
+          clearPowFields();
+        }
+      });
+    }
+  })();
+  </script>
+  <table>
+    <tr><th>ID</th><th>User</th><th>Language</th><th>Result</th><th>Time</th></tr>
+    {{range .Submissions}}
+    <tr>
+      <td>{{.ID}}</td>
+      <td>{{.Username}}</td>
+      <td>{{.Language}}</td>
+      <td>{{.Result}}</td>
+      <td>{{.CreatedAt}}</td>
+    </tr>
+    {{end}}
+  </table>
+  <a href="/">Back</a>
+</div>
+</body>
+</html>

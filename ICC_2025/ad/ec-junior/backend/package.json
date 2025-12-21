@@ -1,0 +1,26 @@
+{
+  "name": "ec-junior-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.24.3",
+    "@fastify/static": "^6.12.0",
+    "@fastify/formbody": "^7.4.0",
+    "@fastify/cookie": "^9.2.0",
+    "@fastify/session": "^10.7.0",
+    "@fastify/view": "^8.2.0",
+    "ejs": "^3.1.9",
+    "sqlite3": "^5.1.6",
+    "bcrypt": "^5.1.1",
+    "uuid": "^9.0.1",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

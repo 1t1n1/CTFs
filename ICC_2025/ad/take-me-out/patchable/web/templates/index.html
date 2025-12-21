@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Challenges</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .}}
+<div class="container container--wide">
+  <header class="page-header">
+    <div class="page-header__titles">
+      <h1>Challenges</h1>
+      <p class="page-subtitle">Pick a published challenge and see what you can do.</p>
+    </div>
+    {{if .IsWriter}}
+    <a class="btn btn-tonal" href="/writer">Writer Portal</a>
+    {{end}}
+  </header>
+
+  <div class="search-hero search-hero--inline">
+    <form class="search-form search-form--inline" method="get" action="/">
+      <input class="search-input" type="text" name="q" value="{{.Query}}" placeholder="Search by name or description" autocomplete="off">
+      <button class="search-submit" type="submit">Search</button>
+      {{if .IsSearching}}
+      <a class="search-clear-link" href="/">Clear</a>
+      {{end}}
+    </form>
+    <p class="search-hint">Tip: Search keywords to quickly find the next challenge to tackle.</p>
+  </div>
+
+  {{if .IsSearching}}
+    {{if eq .SearchTotal 0}}
+    <div class="empty-state">
+      <div class="empty-state__icon">🧐</div>
+      <h2>No challenges matched your search</h2>
+      <p>Try another keyword or clear the filter to browse everything.</p>
+    </div>
+    {{else}}
+    <p class="list-meta">Found {{.SearchTotal}} {{if eq .SearchTotal 1}}challenge{{else}}challenges{{end}} for “{{.Query}}”.</p>
+    <div class="challenge-grid">
+      {{range .Challenges}}
+      <article class="challenge-card">
+        <div class="challenge-card__header">
+          <h2><a href="/challenges/{{.ID}}">{{.Name}}</a></h2>
+          <span class="challenge-card__points">{{.Points}} pt</span>
+        </div>
+        <p class="challenge-card__preview">{{if .Preview}}{{.Preview}}{{else}}No description provided yet.{{end}}</p>
+        <div class="challenge-card__footer">
+          <a class="challenge-card__link" href="/challenges/{{.ID}}">View details</a>
+        </div>
+      </article>
+      {{end}}
+    </div>
+    {{end}}
+  {{else if eq .Total 0}}
+  <div class="empty-state">
+    <div class="empty-state__icon">🌱</div>
+    <h2>No public challenges yet</h2>
+    <p>We might still be setting things up. Check back again soon!</p>
+  </div>
+  {{else}}
+  <p class="list-meta">Showing {{.Start}}-{{.End}} of {{.Total}}</p>
+  <div class="challenge-grid">
+    {{range .Challenges}}
+    <article class="challenge-card">
+      <div class="challenge-card__header">
+        <h2><a href="/challenges/{{.ID}}">{{.Name}}</a></h2>
+        <span class="challenge-card__points">{{.Points}} pt</span>
+      </div>
+      <p class="challenge-card__preview">{{if .Preview}}{{.Preview}}{{else}}No description provided yet.{{end}}</p>
+      <div class="challenge-card__footer">
+        <a class="challenge-card__link" href="/challenges/{{.ID}}">View details</a>
+      </div>
+    </article>
+    {{end}}
+  </div>
+
+  {{if gt .TotalPages 1}}
+  <nav class="pagination" aria-label="Challenge pages">
+    {{if .HasPrev}}
+    <a class="pagination__btn" href="/?page={{.PrevPage}}">&lsaquo; Prev</a>
+    {{else}}
+    <span class="pagination__btn pagination__btn--disabled">&lsaquo; Prev</span>
+    {{end}}
+
+    <div class="pagination__pages">
+      {{if .ShowFirst}}
+      <a class="pagination__page" href="/?page=1">1</a>
+      <span class="pagination__ellipsis">...</span>
+      {{end}}
+      {{range .PageNumbers}}
+        {{if eq . $.Page}}
+        <span class="pagination__page pagination__page--current">{{.}}</span>
+        {{else}}
+        <a class="pagination__page" href="/?page={{.}}">{{.}}</a>
+        {{end}}
+      {{end}}
+      {{if .ShowLast}}
+      <span class="pagination__ellipsis">...</span>
+      <a class="pagination__page" href="/?page={{.LastPage}}">{{.LastPage}}</a>
+      {{end}}
+    </div>
+
+    {{if .HasNext}}
+    <a class="pagination__btn" href="/?page={{.NextPage}}">Next &rsaquo;</a>
+    {{else}}
+    <span class="pagination__btn pagination__btn--disabled">Next &rsaquo;</span>
+    {{end}}
+  </nav>
+  {{end}}
+  {{end}}
+</div>
+</body>
+</html>

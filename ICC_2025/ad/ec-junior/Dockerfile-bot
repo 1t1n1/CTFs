@@ -1,0 +1,22 @@
+ARG DOCKER_HUB_MIRROR=
+
+FROM ${DOCKER_HUB_MIRROR}node:22.21.1-slim@sha256:8833056542b4e17c27154beeabbc27c3e14ddfe3fb9183f43b3adf7eb0462923
+
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,sharing=locked,target=/var/lib/apt \
+    apt-get update && apt-get install -y chromium=142.0.7444.134-1~deb12u1
+
+RUN groupadd -r pptruser \
+    && useradd -r -g pptruser -G audio,video pptruser \
+    && mkdir -p /home/pptruser/Downloads \
+    && chown -R pptruser:pptruser /home/pptruser
+
+WORKDIR /app
+COPY bot/package.json bot/package-lock.json ./
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+RUN npm ci --omit=dev
+COPY bot .
+
+USER pptruser
+
+CMD ["node", "index.js"]

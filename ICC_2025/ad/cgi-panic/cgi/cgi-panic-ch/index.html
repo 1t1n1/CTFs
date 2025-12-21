@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cgi-panic-ch🤯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .status {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .status.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">cgi-panic-ch🤯</h1>
+        </div>
+
+        <div class="section">
+            <h2>New Session</h2>
+            <button class="btn btn-primary" onclick="createNewSession()">Go!</button>
+        </div>
+
+        <div class="section">
+            <h2>Join Session</h2>
+            <div class="input-group">
+                <input type="text" id="sessionKey" placeholder="session key">
+            </div>
+            <button class="btn btn-secondary" onclick="joinSession()">Join!</button>
+        </div>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function setCookie(name, value, days = 30) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
+        }
+
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                let [key, value] = cookie.trim().split('=');
+                if (key === name) return value;
+            }
+            return null;
+        }
+
+        async function createNewSession() {
+            try {
+                const response = await fetch('/cgi-panic-ch.cgi?sessionNew', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    setTimeout(() => {
+                        const sessionKey = getCookie('session_key');
+                        if (sessionKey) {
+                            setTimeout(() => {
+                                window.location.href = '/html/chat.html';
+                            }, 1000);
+                        } else {
+                            console.log("key not found");
+                        }
+                    }, 100);
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+
+        async function joinSession() {
+            const sessionKey = document.getElementById('sessionKey').value.trim();
+            
+            if (!sessionKey) {
+                return;
+            }
+
+            if (!/^\d+$/.test(sessionKey)) {
+                return;
+            }
+
+            setCookie('session_key', sessionKey);
+            
+            setTimeout(() => {
+                window.location.href = '/html/chat.html';
+            }, 500);
+        }
+
+        document.getElementById('sessionKey').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                joinSession();
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

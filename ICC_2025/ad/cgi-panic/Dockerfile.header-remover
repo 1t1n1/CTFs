@@ -1,0 +1,60 @@
+ARG DOCKER_HUB_MIRROR=
+
+FROM ${DOCKER_HUB_MIRROR}haproxy:3.2.7-alpine3.22@sha256:b9c587547c9171dcc755c3b16188f24ed3cd412dc10c4e32050f642c9ee31c15
+
+USER root
+
+RUN tee /usr/local/etc/haproxy/whitelist.lua >/dev/null << 'EOF'
+local function get_allowed_headers(path)
+  local allow = {
+    ["content-length"] = true, ["set-cookie"] = true
+  }
+
+  if string.match(path, "^/apache/shopping") then
+    allow["location"] = true
+  elseif string.match(path, "^/health_check.cgi") then
+    allow["www-authenticate"] = true
+  end
+
+  return allow
+end
+
+core.register_action("resp_hdr_whitelist", {"http-res"}, function(txn)
+  local path = txn:get_var("txn.path") or "/"
+  local allowed_headers = get_allowed_headers(path)
+  local hdrs = txn.http:res_get_headers()
+
+  for name, _ in pairs(hdrs) do
+    local lname = string.lower(name)
+    if not allowed_headers[lname] then
+      txn.http:res_del_header(name)
+    end
+  end
+end)
+EOF
+
+RUN tee /usr/local/etc/haproxy/haproxy.cfg >/dev/null << 'EOF'
+global
+  lua-load /usr/local/etc/haproxy/whitelist.lua
+
+defaults
+  mode http
+  maxconn 65536
+  timeout connect 5s
+  timeout client  40s
+  timeout server  40s
+
+frontend public
+  bind *:8080
+  http-request set-var(txn.path) path
+  default_backend app
+
+backend app
+  server nginx waf:8080
+  http-response lua.resp_hdr_whitelist
+EOF
+
+RUN chown root:root /usr/local/etc/haproxy/haproxy.cfg /usr/local/etc/haproxy/whitelist.lua &&\
+    chmod 755 /usr/local/etc/haproxy/haproxy.cfg /usr/local/etc/haproxy/whitelist.lua
+
+USER haproxy

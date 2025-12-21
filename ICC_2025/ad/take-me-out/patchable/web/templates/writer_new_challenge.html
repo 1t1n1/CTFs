@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Create New Challenge</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{{template "nav" .}}
+<div class="container">
+  <h1>Create a New Challenge</h1>
+  <p>Complete the form below to register a new challenge. When everything looks good, click "Create challenge".</p>
+  {{if .Error}}
+  <div class="notice notice-error">{{.Error}}</div>
+  {{end}}
+  {{if .Success}}
+  <div class="notice notice-success">{{.CreatedName}} has been created {{if .CreatedPublic}}and published immediately{{else}}as a draft{{end}}. {{if gt .CreatedID 0}}<a href="/challenges/{{.CreatedID}}">Manage challenge</a>. {{end}}Feel free to add another challenge.</div>
+  {{end}}
+  <form method="POST">
+    <label for="name">Challenge Name</label>
+    <input type="text" id="name" name="name" value="{{.Form.Name}}" required>
+
+    <label for="description">Challenge Description</label>
+    <textarea id="description" name="description" rows="8" required>{{.Form.Description}}</textarea>
+
+    <label for="points">Points</label>
+    <input type="text" id="points" name="points" value="{{.Form.Points}}" placeholder="100">
+
+    <label for="sample_tests">Sample Tests (YAML)</label>
+    <textarea id="sample_tests" name="sample_tests" rows="8" placeholder="- input: |\n    1 2\n  output: |\n    3">{{.Form.SampleYAML}}</textarea>
+    <small>Use a YAML array when you need multiple cases. Input and output blocks may span multiple lines.</small>
+
+    <label for="hidden_tests">Hidden Tests (YAML, optional)</label>
+    <p class="muted">These tests are never shown in the web UI. Keep a private copy for future edits.</p>
+    <textarea id="hidden_tests" name="hidden_tests" rows="8" placeholder="- input: |\n    5\n  output: |\n    120">{{.Form.HiddenYAML}}</textarea>
+
+    <label><input type="checkbox" id="is_public" name="is_public" {{if .Form.PublishNow}}checked{{end}}> Publish immediately</label>
+    <small>Drafts stay hidden until you publish from the challenge page.</small>
+
+    <button type="submit">Create challenge</button>
+  </form>
+  <p><a href="/writer">Back to Writer Portal</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scoreboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+  </style>
+  </head>
+<body>
+{{template "nav" .}}
+<div class="container">
+  <h1>Scoreboard</h1>
+  <table>
+    <tr><th>User</th><th>Solves</th><th>Total Points</th></tr>
+    {{range .Entries}}
+    <tr>
+      <td>{{.Username}}</td>
+      <td>{{.Solves}}</td>
+      <td>{{.Total}}</td>
+    </tr>
+    {{end}}
+  </table>
+  <p><a href="/">Back</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,273 @@
+ARG DOCKER_HUB_MIRROR=
+
+FROM ${DOCKER_HUB_MIRROR}ubuntu:24.04@sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
+
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,sharing=locked,target=/var/lib/apt \
+    apt-get update && apt-get install -y \
+    systemd=255.4-1ubuntu8.11 \
+    systemd-sysv=255.4-1ubuntu8.11 \
+    uwsgi-core=2.0.24-2ubuntu10 \
+    libpcre2-dev=10.42-4ubuntu2.1 \
+    iproute2=6.1.0-1ubuntu6.2
+
+COPY --chmod=755 ./nginx-binary/nginx /usr/sbin/nginx
+ADD ./nginx-binary/etc_nginx.tgz /etc/
+ADD ./nginx-binary/usr_local_modsecurity.tgz /usr/local/
+
+RUN ldconfig && \
+    groupadd -r cgi && useradd -r -g cgi -s /usr/sbin/nologin cgi && \
+    groupadd -r nginx && useradd -r -g nginx -s /usr/sbin/nologin nginx && \
+    mkdir -p /var/log/nginx /var/cache/nginx /var/run /etc/uwsgi /etc/modsecurity /app/cgi-bin /app/cgi-bin/ipc && \
+    chown root:nginx /var/log/nginx /var/cache/nginx /var/run /etc/uwsgi && \
+    chmod g+w /var/log/nginx /var/cache/nginx /var/run
+
+RUN for i in $(seq 1 10); do \
+    tee /etc/uwsgi/cgi-${i}.ini >/dev/null <<EOF ; done
+[uwsgi]
+plugins = cgi
+socket-from-fd = 0
+chmod-socket = 660
+chown-socket = root:nginx
+master = false
+single-interpreter = true
+
+; Map /*.cgi -> /app/cgi-bin/*.cgi
+cgi = /app/cgi-bin
+cgi-allowed-ext = .cgi
+
+uid = cgi
+gid = cgi
+processes = 1
+threads = 1
+reaper = true
+cgi-timeout = 10000s
+die-on-term = false
+vacuum = true
+idle = 5
+max-requests = 1
+EOF
+
+RUN for i in $(seq 1 10); do \
+    tee /etc/systemd/system/uwsgi-cgi-${i}.socket >/dev/null <<EOF ; done
+[Unit]
+Description=uWSGI CGI Worker ${i} Socket
+
+[Socket]
+ListenStream=/var/run/uwsgi-cgi-${i}.sock
+SocketUser=root
+SocketGroup=nginx
+SocketMode=0660
+Service=uwsgi-cgi-${i}.service
+
+[Install]
+WantedBy=sockets.target
+EOF
+
+RUN for i in $(seq 1 10); do \
+    tee /etc/systemd/system/uwsgi-cgi-${i}.service >/dev/null <<EOF ; done
+[Unit]
+Description=uWSGI CGI Worker ${i}
+Requires=uwsgi-cgi-${i}.socket
+After=uwsgi-cgi-${i}.socket
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/uwsgi --ini /etc/uwsgi/cgi-${i}.ini
+StandardInput=socket
+RemainAfterExit=no
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/app/cgi-bin/ipc
+ProtectHome=true
+ProtectClock=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+LockPersonality=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+PrivateDevices=yes
+SystemCallArchitectures=native
+ProtectProc=invisible
+ProcSubset=pid
+UMask=0077
+
+RuntimeDirectory=uwsgi-${i}
+RuntimeDirectoryMode=0755
+
+Restart=no
+StartLimitBurst=1000
+StartLimitInterval=1
+
+LogLevelMax=warning
+SyslogLevel=warning
+
+KillMode=control-group
+KillSignal=SIGKILL
+FinalKillSignal=SIGKILL
+
+CPUAccounting=yes
+LimitCPU=1000ms
+RuntimeMaxSec=10s
+MemoryMax=100M
+OOMPolicy=kill
+TasksMax=64
+LimitNPROC=64
+TimeoutStopSec=500ms
+LimitCORE=0
+EOF
+
+RUN tee /etc/systemd/system/nginx.service >/dev/null <<'EOF'
+[Unit]
+Description=nginx
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/run/nginx.pid
+ExecStartPre=/usr/sbin/nginx -t -q -g 'daemon on; master_process on;'
+ExecStart=/usr/sbin/nginx -g 'daemon on; master_process on;'
+ExecReload=/bin/kill -s HUP \$MAINPID
+ExecStop=/bin/kill -s QUIT \$MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+RUN tee /etc/modsecurity/modsecurity.conf >/dev/null <<'EOF'
+SecAuditEngine Off
+SecStatusEngine Off
+SecRuleEngine On
+SecRequestBodyAccess On
+SecRequestBodyLimit 131072
+SecRequestBodyLimitAction Reject
+SecRequestBodyNoFilesLimit 131072
+SecResponseBodyAccess Off
+SecPcreMatchLimit 10000
+SecPcreMatchLimitRecursion 1000
+SecTmpDir /tmp
+SecDataDir /tmp
+EOF
+
+RUN tee /etc/nginx/nginx.conf >/dev/null <<'EOF'
+load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;
+
+user nginx;
+worker_processes auto;
+events { worker_connections 1024; }
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    # Access/Error logs
+    access_log  /var/log/nginx/access.log;
+    error_log   /var/log/nginx/error.log debug;
+
+    # Enable ModSecurity and include rule chain
+    modsecurity on;
+    modsecurity_rules_file /etc/modsecurity/waf_rule.conf;
+    modsecurity_rules_file /etc/modsecurity/modsecurity.conf;
+
+    chunked_transfer_encoding off;
+
+    upstream apache {
+      least_conn;
+      
+      server apache:8080;
+      server apache:8081;
+      server apache:8082;
+    }
+
+    upstream cgi_workers {
+      least_conn;
+      
+      server unix:/var/run/uwsgi-cgi-1.sock max_fails=1 fail_timeout=5s;
+      server unix:/var/run/uwsgi-cgi-2.sock max_fails=1 fail_timeout=5s;
+      server unix:/var/run/uwsgi-cgi-3.sock max_fails=1 fail_timeout=5s;
+      server unix:/var/run/uwsgi-cgi-4.sock max_fails=1 fail_timeout=5s;
+      server unix:/var/run/uwsgi-cgi-5.sock max_fails=1 fail_timeout=5s;
+      server unix:/var/run/uwsgi-cgi-6.sock max_fails=1 fail_timeout=5s;
+      server unix:/var/run/uwsgi-cgi-7.sock max_fails=1 fail_timeout=5s;
+      server unix:/var/run/uwsgi-cgi-8.sock max_fails=1 fail_timeout=5s;
+      server unix:/var/run/uwsgi-cgi-9.sock max_fails=1 fail_timeout=5s backup;
+      server unix:/var/run/uwsgi-cgi-10.sock max_fails=1 fail_timeout=5s backup;
+    }
+
+    server {
+        listen 8080;
+
+        root /app;
+        index index.html;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+
+        location /__health {
+            add_header Content-Type text/plain;
+            return 200 "ok\n";
+        }
+
+        location ~ ^/apache/(.+)$ {
+            proxy_http_version 1.1;
+            proxy_set_header Host apache;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_pass http://apache/apache/$1$is_args$args;
+            proxy_redirect off;
+
+            proxy_next_upstream error timeout http_502 http_503;
+            proxy_next_upstream_tries 3;
+            proxy_next_upstream_timeout 5s;
+        }
+
+        location ~ \.cgi$ {
+            include uwsgi_params;
+            uwsgi_modifier1 9; # required for CGI mode
+            uwsgi_pass cgi_workers;
+            uwsgi_connect_timeout 5s;
+            uwsgi_read_timeout 5s;
+
+            proxy_next_upstream error timeout http_502 http_503;
+            proxy_next_upstream_tries 3;
+            proxy_next_upstream_timeout 5s;
+        }
+    }
+}
+EOF
+
+RUN systemctl enable nginx.service && \
+    for i in $(seq 1 10); do \
+        systemctl enable uwsgi-cgi-${i}.socket; \
+    done
+
+# START health_check
+COPY --chown=root:cgi --chmod=755 cgi/health_check/health_check.cgi /app/cgi-bin/
+# END   health_check
+
+# START CGI-PANIC-CH
+RUN mkdir -p /app/html
+COPY cgi/cgi-panic-ch/index.html        /app/html/
+COPY cgi/cgi-panic-ch/chat.html         /app/html/
+COPY cgi/cgi-panic-ch/cgi-panic-ch.cgi  /app/cgi-bin/
+RUN chown -R root:cgi /app/cgi-bin/ipc && \
+    chmod 775 /app/cgi-bin/ipc
+RUN chown -R root:cgi /app/html && \
+    chmod 755 /app/html
+RUN chown -R root:cgi /app/cgi-bin/cgi-panic-ch.cgi && \
+    chmod +x /app/cgi-bin/cgi-panic-ch.cgi
+# END CGI-PANIC-CH
+
+COPY patchable/waf_rule.conf /etc/modsecurity/waf_rule.conf
+RUN chown root:nginx /etc/modsecurity/waf_rule.conf && \
+    chmod 755 /etc/modsecurity/waf_rule.conf
+
+EXPOSE 8080
+STOPSIGNAL SIGRTMIN+3
+CMD ["bash", "-c", "sysctl -w kernel.shmmni=32768 && /lib/systemd/systemd"]
