@@ -1,0 +1,23 @@
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "string",
+      "value": "prefix"
+    }
+  ]
+}
+
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "string",
+      "value": "add"
+    },
+    {
+      "type": "string",
+      "value": " suffix"
+    }
+  ]
+}

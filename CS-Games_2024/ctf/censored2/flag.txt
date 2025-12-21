@@ -1,0 +1,47 @@
+FLAG{
+
+FLAG{iasud*YUn0fq78ygb2i0hxjcjm}
+
+Jusquà présent: FLAG{iasudY*YHUnr
+
+Regex: [^FLAG{asY\*HUnr]0.*0
+
+
+J'assume Y*Y
+Pas sur pour r0, yavait des w0 aussi
+
+Attention, certains caracteres reviennent...
+Qui reviennent: 
+- i (3 fois)
+- u
+- d
+- 0
+
+LGiu0ewqb2i09cji}
+Lasd0ewq78gbu2i0ajj
+LG{d0wqybu2i0hacji}
+LAasd0fq78ydb08hxj}
+
+
+
+
+
+LA{iasdY*YHUnrew78ygb208axjcjmi}
+FLG{asu*YHnr0fewq7ydu098haxjcjmi
+LAGasdY*YUr0feq7ydgu2i98haxjcjm}
+FAG{sY*YHUnrfewq8ydgui098hxjcjmi
+FG{asdY*YHU0fewq78ydgbu2i8hajjm
+FLAGiaYHUnfewq7ydgbu2i0haxjjmi}
+FLAGaud*YHUn0fewqydgbu2098xjji}
+FLAiasudY*YHnrfq78ygu298hacjmi}
+FLGiasudY*Yr0feq78yb2i0axjcjmi}
+FA{iasuY*Yr0ewq78ydgu2i098ajji}
+FLA{iasdY*HUnr0fe8dgui098xjcjmi
+FAGiasdY*Unr0eq7dgu2i09hxjcjmi}
+FAG{isuYYHnr0few78ydgu298ajcjmi
+
+Réponse:
+FLAG{iasudY*YHUnr0fewq78ydgbu2i098haxjcjmi}
+JOWE{rftgrG*BSTff0owbc78gxpix2d098atswrkjd}
+
+Puis faire dans sens inverse (premier d par exemple)

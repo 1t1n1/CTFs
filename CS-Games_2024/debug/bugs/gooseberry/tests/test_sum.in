@@ -1,0 +1,23 @@
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "int",
+      "value": 100
+    },
+    {
+      "type": "int",
+      "value": 50
+    }
+  ]
+}
+
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "string",
+      "value": "sum"
+    }
+  ]
+}

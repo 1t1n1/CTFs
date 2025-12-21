@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "foo": {
+      "parent": "admin"
+    }
+  },
+  "teams": {
+    "parent": ["child"],
+    "child": ["user"]
+  },
+  "key": "foo",
+  "action": "write",
+  "user": "user"
+}

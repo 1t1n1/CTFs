@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+cd "$(dirname "$0")/.."
+
+PROJECT=gooseberry
+docker=${DOCKER_BIN:-docker}
+IMAGE=ghcr.io/stagraphtileful/images:latest@sha256:7e33b501b73da43f71b43db353decdf36d4b1404a4565d31d71fb49d92fba7b2
+HOSTNAME="$PROJECT-shell-$RANDOM"
+
+CONTAINER_ID=$($docker create -it --workdir /app --hostname "$HOSTNAME" --name "$HOSTNAME" "$IMAGE" /bin/bash)
+docker cp -q ./src "$CONTAINER_ID:/app/src"
+docker cp -q ./tests "$CONTAINER_ID:/app/tests"
+docker cp -q ./bin "$CONTAINER_ID:/app/bin"
+docker start -ia "$CONTAINER_ID"
+
+echo
+echo "This shell container stopped but was not removed."
+echo "To remove it, run:"
+echo "  docker rm $HOSTNAME"
+echo "To resume the container, run:"
+echo "  docker start -ia $HOSTNAME"
+

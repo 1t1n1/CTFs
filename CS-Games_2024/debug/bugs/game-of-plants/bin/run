@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+cd "$(dirname "$0")/.."
+
+PROJECT=game-of-plants
+ENV=${ENV:-docker}
+docker=${DOCKER_BIN:-docker}
+
+if [ "$#" -eq 0 ]; then
+    echo "Usage: bin/run tests/[file]"
+    exit 1
+fi
+
+if [ "$ENV" = "docker" ]; then
+    if [ "$(docker images -q $PROJECT)" = "" ]; then
+      echo "Image not found for project $PROJECT."
+      echo "Run bin/build"
+      exit 1
+    fi
+
+    $docker run -i --rm "$PROJECT" "$1"
+else
+    node src/main.js "$1"
+fi

@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "foo": {
+      "user": "read",
+      "team": "read",
+      "admin-team": "admin"
+    }
+  },
+  "teams": {
+    "team": ["user"],
+    "admin-team": ["user"]
+  },
+  "key": "foo",
+  "action": "write",
+  "user": "user"
+}

@@ -1,0 +1,19 @@
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "int",
+      "value": 100
+    }
+  ]
+}
+
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "string",
+      "value": "inverse"
+    }
+  ]
+}

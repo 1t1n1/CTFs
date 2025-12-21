@@ -1,0 +1,4 @@
+flushdb
+set key4 1234
+set key10 0123456789
+list

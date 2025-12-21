@@ -1,0 +1,133 @@
+Starting Nmap 7.94 ( https://nmap.org ) at 2024-04-17 18:55 EDT
+Verbosity Increased to 1.
+Service scan Timing: About 57.14% done; ETC: 18:57 (0:00:48 remaining)
+Completed Service scan at 18:58, 126.58s elapsed (7 services on 1 host)
+NSE: Script scanning 10.255.2.127.
+Initiating NSE at 18:58
+Completed NSE at 18:58, 0.86s elapsed
+Initiating NSE at 18:58
+Completed NSE at 18:58, 1.15s elapsed
+Nmap scan report for cai-gateway (10.255.2.127)
+Host is up (0.043s latency).
+Not shown: 65528 closed tcp ports (reset)
+PORT     STATE SERVICE         VERSION
+21/tcp   open  ftp?
+22/tcp   open  ssh             OpenSSH 8.9 (protocol 2.0)
+80/tcp   open  http            Apache httpd 2.4.58 ((Unix) PHP/8.1.22)
+1883/tcp open  mqtt
+4200/tcp open  vrml-multi-use?
+6039/tcp open  x11?
+8000/tcp open  http-alt
+3 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port21-TCP:V=7.94%I=7%D=4/17%Time=6620538E%P=x86_64-pc-linux-gnu%r(NULL
+SF:,B,"220\x20Hello\r\n")%r(GenericLines,3F,"220\x20Hello\r\n530\x20You\x2
+SF:0aren't\x20logged\x20in\r\n530\x20You\x20aren't\x20logged\x20in\r\n")%r
+SF:(Help,25,"220\x20Hello\r\n530\x20You\x20aren't\x20logged\x20in\r\n")%r(
+SF:GetRequest,3F,"220\x20Hello\r\n530\x20You\x20aren't\x20logged\x20in\r\n
+SF:530\x20You\x20aren't\x20logged\x20in\r\n")%r(HTTPOptions,3F,"220\x20Hel
+SF:lo\r\n530\x20You\x20aren't\x20logged\x20in\r\n530\x20You\x20aren't\x20l
+SF:ogged\x20in\r\n")%r(RTSPRequest,3F,"220\x20Hello\r\n530\x20You\x20aren'
+SF:t\x20logged\x20in\r\n530\x20You\x20aren't\x20logged\x20in\r\n")%r(RPCCh
+SF:eck,B,"220\x20Hello\r\n")%r(DNSVersionBindReqTCP,B,"220\x20Hello\r\n")%
+SF:r(DNSStatusRequestTCP,B,"220\x20Hello\r\n")%r(SSLSessionReq,25,"220\x20
+SF:Hello\r\n530\x20You\x20aren't\x20logged\x20in\r\n")%r(TerminalServerCoo
+SF:kie,25,"220\x20Hello\r\n530\x20You\x20aren't\x20logged\x20in\r\n")%r(TL
+SF:SSessionReq,25,"220\x20Hello\r\n530\x20You\x20aren't\x20logged\x20in\r\
+SF:n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port6039-TCP:V=7.94%I=7%D=4/17%Time=6620538E%P=x86_64-pc-linux-gnu%r(Ge
+SF:tRequest,18B,"HTTP/1\.1\x20404\x20NOT\x20FOUND\r\nServer:\x20Werkzeug/2
+SF:\.1\.1\x20Python/3\.10\.13\r\nDate:\x20Wed,\x2017\x20Apr\x202024\x2022:
+SF:56:14\x20GMT\r\nContent-Type:\x20text/html;\x20charset=utf-8\r\nContent
+SF:-Length:\x20232\r\n\r\n<!DOCTYPE\x20HTML\x20PUBLIC\x20\"-//W3C//DTD\x20
+SF:HTML\x203\.2\x20Final//EN\">\n<title>404\x20Not\x20Found</title>\n<h1>N
+SF:ot\x20Found</h1>\n<p>The\x20requested\x20URL\x20was\x20not\x20found\x20
+SF:on\x20the\x20server\.\x20If\x20you\x20entered\x20the\x20URL\x20manually
+SF:\x20please\x20check\x20your\x20spelling\x20and\x20try\x20again\.</p>\n"
+SF:)%r(HTTPOptions,18B,"HTTP/1\.1\x20404\x20NOT\x20FOUND\r\nServer:\x20Wer
+SF:kzeug/2\.1\.1\x20Python/3\.10\.13\r\nDate:\x20Wed,\x2017\x20Apr\x202024
+SF:\x2022:56:14\x20GMT\r\nContent-Type:\x20text/html;\x20charset=utf-8\r\n
+SF:Content-Length:\x20232\r\n\r\n<!DOCTYPE\x20HTML\x20PUBLIC\x20\"-//W3C//
+SF:DTD\x20HTML\x203\.2\x20Final//EN\">\n<title>404\x20Not\x20Found</title>
+SF:\n<h1>Not\x20Found</h1>\n<p>The\x20requested\x20URL\x20was\x20not\x20fo
+SF:und\x20on\x20the\x20server\.\x20If\x20you\x20entered\x20the\x20URL\x20m
+SF:anually\x20please\x20check\x20your\x20spelling\x20and\x20try\x20again\.
+SF:</p>\n")%r(RTSPRequest,1F4,"<!DOCTYPE\x20HTML\x20PUBLIC\x20\"-//W3C//DT
+SF:D\x20HTML\x204\.01//EN\"\n\x20\x20\x20\x20\x20\x20\x20\x20\"http://www\
+SF:.w3\.org/TR/html4/strict\.dtd\">\n<html>\n\x20\x20\x20\x20<head>\n\x20\
+SF:x20\x20\x20\x20\x20\x20\x20<meta\x20http-equiv=\"Content-Type\"\x20cont
+SF:ent=\"text/html;charset=utf-8\">\n\x20\x20\x20\x20\x20\x20\x20\x20<titl
+SF:e>Error\x20response</title>\n\x20\x20\x20\x20</head>\n\x20\x20\x20\x20<
+SF:body>\n\x20\x20\x20\x20\x20\x20\x20\x20<h1>Error\x20response</h1>\n\x20
+SF:\x20\x20\x20\x20\x20\x20\x20<p>Error\x20code:\x20400</p>\n\x20\x20\x20\
+SF:x20\x20\x20\x20\x20<p>Message:\x20Bad\x20request\x20version\x20\('RTSP/
+SF:1\.0'\)\.</p>\n\x20\x20\x20\x20\x20\x20\x20\x20<p>Error\x20code\x20expl
+SF:anation:\x20HTTPStatus\.BAD_REQUEST\x20-\x20Bad\x20request\x20syntax\x2
+SF:0or\x20unsupported\x20method\.</p>\n\x20\x20\x20\x20</body>\n</html>\n"
+SF:)%r(Help,1EF,"<!DOCTYPE\x20HTML\x20PUBLIC\x20\"-//W3C//DTD\x20HTML\x204
+SF:\.01//EN\"\n\x20\x20\x20\x20\x20\x20\x20\x20\"http://www\.w3\.org/TR/ht
+SF:ml4/strict\.dtd\">\n<html>\n\x20\x20\x20\x20<head>\n\x20\x20\x20\x20\x2
+SF:0\x20\x20\x20<meta\x20http-equiv=\"Content-Type\"\x20content=\"text/htm
+SF:l;charset=utf-8\">\n\x20\x20\x20\x20\x20\x20\x20\x20<title>Error\x20res
+SF:ponse</title>\n\x20\x20\x20\x20</head>\n\x20\x20\x20\x20<body>\n\x20\x2
+SF:0\x20\x20\x20\x20\x20\x20<h1>Error\x20response</h1>\n\x20\x20\x20\x20\x
+SF:20\x20\x20\x20<p>Error\x20code:\x20400</p>\n\x20\x20\x20\x20\x20\x20\x2
+SF:0\x20<p>Message:\x20Bad\x20request\x20syntax\x20\('HELP'\)\.</p>\n\x20\
+SF:x20\x20\x20\x20\x20\x20\x20<p>Error\x20code\x20explanation:\x20HTTPStat
+SF:us\.BAD_REQUEST\x20-\x20Bad\x20request\x20syntax\x20or\x20unsupported\x
+SF:20method\.</p>\n\x20\x20\x20\x20</body>\n</html>\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port8000-TCP:V=7.94%I=7%D=4/17%Time=6620538F%P=x86_64-pc-linux-gnu%r(Ge
+SF:nericLines,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request")%r(GetRequest,1996,"HTTP/1\.0\x20200\x20OK\r\nCache-Control:
+SF:\x20no-cache,\x20no-store,\x20must-revalidate\r\nContent-Type:\x20text/
+SF:html;\x20charset=utf-8\r\nX-Xss-Protection:\x201;\x20mode=block\r\nDate
+SF::\x20Wed,\x2017\x20Apr\x202024\x2022:56:15\x20GMT\r\n\r\n<!doctype\x20h
+SF:tml>\n<html\x20lang=\"en\">\n\x20\x20<head>\n\x20\x20\x20\x20<meta\x20c
+SF:harset=\"utf-8\"\x20/>\n\x20\x20\x20\x20<meta\x20http-equiv=\"X-UA-Comp
+SF:atible\"\x20content=\"IE=edge\"\x20/>\n\x20\x20\x20\x20<meta\n\x20\x20\
+SF:x20\x20\x20\x20name=\"viewport\"\n\x20\x20\x20\x20\x20\x20content=\"wid
+SF:th=device-width,\x20initial-scale=1,\x20user-scalable=no\"\n\x20\x20\x2
+SF:0\x20/>\n\n\x20\x20\x20\x20\n\n\x20\x20\x20\x20<title>\n\x20\x20\x20\x2
+SF:0\x20\x20Member\x20area\n\x20\x20\x20\x20</title>\n\n\x20\x20\x20\x20<l
+SF:ink\n\x20\x20\x20\x20\x20\x20rel=\"icon\"\n\x20\x20\x20\x20\x20\x20type
+SF:=\"image/png\"\n\x20\x20\x20\x20\x20\x20sizes=\"32x32\"\n\x20\x20\x20\x
+SF:20\x20\x20href=\"/static/img/icons/favicon-32x32\.png\"\n\x20\x20\x20\x
+SF:20/>\n\x20\x20\x20\x20<link\n\x20\x20\x20\x20\x20\x20rel=\"icon\"\n\x20
+SF:\x20\x20\x20\x20\x20type=\"image/png\"\n\x20\x20\x20\x20\x20\x20sizes=\
+SF:"16x16\"\n\x20\x20\x20\x20\x20\x20href=\"/static/img/icons/favicon-16x1
+SF:6\.png\"\n\x20\x20\x20\x20/>\n\n\x20\x20\x20\x20<!--\x20Add\x20to\x20ho
+SF:me\x20screen\x20for\x20Android\x20and\x20modern\x20mobile\x20browsers\x
+SF:20-->\n\x20\x20\x20\x20<link\n\x20\x20\x20\x20\x20\x20rel=\"manifest\"\
+SF:n\x20\x20\x20\x20\x20\x20id=\"manifestPlaceholder\"\n\x20\x20\x20\x20\x
+SF:20\x20crossorigin=\"use-credentials\"\n\x20\x20\x20\x20/>")%r(FourOhFou
+SF:rRequest,1996,"HTTP/1\.0\x20200\x20OK\r\nCache-Control:\x20no-cache,\x2
+SF:0no-store,\x20must-revalidate\r\nContent-Type:\x20text/html;\x20charset
+SF:=utf-8\r\nX-Xss-Protection:\x201;\x20mode=block\r\nDate:\x20Wed,\x2017\
+SF:x20Apr\x202024\x2022:56:20\x20GMT\r\n\r\n<!doctype\x20html>\n<html\x20l
+SF:ang=\"en\">\n\x20\x20<head>\n\x20\x20\x20\x20<meta\x20charset=\"utf-8\"
+SF:\x20/>\n\x20\x20\x20\x20<meta\x20http-equiv=\"X-UA-Compatible\"\x20cont
+SF:ent=\"IE=edge\"\x20/>\n\x20\x20\x20\x20<meta\n\x20\x20\x20\x20\x20\x20n
+SF:ame=\"viewport\"\n\x20\x20\x20\x20\x20\x20content=\"width=device-width,
+SF:\x20initial-scale=1,\x20user-scalable=no\"\n\x20\x20\x20\x20/>\n\n\x20\
+SF:x20\x20\x20\n\n\x20\x20\x20\x20<title>\n\x20\x20\x20\x20\x20\x20Member\
+SF:x20area\n\x20\x20\x20\x20</title>\n\n\x20\x20\x20\x20<link\n\x20\x20\x2
+SF:0\x20\x20\x20rel=\"icon\"\n\x20\x20\x20\x20\x20\x20type=\"image/png\"\n
+SF:\x20\x20\x20\x20\x20\x20sizes=\"32x32\"\n\x20\x20\x20\x20\x20\x20href=\
+SF:"/static/img/icons/favicon-32x32\.png\"\n\x20\x20\x20\x20/>\n\x20\x20\x
+SF:20\x20<link\n\x20\x20\x20\x20\x20\x20rel=\"icon\"\n\x20\x20\x20\x20\x20
+SF:\x20type=\"image/png\"\n\x20\x20\x20\x20\x20\x20sizes=\"16x16\"\n\x20\x
+SF:20\x20\x20\x20\x20href=\"/static/img/icons/favicon-16x16\.png\"\n\x20\x
+SF:20\x20\x20/>\n\n\x20\x20\x20\x20<!--\x20Add\x20to\x20home\x20screen\x20
+SF:for\x20Android\x20and\x20modern\x20mobile\x20browsers\x20-->\n\x20\x20\
+SF:x20\x20<link\n\x20\x20\x20\x20\x20\x20rel=\"manifest\"\n\x20\x20\x20\x2
+SF:0\x20\x20id=\"manifestPlaceholder\"\n\x20\x20\x20\x20\x20\x20crossorigi
+SF:n=\"use-credentials\"\n\x20\x20\x20\x20/>");
+MAC Address: B8:27:EB:DB:0C:EC (Raspberry Pi Foundation)
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 142.93 seconds
+Raw packets sent: 65597 (2.886MB) | Rcvd: 65597 (2.624MB)

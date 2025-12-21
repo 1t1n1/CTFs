@@ -1,0 +1,4 @@
+set foobar 123
+rename foobar bar/foo
+get bar/foo
+get foobar

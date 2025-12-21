@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+cd "$(dirname "$0")/.."
+
+PROJECT=phytolisp
+ENV=${ENV:-docker}
+
+docker=${DOCKER_BIN:-docker}
+
+if [ "$ENV" = "docker" ]; then
+    set -x
+    $docker build -t "$PROJECT" .
+else
+    sh -cxe ''
+fi

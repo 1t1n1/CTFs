@@ -1,0 +1,4 @@
+Utiliser fdisk -l <firmware>
+Puis mount la seconde partition : sudo mount -o loop,offset=54525952 cai-firmware.rpi-sdimg /mnt
+
+Aussi possible d'utiliser `unblob`, qui est meilleur que binwalk

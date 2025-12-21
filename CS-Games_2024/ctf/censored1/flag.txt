@@ -1,0 +1,17 @@
+def censor1(flag):
+    out = ""
+    for c in flag:
+        if c.isalpha():
+            rand = 0
+            while not rand:
+                rand = int(random() * 26)
+            start = ord('A') + (ord(c) & 32)
+            num = ord(c)
+            num -= start
+            num += rand
+            num %= 26
+            num += start
+            out += chr(num)
+        else:
+            out += c
+    return out

@@ -1,0 +1,2 @@
+PHP Warning:  Undefined array key ":reduce" in /home/pegasus/tmp/csgames2024/debug/bugs/phytolisp/src/index.php on line 102
+ [1,2,3,4,5] 

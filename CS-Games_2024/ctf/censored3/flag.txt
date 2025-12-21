@@ -1,0 +1,11 @@
+def censor3(flag):
+    out = ""
+    for i in range(randint(1, 5)):
+        out += chr(randint(33, 126))
+    for c in flag:
+        out += c
+        for i in range(randint(1, 5)):
+            out += chr(randint(33, 126))
+    return out
+
+FLAG{jis98(289iojf0j09A)*&65s7?*UJvjmampxo92g5}

@@ -1,0 +1,15 @@
+/home/pegasus/tmp/csgames2024/debug/bugs/game-of-plants/src/main.js:38
+      yield { nx, ny, state: map[nx][ny] };
+                                    ^
+
+TypeError: Cannot read properties of undefined (reading '0')
+    at getNeighbors (/home/pegasus/tmp/csgames2024/debug/bugs/game-of-plants/src/main.js:38:37)
+    at getNeighbors.next (<anonymous>)
+    at iterateCells (/home/pegasus/tmp/csgames2024/debug/bugs/game-of-plants/src/main.js:55:29)
+    at iterateCells.next (<anonymous>)
+    at main (/home/pegasus/tmp/csgames2024/debug/bugs/game-of-plants/src/main.js:145:21)
+    at Object.<anonymous> (/home/pegasus/tmp/csgames2024/debug/bugs/game-of-plants/src/main.js:162:1)
+    at Module._compile (node:internal/modules/cjs/loader:1101:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
+    at Module.load (node:internal/modules/cjs/loader:981:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:822:12)

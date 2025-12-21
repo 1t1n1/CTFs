@@ -1,0 +1,32 @@
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "int",
+      "value": 20
+    },
+    {
+      "type": "list",
+      "value": [
+        {
+          "type": "int",
+          "value": 50
+        }
+      ]
+    }
+  ]
+}
+
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "string",
+      "value": "add"
+    },
+    {
+      "type": "int",
+      "value": 10
+    }
+  ]
+}

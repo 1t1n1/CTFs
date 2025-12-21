@@ -1,0 +1,1 @@
+(puts (:map (lambda (x) (+ :x 1)) (quote 1 2 3)))

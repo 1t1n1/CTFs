@@ -1,0 +1,18 @@
+spec:
+  strategy: FillFirst
+  workers:
+    - id: a
+      capacity: 2
+      power: 10
+    - id: b
+      capacity: 2
+      power: 50
+  jobs:
+    - id: a1
+      power: 5
+      depends_on:
+        - a3
+    - id: a2
+      power: 20
+    - id: a3
+      power: 1

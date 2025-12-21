@@ -1,0 +1,30 @@
+Conçu = 70 (F)
+par = 76 (L)
+l_esprit = 65 (A)
+diabolique = 71 (G)
+du = 45 (-)
+Baron = 101 (e)
+Sukumvit = 115 (s)
+LE = 84 (T) TEST!
+LABYRINTHE = 109 (m)
+DE = 112 (p) (ou 126 (~))
+LA = 108 (l)
+MORT = 97 (a)
+est = 77 (M)  (reregarder plus tard)
+truffé = 339 (S quand en char)
+de = 114 (r) (pas sur)
+pièges = 115 (s) (reregarder plus tard)
+mortels = 101 (e)
+et = 110 (n) (Charles)
+peuplé
+_de = 108 (l)
+monstres = 117 (u)
+assoiffés
+de_
+sang
+ET = 110 (n) (Charles)
+VOUS = 97 (a)
+oserez = 117 (u)
+vous = 116 (t) TEST!
+y = 111 (o) (Charles)
+entrer = 114 (r) (pas sur)

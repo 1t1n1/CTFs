@@ -1,0 +1,19 @@
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "string",
+      "value": "700"
+    }
+  ]
+}
+
+{
+  "type": "list",
+  "value": [
+    {
+      "type": "string",
+      "value": "inverse"
+    }
+  ]
+}

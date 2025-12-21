@@ -1,0 +1,7 @@
+{
+  "method": "sign",
+  "payload": {
+    "sub": "user"
+  },
+  "key": "secret"
+}

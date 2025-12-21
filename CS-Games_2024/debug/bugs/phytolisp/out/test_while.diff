@@ -1,0 +1,14 @@
+--- tests/test_while.res	2024-03-16 19:06:06.499628862 -0400
++++ out/test_while.out	2024-03-16 20:01:28.497810990 -0400
+@@ -1,10 +1 @@
+-0 
+-1 
+-2 
+-3 
+-4 
+-5 
+-6 
+-7 
+-8 
+-9 
++PHP Warning:  Undefined array key 1 in /home/pegasus/tmp/csgames2024/debug/bugs/phytolisp/src/index.php on line 137

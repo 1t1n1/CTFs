@@ -1,0 +1,10 @@
+{
+    "keys": {
+      "foo": {
+        "user": "write"
+      }
+    },
+    "key": "foo",
+    "action": "admin",
+    "user": "user"
+}
