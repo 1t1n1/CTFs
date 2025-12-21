@@ -1,0 +1,7 @@
+00000243 : 00000386
+
+File is encrypted according to qpdf
+
+`qpdf modified.pdf --decrypt corrected.pdf` yields a decrypted pdf. The stream can now be analyzed.
+
+TODO: Voir si intéressant d'afficher l'image jpeg dont j'ai juste le payload

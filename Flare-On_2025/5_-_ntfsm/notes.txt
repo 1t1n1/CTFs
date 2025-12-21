@@ -1,0 +1,99 @@
+A file stream is created with nftsm.exe:input where the program writes the password
+
+Ca a probablement à voir avec les trucs qui sont au début du programme:
+- "state"
+- "input"
+- "position"
+- "transitions"
+
+It feels like the key to bcrypt stuff is the hash of the password
+
+- state: Might be used to know which depth the program is at. Set to 2 at the first correct.
+- position: password index.
+- input: The password
+- transitions: Seems to hold the same thing as position.
+
+First compares to J, U and i. Either can match.
+
+Password:
+- [JUi]
+    - 0x0000000140860281
+    - [2, 3, 1]
+- Y
+    - 0x00000001401F4F97
+    - [6]
+- C
+    - 0x00000001403C681D
+    - [0xE]
+- [DMq]
+    - 0x00000001406B7B57
+    - [0x1D, 0x1E, 0x1F]
+- [EMW]
+    - 0x0000000140241C11
+    - [0x41, 0x40, 0x3F]
+- [CQh]
+    - 0x0000000140488C91
+    - [0x8C, 0x8E, 0x8D]
+- U
+    - 0x000000014074A67E
+    - [0x11D]
+- [4h]
+    - 0x0000000140313128
+    - [0x23A, 0x23B]
+- _
+    - 0x00000001409BA773
+    - [0x46F]
+- [EUY]
+    - 0x000000014024DCF4
+    - [0x8B8, 0x8B9, 0x8BA]
+- [BW]
+    - 0x00000001406FCB97
+    - [0x117A, 0x117B]
+- [7PY]
+    - 0x00000001404894C6
+    - [0x22E8, 0x22E6, 0x22E7]
+- [FY]
+    - 0x00000001406E3544
+    - [0x4592, 0x4591]
+- [Rz]
+    - 0x00000001409E3F40
+    - [0x8B76, 0x8B77]
+- [6r]
+    - 0x0000000140BC0F81
+    - [0x117B3, 0x117B2]
+- <Empty> (last char)
+    - 0x0000000140B3835A
+    - None
+
+With JYCDECU4_EB7FR6? I get
+Position = 0x10
+Transitions = 0x0F (It seems I got to the end too fast)
+State = 0x117B3
+
+Transitions:    [rsp + 0x58ab8]
+State =         [rsp + 0x58d30]
+
+B3831A
+
+41A19D
+
+Trying:
+- iYCqWhUh_EB7FR6?
+
+
+I'm thinking about it, and maybe the jump is independant of the state, but depends on the password instead...
+
+Note: There _is_ something with rdtsc twice at the beginning of the program, suggesting a type of checking... Is it misleading me? Or is it necessary for it to work?
+
+Solution: Modify 6th param of CreateProcessA to 0x00004 (CREATE_SUSPENDED). Then open ProcExp to get the pid, call the function, check ProcExp, get the pid, attach with x64dbg, resume the process with ProcExp, resume in x64dbg.
+
+
+TODO: Correct my solve script, it doesn't work. Like, it seems to be working properly, but it can't find a possible path. There might be something wrong because it is clearly not treating enough paths and even at 15 it should at least find the first password I thought was good.
+
+
+'0x1', '0x5', '0xb', '0x19', '0x35', '0x72', '0xea', '0x1d4', '0x3a2', '0x720', '0xe25', '0x1c35', '0x383d', '0x7087', '0xe1af', '0x1629c'
+iqg0nSeCHnOMPm2Q
+THIS IS THE SOLUTION!
+
+Future notes:
+- I patched the binary to start the process in suspended state (0x4 instead of 0x0). Had to resume it manually in ProcExp.
