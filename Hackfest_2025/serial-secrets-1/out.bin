@@ -1,0 +1,26 @@
+C‘κκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκκj
+FixIt Device Bootloader v1.0.5
+Author: FixIt Security Solutions
+Hardware: ARM Cortex-M4F @ 168MHz
+Flash: 2MB, RAM: 512KB
+Device ID: FIXIT-2025-DEV-1337
+Firmware: v1.5.2-debug [BUILD: Jan 10 2024]
+
+[BOOT] Initializing FixIt subsystems...
+[BOOT] Memory test: PASS
+[BOOT] Crypto engine: AES-256 ready
+[BOOT] Network stack: Loading...
+[BOOT] WiFi MAC: 02:00:00:FI:XI:T7
+[DEBUG] System checksum: HF{S3R14L_C0NS0L3_L34K%}
+[DEBUG] Boot integrity: VERIFIED
+[BOOT] Starting FixIt main application...
+
+FixIt Security Camera System v1.5.2
+Ready for configuration.
+
+login: root
+Password: toor
+Welcome to BusyBox v1.35.0
+# uname -a
+Linux fixit 5.10.0-iot #1 SMP ARM
+# 

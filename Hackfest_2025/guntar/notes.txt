@@ -1,0 +1,2 @@
+/lib/apk/db/scripts.tar
+Runs as root: /usr/local/bin/flag-defender
