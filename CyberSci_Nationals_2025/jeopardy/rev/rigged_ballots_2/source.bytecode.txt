@@ -1,0 +1,340 @@
+  0           0 RESUME                   0
+
+  1           2 LOAD_CONST               0 (0)
+              4 LOAD_CONST               1 (('randint', 'shuffle'))
+              6 IMPORT_NAME              0 (random)
+              8 IMPORT_FROM              1 (randint)
+             10 STORE_NAME               1 (randint)
+             12 IMPORT_FROM              2 (shuffle)
+             14 STORE_NAME               2 (shuffle)
+             16 POP_TOP
+
+  3          18 PUSH_NULL
+             20 LOAD_NAME                1 (randint)
+             22 LOAD_CONST               0 (0)
+             24 LOAD_CONST               2 (100)
+             26 PRECALL                  2
+             30 CALL                     2
+             40 STORE_NAME               3 (shift)
+
+  5          42 LOAD_CONST               3 ('Flag.txt')
+             44 STORE_NAME               4 (filename)
+
+  6          46 PUSH_NULL
+             48 LOAD_NAME                5 (open)
+             50 LOAD_NAME                4 (filename)
+             52 LOAD_CONST               4 ('r')
+             54 PRECALL                  2
+             58 CALL                     2
+             68 BEFORE_WITH
+             70 STORE_NAME               6 (file)
+
+  7          72 LOAD_NAME                6 (file)
+             74 LOAD_METHOD              7 (readlines)
+             96 PRECALL                  0
+            100 CALL                     0
+            110 STORE_NAME               8 (FLAG)
+
+  6         112 LOAD_CONST               5 (None)
+            114 LOAD_CONST               5 (None)
+            116 LOAD_CONST               5 (None)
+            118 PRECALL                  2
+            122 CALL                     2
+            132 POP_TOP
+            134 JUMP_FORWARD            11 (to 158)
+        >>  136 PUSH_EXC_INFO
+            138 WITH_EXCEPT_START
+            140 POP_JUMP_FORWARD_IF_TRUE     4 (to 150)
+            142 RERAISE                  2
+        >>  144 COPY                     3
+            146 POP_EXCEPT
+            148 RERAISE                  1
+        >>  150 POP_TOP
+            152 POP_EXCEPT
+            154 POP_TOP
+            156 POP_TOP
+
+  9     >>  158 BUILD_LIST               0
+            160 STORE_NAME               9 (order)
+
+ 10         162 PUSH_NULL
+            164 LOAD_NAME               10 (range)
+            166 LOAD_CONST               0 (0)
+            168 LOAD_CONST               6 (37)
+            170 PRECALL                  2
+            174 CALL                     2
+            184 GET_ITER
+        >>  186 FOR_ITER                23 (to 234)
+            188 STORE_NAME              11 (i)
+
+ 11         190 LOAD_NAME                9 (order)
+            192 LOAD_METHOD             12 (append)
+            214 LOAD_NAME               11 (i)
+            216 PRECALL                  1
+            220 CALL                     1
+            230 POP_TOP
+            232 JUMP_BACKWARD           24 (to 186)
+
+ 13     >>  234 PUSH_NULL
+            236 LOAD_NAME                2 (shuffle)
+            238 LOAD_NAME                9 (order)
+            240 PRECALL                  1
+            244 CALL                     1
+            254 POP_TOP
+
+ 14         256 PUSH_NULL
+            258 LOAD_NAME               13 (print)
+            260 LOAD_NAME                9 (order)
+            262 PRECALL                  1
+            266 CALL                     1
+            276 POP_TOP
+
+ 16         278 BUILD_LIST               0
+            280 STORE_NAME              14 (new_flag)
+
+ 17         282 LOAD_NAME                8 (FLAG)
+            284 GET_ITER
+        >>  286 FOR_ITER               213 (to 714)
+            288 STORE_NAME              15 (name)
+
+ 18         290 LOAD_CONST               7 ('')
+            292 STORE_NAME              16 (new_name)
+
+ 19         294 LOAD_NAME               15 (name)
+            296 LOAD_METHOD             17 (strip)
+            318 PRECALL                  0
+            322 CALL                     0
+            332 STORE_NAME              15 (name)
+
+ 20         334 PUSH_NULL
+            336 LOAD_NAME               18 (int)
+            338 PUSH_NULL
+            340 LOAD_NAME               19 (len)
+            342 LOAD_NAME               15 (name)
+            344 PRECALL                  1
+            348 CALL                     1
+            358 PRECALL                  1
+            362 CALL                     1
+            372 STORE_NAME              20 (orig_end)
+
+ 21         374 PUSH_NULL
+            376 LOAD_NAME               19 (len)
+            378 LOAD_NAME               15 (name)
+            380 PRECALL                  1
+            384 CALL                     1
+            394 LOAD_CONST               6 (37)
+            396 COMPARE_OP               0 (<)
+            402 POP_JUMP_FORWARD_IF_FALSE    20 (to 444)
+
+ 22     >>  404 LOAD_NAME               15 (name)
+            406 LOAD_NAME               15 (name)
+            408 BINARY_OP                0 (+)
+            412 STORE_NAME              15 (name)
+
+ 21         414 PUSH_NULL
+            416 LOAD_NAME               19 (len)
+            418 LOAD_NAME               15 (name)
+            420 PRECALL                  1
+            424 CALL                     1
+            434 LOAD_CONST               6 (37)
+            436 COMPARE_OP               0 (<)
+            442 POP_JUMP_BACKWARD_IF_TRUE    20 (to 404)
+
+ 24     >>  444 LOAD_NAME               15 (name)
+            446 LOAD_CONST               5 (None)
+            448 LOAD_NAME               20 (orig_end)
+            450 BUILD_SLICE              2
+            452 BINARY_SUBSCR
+            462 LOAD_CONST               8 ('{')
+            464 BINARY_OP                0 (+)
+            468 LOAD_NAME               15 (name)
+            470 LOAD_NAME               20 (orig_end)
+            472 LOAD_CONST               9 (1)
+            474 BINARY_OP                0 (+)
+            478 LOAD_CONST               5 (None)
+            480 BUILD_SLICE              2
+            482 BINARY_SUBSCR
+            492 BINARY_OP                0 (+)
+            496 STORE_NAME              15 (name)
+
+ 25         498 LOAD_NAME               15 (name)
+            500 LOAD_CONST               5 (None)
+            502 LOAD_CONST              10 (36)
+            504 BUILD_SLICE              2
+            506 BINARY_SUBSCR
+            516 LOAD_CONST              11 ('}')
+            518 BINARY_OP                0 (+)
+            522 STORE_NAME              15 (name)
+
+ 28         524 LOAD_NAME               15 (name)
+            526 GET_ITER
+        >>  528 FOR_ITER                50 (to 630)
+            530 STORE_NAME              21 (letter)
+
+ 30         532 PUSH_NULL
+            534 LOAD_NAME               22 (ord)
+            536 LOAD_NAME               21 (letter)
+            538 PRECALL                  1
+            542 CALL                     1
+            552 STORE_NAME              23 (new_letter)
+
+ 31         554 LOAD_NAME               23 (new_letter)
+            556 LOAD_NAME                3 (shift)
+            558 BINARY_OP                0 (+)
+            562 LOAD_CONST              12 (126)
+            564 COMPARE_OP               0 (<)
+            570 POP_JUMP_FORWARD_IF_FALSE     5 (to 582)
+
+ 32         572 LOAD_NAME               23 (new_letter)
+            574 LOAD_NAME                3 (shift)
+            576 BINARY_OP                0 (+)
+            580 STORE_NAME              23 (new_letter)
+
+ 34     >>  582 LOAD_NAME               16 (new_name)
+            584 PUSH_NULL
+            586 LOAD_NAME               24 (chr)
+            588 PUSH_NULL
+            590 LOAD_NAME               18 (int)
+            592 LOAD_NAME               23 (new_letter)
+            594 PRECALL                  1
+            598 CALL                     1
+            608 PRECALL                  1
+            612 CALL                     1
+            622 BINARY_OP                0 (+)
+            626 STORE_NAME              16 (new_name)
+            628 JUMP_BACKWARD           51 (to 528)
+
+ 35     >>  630 PUSH_NULL
+            632 LOAD_NAME               13 (print)
+            634 LOAD_NAME               16 (new_name)
+            636 PRECALL                  1
+            640 CALL                     1
+            650 POP_TOP
+
+ 36         652 LOAD_NAME               14 (new_flag)
+            654 LOAD_METHOD             12 (append)
+            676 LOAD_NAME               16 (new_name)
+            678 LOAD_CONST               5 (None)
+            680 LOAD_CONST               5 (None)
+            682 LOAD_CONST              13 (-1)
+            684 BUILD_SLICE              3
+            686 BINARY_SUBSCR
+            696 PRECALL                  1
+            700 CALL                     1
+            710 POP_TOP
+            712 JUMP_BACKWARD          214 (to 286)
+
+ 38     >>  714 PUSH_NULL
+            716 LOAD_NAME               13 (print)
+            718 LOAD_NAME               14 (new_flag)
+            720 PRECALL                  1
+            724 CALL                     1
+            734 POP_TOP
+
+ 40         736 BUILD_LIST               0
+            738 STORE_NAME              25 (reordered_flag)
+
+ 41         740 LOAD_NAME               14 (new_flag)
+            742 GET_ITER
+        >>  744 FOR_ITER                56 (to 858)
+            746 STORE_NAME              15 (name)
+
+ 42         748 LOAD_CONST               7 ('')
+            750 STORE_NAME              26 (reordered_name)
+
+ 43         752 LOAD_CONST               0 (0)
+            754 STORE_NAME              11 (i)
+
+ 44         756 LOAD_NAME               15 (name)
+            758 GET_ITER
+        >>  760 FOR_ITER                26 (to 814)
+            762 STORE_NAME              21 (letter)
+
+ 45         764 LOAD_NAME                9 (order)
+            766 LOAD_NAME               11 (i)
+            768 BINARY_SUBSCR
+            778 STORE_NAME              27 (index)
+
+ 46         780 LOAD_NAME               26 (reordered_name)
+            782 LOAD_NAME               15 (name)
+            784 LOAD_NAME               27 (index)
+            786 BINARY_SUBSCR
+            796 BINARY_OP                0 (+)
+            800 STORE_NAME              26 (reordered_name)
+
+ 47         802 LOAD_NAME               11 (i)
+            804 LOAD_CONST               9 (1)
+            806 BINARY_OP                0 (+)
+            810 STORE_NAME              11 (i)
+            812 JUMP_BACKWARD           27 (to 760)
+
+ 48     >>  814 LOAD_NAME               25 (reordered_flag)
+            816 LOAD_METHOD             12 (append)
+            838 LOAD_NAME               26 (reordered_name)
+            840 PRECALL                  1
+            844 CALL                     1
+            854 POP_TOP
+            856 JUMP_BACKWARD           57 (to 744)
+
+ 50     >>  858 PUSH_NULL
+            860 LOAD_NAME               13 (print)
+            862 LOAD_NAME               25 (reordered_flag)
+            864 PRECALL                  1
+            868 CALL                     1
+            878 POP_TOP
+
+ 51         880 PUSH_NULL
+            882 LOAD_NAME                5 (open)
+            884 LOAD_CONST              14 ('Ballots.txt')
+            886 LOAD_CONST              15 ('w')
+            888 PRECALL                  2
+            892 CALL                     2
+            902 BEFORE_WITH
+            904 STORE_NAME              28 (fp)
+
+ 52         906 LOAD_NAME               25 (reordered_flag)
+            908 GET_ITER
+        >>  910 FOR_ITER                26 (to 964)
+            912 STORE_NAME              29 (ballot)
+
+ 53         914 LOAD_NAME               28 (fp)
+            916 LOAD_METHOD             30 (write)
+            938 LOAD_CONST              16 ('%s\n')
+            940 LOAD_NAME               29 (ballot)
+            942 BINARY_OP                6 (%)
+            946 PRECALL                  1
+            950 CALL                     1
+            960 POP_TOP
+            962 JUMP_BACKWARD           27 (to 910)
+
+ 52     >>  964 NOP
+
+ 51         966 LOAD_CONST               5 (None)
+            968 LOAD_CONST               5 (None)
+            970 LOAD_CONST               5 (None)
+            972 PRECALL                  2
+            976 CALL                     2
+            986 POP_TOP
+            988 LOAD_CONST               5 (None)
+            990 RETURN_VALUE
+        >>  992 PUSH_EXC_INFO
+            994 WITH_EXCEPT_START
+            996 POP_JUMP_FORWARD_IF_TRUE     4 (to 1006)
+            998 RERAISE                  2
+        >> 1000 COPY                     3
+           1002 POP_EXCEPT
+           1004 RERAISE                  1
+        >> 1006 POP_TOP
+           1008 POP_EXCEPT
+           1010 POP_TOP
+           1012 POP_TOP
+           1014 LOAD_CONST               5 (None)
+           1016 RETURN_VALUE
+ExceptionTable:
+  70 to 110 -> 136 [1] lasti
+  136 to 142 -> 144 [3] lasti
+  150 to 150 -> 144 [3] lasti
+  904 to 962 -> 992 [1] lasti
+  992 to 998 -> 1000 [3] lasti
+  1006 to 1006 -> 1000 [3] lasti
+None

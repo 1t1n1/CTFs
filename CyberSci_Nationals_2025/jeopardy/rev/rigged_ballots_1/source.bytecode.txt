@@ -1,0 +1,241 @@
+  0           0 RESUME                   0
+
+  1           2 LOAD_CONST               0 (0)
+              4 LOAD_CONST               1 (('randint',))
+              6 IMPORT_NAME              0 (random)
+              8 IMPORT_FROM              1 (randint)
+             10 STORE_NAME               1 (randint)
+             12 POP_TOP
+
+  2          14 LOAD_CONST               0 (0)
+             16 LOAD_CONST               2 (None)
+             18 IMPORT_NAME              2 (base64)
+             20 STORE_NAME               2 (base64)
+
+  4          22 LOAD_CONST               3 (<code object xor_ballots at 0x7f2522325de0, file "source.py", line 4>)
+             24 MAKE_FUNCTION            0
+             26 STORE_NAME               3 (xor_ballots)
+
+ 10          28 LOAD_CONST               4 ('Hail our leader and savior Esperanza.txt')
+             30 STORE_NAME               4 (filename)
+
+ 11          32 PUSH_NULL
+             34 LOAD_NAME                5 (open)
+             36 LOAD_NAME                4 (filename)
+             38 LOAD_CONST               5 ('r')
+             40 PRECALL                  2
+             44 CALL                     2
+             54 BEFORE_WITH
+             56 STORE_NAME               6 (file)
+
+ 12          58 LOAD_NAME                6 (file)
+             60 LOAD_METHOD              7 (readlines)
+             82 PRECALL                  0
+             86 CALL                     0
+             96 STORE_NAME               8 (FLAG)
+
+ 11          98 LOAD_CONST               2 (None)
+            100 LOAD_CONST               2 (None)
+            102 LOAD_CONST               2 (None)
+            104 PRECALL                  2
+            108 CALL                     2
+            118 POP_TOP
+            120 JUMP_FORWARD            11 (to 144)
+        >>  122 PUSH_EXC_INFO
+            124 WITH_EXCEPT_START
+            126 POP_JUMP_FORWARD_IF_TRUE     4 (to 136)
+            128 RERAISE                  2
+        >>  130 COPY                     3
+            132 POP_EXCEPT
+            134 RERAISE                  1
+        >>  136 POP_TOP
+            138 POP_EXCEPT
+            140 POP_TOP
+            142 POP_TOP
+
+ 14     >>  144 LOAD_NAME                4 (filename)
+            146 LOAD_CONST               2 (None)
+            148 LOAD_CONST               6 (-4)
+            150 BUILD_SLICE              2
+            152 BINARY_SUBSCR
+            162 STORE_NAME               9 (xor_code)
+
+ 16         164 BUILD_LIST               0
+            166 STORE_NAME              10 (fixed_values)
+
+ 17         168 LOAD_NAME                8 (FLAG)
+            170 GET_ITER
+        >>  172 FOR_ITER               129 (to 432)
+            174 STORE_NAME              11 (name)
+
+ 18         176 PUSH_NULL
+            178 LOAD_NAME                3 (xor_ballots)
+            180 LOAD_NAME               11 (name)
+            182 LOAD_METHOD             12 (strip)
+            204 PRECALL                  0
+            208 CALL                     0
+            218 LOAD_NAME                9 (xor_code)
+            220 PRECALL                  2
+            224 CALL                     2
+            234 STORE_NAME              13 (uncode)
+
+ 19         236 PUSH_NULL
+            238 LOAD_NAME                2 (base64)
+            240 LOAD_ATTR               14 (b64encode)
+            250 LOAD_NAME               13 (uncode)
+            252 LOAD_METHOD             15 (encode)
+            274 LOAD_CONST               7 ('ascii')
+            276 PRECALL                  1
+            280 CALL                     1
+            290 PRECALL                  1
+            294 CALL                     1
+            304 STORE_NAME              15 (encode)
+
+ 21         306 LOAD_NAME               15 (encode)
+            308 LOAD_METHOD             16 (decode)
+            330 LOAD_CONST               8 ('utf-8')
+            332 PRECALL                  1
+            336 CALL                     1
+            346 STORE_NAME              15 (encode)
+
+ 22         348 LOAD_NAME               10 (fixed_values)
+            350 LOAD_METHOD             17 (append)
+            372 LOAD_NAME               15 (encode)
+            374 LOAD_METHOD             18 (replace)
+            396 LOAD_CONST               9 ('=')
+            398 LOAD_CONST              10 ('')
+            400 PRECALL                  2
+            404 CALL                     2
+            414 PRECALL                  1
+            418 CALL                     1
+            428 POP_TOP
+            430 JUMP_BACKWARD          130 (to 172)
+
+ 24     >>  432 PUSH_NULL
+            434 LOAD_NAME                5 (open)
+            436 LOAD_CONST              11 ('Flag.txt')
+            438 LOAD_CONST              12 ('w')
+            440 PRECALL                  2
+            444 CALL                     2
+            454 BEFORE_WITH
+            456 STORE_NAME              19 (fp)
+
+ 25         458 LOAD_NAME               10 (fixed_values)
+            460 GET_ITER
+        >>  462 FOR_ITER                26 (to 516)
+            464 STORE_NAME              20 (en_ballot)
+
+ 26         466 LOAD_NAME               19 (fp)
+            468 LOAD_METHOD             21 (write)
+            490 LOAD_CONST              13 ('%s\n')
+            492 LOAD_NAME               20 (en_ballot)
+            494 BINARY_OP                6 (%)
+            498 PRECALL                  1
+            502 CALL                     1
+            512 POP_TOP
+            514 JUMP_BACKWARD           27 (to 462)
+
+ 25     >>  516 NOP
+
+ 24         518 LOAD_CONST               2 (None)
+            520 LOAD_CONST               2 (None)
+            522 LOAD_CONST               2 (None)
+            524 PRECALL                  2
+            528 CALL                     2
+            538 POP_TOP
+            540 LOAD_CONST               2 (None)
+            542 RETURN_VALUE
+        >>  544 PUSH_EXC_INFO
+            546 WITH_EXCEPT_START
+            548 POP_JUMP_FORWARD_IF_TRUE     4 (to 558)
+            550 RERAISE                  2
+        >>  552 COPY                     3
+            554 POP_EXCEPT
+            556 RERAISE                  1
+        >>  558 POP_TOP
+            560 POP_EXCEPT
+            562 POP_TOP
+            564 POP_TOP
+            566 LOAD_CONST               2 (None)
+            568 RETURN_VALUE
+ExceptionTable:
+  56 to 96 -> 122 [1] lasti
+  122 to 128 -> 130 [3] lasti
+  136 to 136 -> 130 [3] lasti
+  456 to 514 -> 544 [1] lasti
+  544 to 550 -> 552 [3] lasti
+  558 to 558 -> 552 [3] lasti
+
+Disassembly of <code object xor_ballots at 0x7f2522325de0, file "source.py", line 4>:
+  4           0 RESUME                   0
+
+  5           2 LOAD_GLOBAL              1 (NULL + len)
+             14 LOAD_FAST                0 (str1)
+             16 PRECALL                  1
+             20 CALL                     1
+             30 LOAD_GLOBAL              1 (NULL + len)
+             42 LOAD_FAST                1 (str2)
+             44 PRECALL                  1
+             48 CALL                     1
+             58 COMPARE_OP               3 (!=)
+             64 POP_JUMP_FORWARD_IF_FALSE    26 (to 118)
+
+  6          66 LOAD_FAST                0 (str1)
+             68 LOAD_FAST                1 (str2)
+             70 LOAD_GLOBAL              1 (NULL + len)
+             82 LOAD_FAST                0 (str1)
+             84 PRECALL                  1
+             88 CALL                     1
+             98 LOAD_CONST               0 (None)
+            100 BUILD_SLICE              2
+            102 BINARY_SUBSCR
+            112 BINARY_OP                0 (+)
+            116 STORE_FAST               0 (str1)
+
+  7     >>  118 LOAD_CONST               1 (' ')
+            120 LOAD_METHOD              1 (join)
+            142 LOAD_CONST               2 (<code object <genexpr> at 0x7f2522adcd40, file "source.py", line 7>)
+            144 MAKE_FUNCTION            0
+            146 LOAD_GLOBAL              5 (NULL + zip)
+            158 LOAD_FAST                0 (str1)
+            160 LOAD_FAST                1 (str2)
+            162 PRECALL                  2
+            166 CALL                     2
+            176 GET_ITER
+            178 PRECALL                  0
+            182 CALL                     0
+            192 PRECALL                  1
+            196 CALL                     1
+            206 STORE_FAST               2 (xor_result)
+
+  8         208 LOAD_FAST                2 (xor_result)
+            210 RETURN_VALUE
+
+Disassembly of <code object <genexpr> at 0x7f2522adcd40, file "source.py", line 7>:
+  7           0 RETURN_GENERATOR
+              2 POP_TOP
+              4 RESUME                   0
+              6 LOAD_FAST                0 (.0)
+        >>    8 FOR_ITER                51 (to 112)
+             10 UNPACK_SEQUENCE          2
+             14 STORE_FAST               1 (a)
+             16 STORE_FAST               2 (b)
+             18 LOAD_GLOBAL              1 (NULL + hex)
+             30 LOAD_GLOBAL              3 (NULL + ord)
+             42 LOAD_FAST                1 (a)
+             44 PRECALL                  1
+             48 CALL                     1
+             58 LOAD_GLOBAL              3 (NULL + ord)
+             70 LOAD_FAST                2 (b)
+             72 PRECALL                  1
+             76 CALL                     1
+             86 BINARY_OP               12 (^)
+             90 PRECALL                  1
+             94 CALL                     1
+            104 YIELD_VALUE
+            106 RESUME                   1
+            108 POP_TOP
+            110 JUMP_BACKWARD           52 (to 8)
+        >>  112 LOAD_CONST               0 (None)
+            114 RETURN_VALUE
+None

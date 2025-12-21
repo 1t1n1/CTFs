@@ -1,0 +1,33 @@
+words = """
+9lvzi{i}9ooiiz9z9}llfzv}ozi}lzfz9lzlf
+iqzrzzz9r{znie``oeznzll}zvvre9qeeoizv
+lclio9{liiz9llezt9ozlze}oezctoc9zltie
+N\}LLht|sJg|elLigQszfi{}yItgnxxrnnio{
+oZzzin^uzosu9iilzzs9z9p}nnzz^9pinz{lz
+p`zr^e9zkrn9Gpnmoe^nzms}esn{oe99zGzkn
+p`zr^e9zkrn9Gpnmoe^nzms}esn{oe99zGzkn
+s^9ezz9nzzu}eun9}tle{lo}s^s{ozz{e9tet
+This_is_a_0_This_is_a_0_This_is_a_0__
+ziie9ez`9}rnr{ezllnereo}e`oz}loo`z9o}
+zkezuullees9hqe9okzezls}ze{hzzqzplzop
+zoo`e9{o``s9zzrme9esomr}ermoeeo9sze`r
+ZZsieuzi9seiuiZerr{e99r}rzieizrsrreui
+""".splitlines()
+
+for word in words:
+    word = word.strip()
+    occ = {}
+    for letter in word:
+        if letter in occ:
+            occ[letter] += 1
+        else:
+            occ[letter] = 1
+    
+    even = ''
+    odd = ''
+    for letter, count in occ.items():
+        if count % 2 == 0:
+            even += letter
+        elif count % 2 == 1:
+            odd += letter
+    print(f"{word}\n{odd}\n")

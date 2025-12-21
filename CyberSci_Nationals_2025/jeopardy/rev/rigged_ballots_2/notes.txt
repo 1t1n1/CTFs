@@ -1,0 +1,95 @@
+- On peut se ramasser avec deux fois la meme lettre meme si cetait pas ca au debut à cause du if simple
+- On perd la première lettre dans la deuxième occurence à cause qu'elle se fait overwrite par '{'
+- Maybe possible de retrouver un peu l'ordre initial avec les mots qui se font couper à la fin
+- Tout le monde a un 9 ?!?
+- Les "}" sont tous au meme endroit (c'est le dernier char qui a ete reorder a la meme place pour tous)
+- Shift=4 donne des trucs plausibles
+- Shift=6 aussi interessant
+
+
+---
+
+Shift=4
+
+5hrvewey5kkeev5v5yhhbvrykveyhvbv5hvhb
+emvnvvv5nwvjea\\kavjvhhyvrrna5maakevr
+h_hek5wheev5hhavp5kvhvaykav_pk_5vhpea
+JXyHHdpxoFcxahHecMovbewyuEpcjttnjjekw
+kVvvejZqvkoq5eehvvo5v5lyjjvvZ5lejvwhv
+l\vnZa5vgnj5CljikaZjvioyaojwka55vCvgj
+l\vnZa5vgnj5CljikaZjvioyaojwka55vCvgj
+oZ5avv5jvvqyaqj5yphawhkyoZowkvvwa5pap
+Pdeo[eo[][,[Pdeo[eo[][,[Pdeo[eo[][,[[
+veea5av\5ynjnwavhhjanakya\kvyhkk\v5ky
+vgavqqhhaao5dma5kgvavhoyvawdvvmvlhvkl
+vkk\a5wk\\o5vvnia5aokinyanikaak5ova\n
+VVoeaqve5oaeqeVannwa55nynveaevnonnaqe
+
+
+----
+
+Shift=6
+
+3fptcucw3iicct3t3wff`tpwitcwft`t3ftf`
+cktlttt3luthc_ZZi_thtffwtppl_3k__ictp
+f]fci3ufcct3ff_tn3itft_wi_t]ni]3tfnc_
+HVwFFbnvmDav_fFcaKmt`cuwsCnahrrlhhciu
+iTttchXotimo3ccfttm3t3jwhhttX3jchtuft
+jZtlX_3telh3Ajhgi_Xhtgmw_mhui_33tAteh
+jZtlX_3telh3Ajhgi_Xhtgmw_mhui_33tAteh
+mX3_tt3httow_oh3wnf_ufiwmXmuittu_3n_n
+NbcmYcmY[Y*YNbcmYcmY[Y*YNbcmYcmY[Y*YY
+tcc_3_tZ3wlhlu_tffh_l_iw_ZitwfiiZt3iw
+te_tooff__m3bk_3iet_tfmwt_ubttktjftij
+tiiZ_3uiZZm3ttlg_3_miglw_lgi__i3mt_Zl
+TTmc_otc3m_cocT_llu_33lwltc_ctlmll_oc
+
+
+alejandro{lejandroalej}
+
+
+9lvzi{i}9ooiiz9z9}llfzv}ozi}lzfz9lzlf
+9i{of
+
+iqzrzzz9r{znie``oeznzll}zvvre9qeeoizv
+izr{e}v
+
+lclio9{liiz9llezt9ozlze}oezctoc9zltie
+lc{t}
+
+N\}LLht|sJg|elLigQszfi{}yItgnxxrnnio{
+N\LhJgeliQzfyInro
+
+oZzzin^uzosu9iilzzs9z9p}nnzz^9pinz{lz
+Z}{
+
+p`zr^e9zkrn9Gpnmoe^nzms}esn{oe99zGzkn
+`zn}{
+
+p`zr^e9zkrn9Gpnmoe^nzms}esn{oe99zGzkn
+`zn}{
+
+s^9ezz9nzzu}eun9}tle{lo}s^s{ozz{e9tet
+se}t{
+
+This_is_a_0_This_is_a_0_This_is_a_0__
+Th_a0
+
+ziie9ez`9}rnr{ezllnereo}e`oz}loo`z9o}
+z9`r{lo
+
+zkezuullees9hqe9okzezls}ze{hzzqzplzop
+z}{
+
+zoo`e9{o``s9zzrme9esomr}ermoeeo9sze`r
+e{sm}
+
+ZZsieuzi9seiuiZerr{e99r}rzieizrsrreui
+Zsiuz9r{}
+
+
+Alejandro{lejandroA}
+
+order = {
+    1: 0, # Le 1 dans les scrambles est en fait le premier char (0)
+}
